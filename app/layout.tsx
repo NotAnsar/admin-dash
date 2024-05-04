@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { Poppins as FontSans } from 'next/font/google';
+import { Poppins as FontSans, Playfair as FontSerif } from 'next/font/google';
+import localFont from 'next/font/local';
 
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -9,6 +10,15 @@ const fontSans = FontSans({
 	subsets: ['latin'],
 	weight: ['300', '400', '500', '600', '700'],
 	variable: '--font-sans',
+});
+// const fontSerif = FontSerif({
+// 	subsets: ['latin'],
+// 	weight: ['300', '400', '500', '600', '700'],
+// 	variable: '--font-serif',
+// });
+const recoleta = localFont({
+	src: [{ path: '../public/fonts/recoleta-regular.otf', weight: '400' }],
+	variable: '--font-serif',
 });
 
 export const metadata: Metadata = {
@@ -26,7 +36,9 @@ export default function RootLayout({
 			<body
 				className={cn(
 					'min-h-screen bg-background font-sans antialiased',
-					fontSans.variable
+					fontSans.variable,
+					// fontSerif.variable
+					recoleta.variable
 				)}
 			>
 				<ThemeProvider

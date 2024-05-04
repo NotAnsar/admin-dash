@@ -1,14 +1,43 @@
+import { Button } from './ui/button';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
+
 export default function FormSection() {
 	return (
-		<div className='lg:p-8 '>
-			<div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]'>
-				<div className='flex flex-col space-y-2 text-center'>
-					<h1 className='text-2xl font-semibold tracking-tight'>Sign In</h1>
-					<p className='text-sm text-muted-foreground'>
-						Enter your email below to access your account
-					</p>
+		<>
+			<form className='grid gap-2'>
+				<div className='space-y-2'>
+					<Label>Email</Label>
+					<Input
+						type='email'
+						placeholder='name@example.com'
+						className='bg-transparent'
+					/>
 				</div>
+				<div className='space-y-2'>
+					<Label>Password</Label>
+					<Input
+						type='password'
+						placeholder='********'
+						className='bg-transparent'
+					/>
+				</div>
+				<Button className='w-full mt-4'>Sign In</Button>
+			</form>
+			<div className='grid gap-2 text-[13px] text-muted-foreground/80 '>
+				<p>
+					Forgot your password?{' '}
+					<button className='text-foreground font-medium hover:underline'>
+						Click here
+					</button>
+				</p>
+				<p>
+					Or Just Join as{' '}
+					<button className='text-foreground font-medium hover:underline'>
+						Guest User
+					</button>
+				</p>
 			</div>
-		</div>
+		</>
 	);
 }
