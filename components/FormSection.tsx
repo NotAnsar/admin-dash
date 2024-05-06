@@ -50,7 +50,12 @@ export default function FormSection() {
 						name='password'
 						placeholder='********'
 						autoComplete='on'
-						className='bg-transparent'
+						className={cn(
+							'bg-transparent',
+							state?.errors?.password
+								? 'border-destructive focus-visible:ring-destructive '
+								: ''
+						)}
 					/>
 					{state?.errors?.password &&
 						state.errors.password.map((error: string) => (
@@ -59,7 +64,8 @@ export default function FormSection() {
 							</p>
 						))}
 				</div>
-				{state?.errors && (
+
+				{(state?.message || state?.errors) && (
 					<p className='text-sm font-medium text-destructive'>
 						{state.message}
 					</p>

@@ -1,5 +1,8 @@
 'use server';
 
+import { createClientSSR } from '@/lib/supabase/server';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -9,6 +12,16 @@ const formSchema = z.object({
 		.min(6, { message: 'Password must be at least 6 characters long.' })
 		.max(30, { message: 'Password must be no longer than 30 characters.' }),
 });
+
+export async function signOut() {
+	const supabase = createClientSSR();
+	const { error } = await supabase.auth.signOut();
+	if (error) {
+		console.log(error);
+	} else {
+		redirect('/signin');
+	}
+}
 
 // This is temporary until @types/react-dom is updated
 export type State =
@@ -34,11 +47,23 @@ export async function signinAction(prevState: State, formData: FormData) {
 	const { email, password } = validatedFields.data;
 
 	try {
-		await new Promise((resolve) => setTimeout(resolve, 3000));
-		console.log(email, password);
-	} catch (error) {
-		console.log(error);
+		const supabase = createClientSSR();
+		const { error } = await supabase.auth.signInWithPassword({
+			email,
+			password,
+		});
 
-		return { message: 'Database Error: Failed to Update User Information.' };
+		if (error) {
+			throw error;
+		}
+	} catch (error: any) {
+		console.log(error.message);
+
+		return {
+			message:
+				(error?.message as string) || 'Database Error: Failed to Sign in User.',
+		};
 	}
+	revalidatePath('/', 'layout');
+	redirect('/');
 }
