@@ -1,19 +1,22 @@
-import { signOut } from '@/actions/signin-action';
+'use client';
+
 import { cn } from '@/lib/utils';
 import Logo from '../Logo';
-
-import { Home, LibraryBig, LucideIcon } from 'lucide-react';
-import Link from 'next/link';
-import { Button, buttonVariants } from '../ui/button';
+import { usePathname } from 'next/navigation';
+import { dashConfig } from '@/config/dashboard';
+import NavGroup from './NavGroup';
+import SignOut from './SignOut';
 
 export default function SideBarNav({
 	className,
 	...props
 }: React.HTMLAttributes<HTMLDivElement>) {
+	const path = usePathname();
+	const { management, overview, tools } = dashConfig;
 	return (
 		<aside
 			className={cn(
-				'hidden md:w-56 bg-background border-r border-border md:flex flex-col h-screen fixed p-5',
+				'hidden w-56 bg-background border-r border-border md:flex flex-col h-screen fixed p-5 ',
 				className
 			)}
 			{...props}
@@ -25,56 +28,16 @@ export default function SideBarNav({
 				</h4>
 			</div>
 
-			<nav className='flex flex-col gap-2 font-normal my-4'>
-				{mainNav.map((item, i) => (
-					<Nav
-						Icon={item.icon}
-						title={item.title}
-						path={item.path}
-						// currentPath={path}
-						key={i}
-					/>
-				))}
-			</nav>
+			<NavGroup
+				label='Overview'
+				menuGrp={overview}
+				path={path}
+				className='mt-8'
+			/>
+			<NavGroup label='Tools' menuGrp={tools} path={path} />
+			<NavGroup label='Management' menuGrp={management} path={path} />
 
-			<form className='w-full mt-auto mb-3 '>
-				<Button formAction={signOut} variant={'default'} className='w-full'>
-					Sign Out
-				</Button>
-			</form>
+			<SignOut className='w-full mb-3 mt-auto' />
 		</aside>
-	);
-}
-
-const mainNav = [
-	{ title: 'Home', icon: Home, path: '/' },
-	{ title: 'Library', icon: LibraryBig, path: '/player/library' },
-];
-
-function Nav({
-	title,
-	Icon,
-	path,
-}: // currentPath,
-{
-	title: string;
-	Icon: LucideIcon;
-	path: string;
-	// currentPath: string;
-}) {
-	return (
-		<Link
-			className={cn(
-				buttonVariants({
-					// variant: path === currentPath ? 'secondary' : 'ghost',
-					variant: 'ghost',
-				}),
-				'justify-start font-normal'
-			)}
-			href={path}
-		>
-			<Icon className='md:mr-2 h-5 w-auto' strokeWidth='1.75' />
-			<p className='hidden md:block text-[15px]'>{title}</p>
-		</Link>
 	);
 }

@@ -1,4 +1,5 @@
 import { signOut } from '@/actions/signin-action';
+import Logo from '@/components/Logo';
 import SideBarNav from '@/components/dashbord/SideBarNav';
 import TopNav from '@/components/dashbord/TopNav';
 import { createClientSSR } from '@/lib/supabase/server';
