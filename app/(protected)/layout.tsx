@@ -25,16 +25,17 @@ export default async function AuthenticatedLayout({
 	if (!userAuth || error) redirect('/signin');
 
 	const { data: user } = await supabase.from('user').select('*').single();
+
 	if (user.role === 'user') await signOut();
 
 	return (
 		<>
 			<SideBarNav />
-			<aside className='md:ml-56'>
+			<div className='md:ml-56'>
 				<TopNav />
 
 				<main className='p-6'>{children}</main>
-			</aside>
+			</div>
 		</>
 	);
 }

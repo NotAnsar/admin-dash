@@ -12,23 +12,6 @@ export default async function Home() {
 
 	return (
 		<>
-			{/* <div>
-				<h1 className='text-3xl'>hello {user?.email}</h1>
-
-				<ModeToggle />
-
-				<Link href={'/signin'} className='block hover:underline'>
-					Sign in
-				</Link>
-				<form>
-					<button
-						formAction={signOut}
-						className='block hover:underline text-destructive'
-					>
-						Sign Out
-					</button>
-				</form>
-			</div> */}
 			<p>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt eligendi
 				placeat debitis qui cupiditate! Rem nobis numquam ad tempora rerum iure

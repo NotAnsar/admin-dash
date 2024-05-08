@@ -7,6 +7,9 @@ import { dashConfig } from '@/config/dashboard';
 import NavGroup from './NavGroup';
 import SignOut from './SignOut';
 import { SheetContent } from '../ui/sheet';
+import { ModeToggle, ModeToggleTrigger } from '../ModeToggle';
+import { Moon, Sun } from 'lucide-react';
+import { Button } from '../ui/button';
 
 export default function SideBarNavMobile({
 	className,
@@ -42,7 +45,13 @@ export default function SideBarNavMobile({
 				path={path}
 			/>
 
-			<SignOut className='w-full mb-3 mt-auto' />
+			<ModeToggleTrigger>
+				<Button variant={'secondary'} className='mt-auto'>
+					<Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+					<Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+					<span className='sr-only'>Toggle theme</span>
+				</Button>
+			</ModeToggleTrigger>
 		</SheetContent>
 	);
 }
