@@ -5,8 +5,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/theme-provider';
-import { redirect } from 'next/navigation';
-import { createClientSSR } from '@/lib/supabase/server';
+import { Toaster } from '@/components/ui/toaster';
 
 const fontSans = FontSans({
 	subsets: ['latin'],
@@ -45,6 +44,7 @@ export default async function RootLayout({
 					disableTransitionOnChange
 				>
 					{children}
+					<Toaster />
 				</ThemeProvider>
 			</body>
 		</html>

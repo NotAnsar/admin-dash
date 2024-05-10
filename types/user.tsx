@@ -3,6 +3,6 @@ export type User = {
 	created_at: string;
 	f_name: string;
 	l_name: string;
-	role: 'admin' | 'user ';
+	role: 'admin' | 'user';
 	email: string;
 };

@@ -1,6 +1,5 @@
 import {
 	AlertDialog,
-	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
@@ -9,6 +8,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import DeleteUserForm from './DeleteUserForm';
 
 export function DeleteUserTrigger({
 	children,
@@ -31,9 +31,7 @@ export function DeleteUserTrigger({
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
-					<AlertDialogAction className='bg-destructive text-white hover:bg-destructive/90'>
-						Delete
-					</AlertDialogAction>
+					<DeleteUserForm />
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

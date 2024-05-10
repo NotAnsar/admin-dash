@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -36,7 +35,7 @@ export default async function UserNav() {
 			<DropdownMenuContent align='end'>
 				<div className='flex items-center justify-start gap-2 p-2'>
 					<div className='flex flex-col space-y-1 leading-none'>
-						{(user.f_name || user.l_name) && (
+						{(user?.f_name || user?.l_name) && (
 							<p className='font-medium'>
 								{user.f_name && <span>{user.f_name}</span>}{' '}
 								{user.l_name && <span>{user.l_name}</span>}
@@ -54,9 +53,9 @@ export default async function UserNav() {
 						<button className='p-2 w-full text-left hover:bg-secondary text-sm rounded-sm relative flex items-center'>
 							<UserRoundCog className='w-4 h-auto mr-2' />
 							Edit Profile
-							<span className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex'>
+							{/* <span className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex'>
 								<span className='text-xs'>⌘</span>E
-							</span>
+							</span> */}
 						</button>
 					</EditUserTrigger>
 				</DropdownMenuItem>
@@ -66,9 +65,9 @@ export default async function UserNav() {
 						<button className='p-2 w-full text-left hover:bg-secondary text-sm rounded-sm relative flex items-center'>
 							<UserRoundX className='w-4 h-auto mr-2' />
 							Delete Account
-							<span className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex'>
+							{/* <span className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex'>
 								<span className='text-xs'>⌘</span>D
-							</span>
+							</span> */}
 						</button>
 					</DeleteUserTrigger>
 				</DropdownMenuItem>
@@ -79,9 +78,6 @@ export default async function UserNav() {
 							<LogOutIcon className='w-4 h-auto mr-2' />
 							Sign out
 						</button>
-						<span className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex'>
-							<span className='text-xs'>⌘</span>O
-						</span>
 					</form>
 				</DropdownMenuItem>
 			</DropdownMenuContent>

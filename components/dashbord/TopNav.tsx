@@ -26,7 +26,7 @@ export default async function TopNav() {
 						<span className='hidden md:block'>
 							<ModeToggle />
 						</span>
-            
+
 						<UserNav />
 					</div>
 				</nav>

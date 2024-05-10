@@ -1,12 +1,9 @@
 import FormSection from '@/components/FormSection';
 import Logo from '@/components/Logo';
 import { ModeToggle } from '@/components/ModeToggle';
-import { createClientSSR } from '@/lib/supabase/server';
 import { ArrowRight } from 'lucide-react';
 import { Metadata } from 'next';
-
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
 	title: 'Admin Dash | Sign in page',
@@ -14,13 +11,6 @@ export const metadata: Metadata = {
 };
 
 export default async function page() {
-	const supabase = createClientSSR();
-	const {
-		data: { user },
-	} = await supabase.auth.getUser();
-
-	if (user) redirect('/');
-
 	return (
 		<div
 			className='container relative h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0'

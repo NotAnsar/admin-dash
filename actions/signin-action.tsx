@@ -14,13 +14,16 @@ const formSchema = z.object({
 });
 
 export async function signOut() {
-	const supabase = createClientSSR();
-	const { error } = await supabase.auth.signOut();
-	if (error) {
-		console.log(error);
-	} else {
-		redirect('/signin');
+	try {
+		const supabase = createClientSSR();
+		const { error } = await supabase.auth.signOut();
+
+		if (error) throw error;
+	} catch (error) {
+		return { message: 'Cannot Signout ' };
 	}
+
+	redirect('/signin');
 }
 
 // This is temporary until @types/react-dom is updated
@@ -53,17 +56,11 @@ export async function signinAction(prevState: State, formData: FormData) {
 			password,
 		});
 
-		if (error) {
-			throw error;
-		}
-	} catch (error: any) {
-		console.log(error.message);
-
-		return {
-			message:
-				(error?.message as string) || 'Database Error: Failed to Sign in User.',
-		};
+		if (error) throw error;
+	} catch (error) {
+		return { message: 'Database Error: Failed to Sign in User.' };
 	}
+
 	revalidatePath('/', 'layout');
 	redirect('/');
 }
