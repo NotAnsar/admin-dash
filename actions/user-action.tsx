@@ -30,17 +30,13 @@ export async function deleteAccount() {
 			throw new Error('This user is the only admin and cannot be deleted.');
 		}
 
+		const user = await getUser();
 		await supabase.auth.signOut();
 
-		const user = await getUser();
+		const { error } = await supabase.auth.admin.deleteUser(user?.id);
 
-		const { error } = await supabase.auth.admin.deleteUser(user?.id as string);
-
-		console.log(error);
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
-
 		let message = 'Failed to delete user. Please try again later.';
 		let title = 'Database error';
 
@@ -50,6 +46,7 @@ export async function deleteAccount() {
 		}
 		return { message, title };
 	}
+	redirect('/signin');
 }
 
 // This is temporary until @types/react-dom is updated
@@ -75,25 +72,28 @@ export async function updateUser(prevState: State, formData: FormData) {
 
 	const { fname, lname } = validatedFields.data;
 
-	// try {
-	// 	const supabase = createClientSSR();
-	// 	const { error, data } = await supabase
-	// 		.from('user')
-	// 		// .update({ f_name: fname, l_name: lname }).eq('id',);
-	// 	console.log(data);
+	try {
+		const supabase = createClientSSR();
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+		const { error, data } = await supabase
+			.from('user')
+			.update({ f_name: fname, l_name: lname })
+			.eq('id', user?.id);
 
-	// 	if (error) {
-	// 		throw error;
-	// 	}
-	// } catch (error: any) {
-	// 	console.log(error.message);
+		console.log(error, data);
 
-	// 	return {
-	// 		message:
-	// 			(error?.message as string) ||
-	// 			'Database Error: Failed to Update User Data.',
-	// 	};
-	// }
+		if (error) throw error;
+	} catch (error: any) {
+		console.log(error.message);
+
+		return {
+			message:
+				(error?.message as string) ||
+				'Database Error: Failed to Update User Data.',
+		};
+	}
 	revalidatePath('/', 'layout');
 	redirect('/');
 }

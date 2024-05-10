@@ -10,8 +10,6 @@ export default function DeleteUserForm() {
 			action={async () => {
 				const res = await deleteAccount();
 
-				console.log(res);
-
 				if (res) {
 					toast({
 						title: res.title,
