@@ -1,12 +1,12 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
+import { useFormState } from 'react-dom';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 import { State, signinAction } from '@/actions/signin-action';
-import { Loader } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import PendingButton from './PendingButton';
 
 export default function FormSection() {
 	const initialState: State = { message: null, errors: {} };
@@ -70,14 +70,17 @@ export default function FormSection() {
 						{state.message}
 					</p>
 				)}
-				<PendingButton />
+				<PendingButton>Sign In</PendingButton>
 			</form>
 			<div className='grid gap-1 text-[13px] text-muted-foreground/80 '>
 				<p>
 					Forgot your password?{' '}
-					<button className='text-foreground font-medium hover:underline'>
+					<Link
+						href={'/auth/password-recovery'}
+						className='text-foreground font-medium hover:underline'
+					>
 						Click here
-					</button>
+					</Link>
 				</p>
 				<p>
 					Or Just Join as{' '}
@@ -87,23 +90,5 @@ export default function FormSection() {
 				</p>
 			</div>
 		</>
-	);
-}
-
-function PendingButton() {
-	const { pending } = useFormStatus();
-
-	return (
-		<div className='flex justify-end'>
-			<Button
-				className='w-full mt-4'
-				type='submit'
-				aria-disabled={pending}
-				disabled={pending}
-			>
-				{pending && <Loader className='mr-2 h-4 w-4 animate-spin' />}
-				Sign In
-			</Button>
-		</div>
 	);
 }

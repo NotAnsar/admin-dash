@@ -46,7 +46,7 @@ export async function deleteAccount() {
 		}
 		return { message, title };
 	}
-	redirect('/signin');
+	redirect('/auth/signin');
 }
 
 // This is temporary until @types/react-dom is updated

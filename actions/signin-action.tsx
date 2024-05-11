@@ -5,13 +5,14 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-const formSchema = z.object({
+const signInSchema = z.object({
 	email: z.string().email({ message: 'Please enter a valid email address.' }),
 	password: z
 		.string()
 		.min(6, { message: 'Password must be at least 6 characters long.' })
 		.max(30, { message: 'Password must be no longer than 30 characters.' }),
 });
+
 
 export async function signOut() {
 	try {
@@ -23,10 +24,9 @@ export async function signOut() {
 		return { message: 'Cannot Signout ' };
 	}
 
-	redirect('/signin');
+	redirect('/auth/signin');
 }
 
-// This is temporary until @types/react-dom is updated
 export type State =
 	| {
 			errors?: { email?: string[]; password?: string[] };
@@ -35,7 +35,7 @@ export type State =
 	| undefined;
 
 export async function signinAction(prevState: State, formData: FormData) {
-	const validatedFields = formSchema.safeParse({
+	const validatedFields = signInSchema.safeParse({
 		email: formData.get('email'),
 		password: formData.get('password'),
 	});
