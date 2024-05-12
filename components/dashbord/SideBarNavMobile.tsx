@@ -5,9 +5,8 @@ import Logo from '../Logo';
 import { usePathname } from 'next/navigation';
 import { dashConfig } from '@/config/dashboard';
 import NavGroup from './NavGroup';
-import SignOut from './SignOut';
 import { SheetContent } from '../ui/sheet';
-import { ModeToggle, ModeToggleTrigger } from '../ModeToggle';
+import { ModeToggleTrigger } from '../ModeToggle';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '../ui/button';
 

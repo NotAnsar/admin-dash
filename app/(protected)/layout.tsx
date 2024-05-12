@@ -2,7 +2,6 @@ import { signOut } from '@/actions/signin-action';
 import SideBarNav from '@/components/dashbord/SideBarNav';
 import TopNav from '@/components/dashbord/TopNav';
 import { getUser } from '@/lib/db';
-import { createClientSSR } from '@/lib/supabase/server';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {

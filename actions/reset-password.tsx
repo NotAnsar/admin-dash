@@ -1,6 +1,8 @@
 'use server';
 
 import { createClientSSR } from '@/lib/supabase/server';
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 const resetPasswordSchema = z.object({
@@ -32,9 +34,11 @@ export async function recoverPassword(
 	const { email } = validatedFields.data;
 
 	try {
+		const origin = headers().get('origin');
+
 		const supabase = createClientSSR();
 		const { error, data } = await supabase.auth.resetPasswordForEmail(email, {
-			redirectTo: 'http://localhost:3000/auth/update-password',
+			redirectTo: `${origin}/auth/update-password`,
 		});
 
 		console.log(error, data);
@@ -70,6 +74,7 @@ export type UpdatePassState =
 	| undefined;
 
 export async function updatePassword(
+	code: string,
 	prevState: UpdatePassState,
 	formData: FormData
 ) {
@@ -89,15 +94,18 @@ export async function updatePassword(
 
 	try {
 		const supabase = createClientSSR();
-		console.log(await supabase.auth.getSession());
+		const { error: codeSessionError } =
+			await supabase.auth.exchangeCodeForSession(code);
 
-		const { data, error } = await supabase.auth.updateUser({ password });
-		console.log(data, error);
+		if (codeSessionError) throw codeSessionError;
+
+		const { error } = await supabase.auth.updateUser({ password });
 
 		if (error) throw error;
 	} catch (error) {
 		console.log(error);
 
-		return { message: 'Database Error: Failed to Update Password.' };
+		return { message: 'Unable to reset Password. Try Again' };
 	}
+	redirect('/');
 }

@@ -55,7 +55,7 @@ function Nav({
 				buttonVariants({
 					variant: path === currPath ? 'secondary' : 'ghost',
 				}),
-				'justify-start font-normal flex gap-4 items-center transition duration-200 rounded-sm '
+				'justify-start font-normal flex gap-4 items-center transition duration-200 rounded-sm py-1'
 			)}
 			href={path}
 		>

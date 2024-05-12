@@ -7,10 +7,17 @@ import { updatePassword, UpdatePassState } from '@/actions/reset-password';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import PendingButton from './PendingButton';
+import { redirect, useSearchParams } from 'next/navigation';
 
 export default function UpdatePasswordForm() {
+	const params = useSearchParams();
+	const code = params.get('code') || '';
+	if (!code) redirect('/auth/password-recovery');
+
 	const initialState: UpdatePassState = { message: null, errors: {} };
-	const [state, action] = useFormState(updatePassword, initialState);
+	const updateUserWithCode = updatePassword.bind(null, code);
+
+	const [state, action] = useFormState(updateUserWithCode, initialState);
 
 	return (
 		<>
@@ -79,6 +86,15 @@ export default function UpdatePasswordForm() {
 			</form>
 			<div className='grid gap-1 text-[13px] text-muted-foreground/80 '>
 				<p>
+					Need to sign in?{' '}
+					<Link
+						href={'/auth/signin'}
+						className='text-foreground font-medium hover:underline'
+					>
+						Sign In
+					</Link>
+				</p>
+				<p>
 					Forgot your password?{' '}
 					<Link
 						href={'/auth/password-recovery'}
@@ -86,12 +102,6 @@ export default function UpdatePasswordForm() {
 					>
 						Click here
 					</Link>
-				</p>
-				<p>
-					Or Just Join as{' '}
-					<button className='text-foreground font-medium hover:underline'>
-						Guest User
-					</button>
 				</p>
 			</div>
 		</>
