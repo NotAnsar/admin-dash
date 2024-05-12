@@ -50,7 +50,7 @@ export default async function UserNav() {
 				<DropdownMenuSeparator />
 				<DropdownMenuItem asChild>
 					<EditUserTrigger user={user}>
-						<button className='p-2 w-full text-left hover:bg-secondary text-sm rounded-sm relative flex items-center'>
+						<button className='p-2 w-full text-left hover:bg-secondary text-sm rounded-sm relative flex items-center cursor-pointer'>
 							<UserRoundCog className='w-4 h-auto mr-2' />
 							Edit Profile
 						</button>

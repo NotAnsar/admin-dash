@@ -33,13 +33,14 @@ export async function recoverPassword(
 
 	try {
 		const supabase = createClientSSR();
-		const { error } = await supabase.auth.resetPasswordForEmail(email, {
+		const { error, data } = await supabase.auth.resetPasswordForEmail(email, {
 			redirectTo: 'http://localhost:3000/auth/update-password',
 		});
 
+		console.log(error, data);
+
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
 		return { message: 'Database Error: Failed to Send Reset Link.' };
 	}
 }
