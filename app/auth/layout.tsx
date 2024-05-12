@@ -37,12 +37,12 @@ export default async function AuthenticatedLayout({
 			<Link
 				href={'https://cadency-sage.vercel.app/'}
 				target='_blank'
-				className='absolute right-4 top-4 md:right-8 md:top-8 flex items-center gap-1 text-[13px] bg-foreground rounded-full text-background px-6 py-1 cursor-pointer hover:gap-2 transition-all duration-300 group'
+				className='absolute right-4 top-4 md:right-8 md:top-8 flex items-center gap-1 text-[13px] bg-foreground rounded-full text-background px-6 cursor-pointer hover:gap-2 transition-all duration-300 group h-7'
 			>
-				<span>cadency.vercel.app</span>
+				<span className='text-[15px] '>cadency.vercel.app</span>
 
 				<ArrowRight
-					className='w-[18px] h-[18px] group-hover:-rotate-45 transition-all duration-300'
+					className='w-[16px] h-auto group-hover:-rotate-45 transition-all duration-300 '
 					strokeWidth='1.5'
 				/>
 			</Link>

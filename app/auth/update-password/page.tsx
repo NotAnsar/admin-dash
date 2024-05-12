@@ -1,7 +1,8 @@
 import Logo from '@/components/Logo';
-import UpdatePasswordForm from '@/components/auth/UpdatePasswordForm';
+import UpdatePasswordFormSuspense from '@/components/auth/UpdatePasswordForm';
+import Link from 'next/link';
 
-export default function page() {
+export default function Page() {
 	return (
 		<>
 			<div className='flex flex-col space-y-2 '>
@@ -21,7 +22,27 @@ export default function page() {
 				</p>
 			</div>
 
-			<UpdatePasswordForm />
+			<UpdatePasswordFormSuspense />
+			<div className='grid gap-1 text-[13px] text-muted-foreground/80 '>
+				<p>
+					Need to sign in?{' '}
+					<Link
+						href={'/auth/signin'}
+						className='text-foreground font-medium hover:underline'
+					>
+						Sign In
+					</Link>
+				</p>
+				<p>
+					Forgot your password?{' '}
+					<Link
+						href={'/auth/password-recovery'}
+						className='text-foreground font-medium hover:underline'
+					>
+						Click here
+					</Link>
+				</p>
+			</div>
 		</>
 	);
 }

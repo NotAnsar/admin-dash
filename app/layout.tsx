@@ -7,15 +7,26 @@ import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 
-const fontSans = FontSans({
-	subsets: ['latin'],
-	weight: ['300', '400', '500', '600', '700'],
-	variable: '--font-sans',
-});
+// const fontSans = FontSans({
+// 	subsets: ['latin'],
+// 	weight: ['300', '400', '500', '600', '700'],
+// 	variable: '--font-sans',
+// });
 
 const recoleta = localFont({
 	src: [{ path: '../public/fonts/recoleta-regular.otf', weight: '400' }],
 	variable: '--font-serif',
+});
+
+const fontSans = localFont({
+	src: [
+		{ path: '../public/fonts/satoshi/Satoshi-Light.otf', weight: '300' },
+		{ path: '../public/fonts/satoshi/Satoshi-Regular.otf', weight: '400' },
+		{ path: '../public/fonts/satoshi/Satoshi-Medium.otf', weight: '500' },
+		{ path: '../public/fonts/satoshi/Satoshi-Bold.otf', weight: '600' },
+		{ path: '../public/fonts/satoshi/Satoshi-Black.otf', weight: '700' },
+	],
+	variable: '--font-sans',
 });
 
 export const metadata: Metadata = {
