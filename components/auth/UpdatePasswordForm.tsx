@@ -22,7 +22,6 @@ function UpdatePasswordForm() {
 	const params = useSearchParams();
 	const code = params.get('code') || '';
 
-	if (!code) redirect('/auth/password-recovery');
 	const initialState: UpdatePassState = { message: null, errors: {} };
 	const updateUserWithCode = updatePassword.bind(null, code);
 

@@ -78,6 +78,8 @@ export async function updatePassword(
 	prevState: UpdatePassState,
 	formData: FormData
 ) {
+	if (!code) redirect('/auth/password-recovery');
+	
 	const validatedFields = updatePasswordSchema.safeParse({
 		password: formData.get('password'),
 		confirmPassword: formData.get('confirmPassword'),
