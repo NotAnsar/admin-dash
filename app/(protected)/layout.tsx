@@ -1,6 +1,6 @@
 import { signOut } from '@/actions/signin-action';
-import SideBarNav from '@/components/dashbord/SideBarNav';
-import TopNav from '@/components/dashbord/TopNav';
+import SideBarNav from '@/components/nav/SideBarNav';
+import TopNav from '@/components/nav/TopNav';
 import { getUser } from '@/lib/db';
 import type { Metadata } from 'next';
 

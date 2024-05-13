@@ -1,31 +1,32 @@
-import {
-	BarChart3,
-	BookCheck,
-	Box,
-	Calendar,
-	FileText,
-	LayoutDashboard,
-	LucideIcon,
-	SquareKanbanIcon,
-	Users,
-} from 'lucide-react';
+import { Archive, CreditCard, DollarSign, Users } from 'lucide-react';
 
-export type DashItem = { title: string; Icon: LucideIcon; path: string };
-
-export const dashConfig = {
-	overview: [
-		{ title: 'Dashboard', Icon: LayoutDashboard, path: '/' },
-		{ title: 'Analytics', Icon: BarChart3, path: '/analytics' },
-		{ title: 'Reports', Icon: FileText, path: '/reports' },
-	],
-	management: [
-		{ title: 'Products', Icon: Box, path: '/products' },
-		{ title: 'Users', Icon: Users, path: '/users' },
-		{ title: 'Orders', Icon: BookCheck, path: '/orders' },
-		// { title: 'Biling', Icon: ListOrdered, path: '/orders' },
-	],
-	tools: [
-		{ title: 'Kanban', Icon: SquareKanbanIcon, path: '/kanban' },
-		{ title: 'Calendar', Icon: Calendar, path: '/calendar' },
-	],
-};
+export const cardData = [
+	{
+		id: 'dashboard-01-chunk-0',
+		title: 'Total Revenue',
+		icon: DollarSign,
+		value: '$45,231.89',
+		description: '+20.1% from last month',
+	},
+	{
+		id: 'dashboard-01-chunk-1',
+		title: 'Clients',
+		icon: Users,
+		value: '+23',
+		description: 'Number Of all your clients',
+	},
+	{
+		id: 'dashboard-01-chunk-2',
+		title: 'Sales',
+		icon: CreditCard,
+		value: '+12,234',
+		description: '+19% from last month',
+	},
+	{
+		id: 'dashboard-01-chunk-3',
+		title: 'Products',
+		icon: Archive,
+		value: '+573',
+		description: 'Number of all your products',
+	},
+];

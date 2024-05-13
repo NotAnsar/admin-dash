@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import Logo from '../Logo';
 import { usePathname } from 'next/navigation';
-import { dashConfig } from '@/config/dashboard';
+import { dashConfig } from '@/config/sidenav';
 import NavGroup from './NavGroup';
 import SignOut from './SignOut';
 

@@ -1,4 +1,4 @@
-import { DashItem } from '@/config/dashboard';
+import { DashItem } from '@/config/sidenav';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { buttonVariants } from '../ui/button';

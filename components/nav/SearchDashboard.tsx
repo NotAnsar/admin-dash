@@ -9,9 +9,8 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-	CommandSeparator,
 } from '../ui/command';
-import { DashItem, dashConfig } from '@/config/dashboard';
+import { DashItem, dashConfig } from '@/config/sidenav';
 
 import { useRouter } from 'next/navigation';
 
