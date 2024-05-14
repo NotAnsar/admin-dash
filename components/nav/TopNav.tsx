@@ -9,7 +9,7 @@ import SearchDashboard from './SearchDashboard';
 export default async function TopNav() {
 	return (
 		<Sheet>
-			<header className='sticky top-0 w-full border-b bg-background px-4 border-border h-14 grid items-center'>
+			<header className='sticky top-0 w-full border-b bg-background px-4 border-border h-14 grid items-center z-50'>
 				<nav className='flex justify-between items-center gap-4'>
 					<div className='md:hidden relative flex gap-[6px] items-center justify-center'>
 						<Logo className='text-foreground w-[26px] h-auto -rotate-45' />
