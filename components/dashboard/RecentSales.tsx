@@ -3,15 +3,16 @@ import { Avatar, AvatarFallback } from '../ui/avatar';
 import { generateAvatarFallback, recentSales } from '@/config/dashboard';
 import Link from 'next/link';
 
-export default function RecentSales() {
+export default function RecentSales({ className }: { className?: string }) {
 	return (
-		<Card x-chunk='dashboard-01-chunk-5' className='col-span-2 '>
+		<Card x-chunk='dashboard-01-chunk-5' className={className}>
 			<CardHeader>
 				<CardTitle className='flex justify-between items-end '>
 					<span>Recent Orders</span>
+
 					<Link
 						href='/orders'
-						className='text-sm text-muted-foreground font-normal tracking-wide hover:text-foreground duration-200 transition ease-out px-3 py-1 hover:bg-secondary rounded-sm'
+						className='text-sm text-muted-foreground font-normal tracking-wide hover:text-foreground duration-200 transition ease-out  rounded-sm'
 					>
 						see all
 					</Link>
