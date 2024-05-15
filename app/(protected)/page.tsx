@@ -1,5 +1,6 @@
 import BarChartRevenue from '@/components/dashboard/BarChartRevenue';
 import CardComponent from '@/components/dashboard/CardComponent';
+import PieChartCategories from '@/components/dashboard/PieChartCategories';
 import RecentSales from '@/components/dashboard/RecentSales';
 
 import { cardData } from '@/config/dashboard';
@@ -17,8 +18,8 @@ export default async function Home() {
 				<RecentSales className='xl:col-span-2' />
 			</div>
 			<div className='grid gap-4 md:gap-8 lg:grid-cols-2'>
-				<BarChartRevenue />
 				<RecentSales />
+				{/* <PieChartCategories /> */}
 			</div>
 		</main>
 	);
