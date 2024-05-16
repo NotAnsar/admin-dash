@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 
-import { BarChart, DonutChart } from '@tremor/react';
+import { DonutChart } from '@tremor/react';
 import {
 	Card,
 	CardContent,
@@ -20,11 +20,11 @@ export default function PieChartCategories({
 		<Card className={cn('rounded-lg flex flex-col gap-2', className)}>
 			<CardHeader>
 				<CardTitle className='dark:text-foreground text-foreground text-2xl font-semibold leading-none tracking-tight flex justify-between items-end'>
-					Revenue for Last 3 Month
+					Category Sales Performance
 				</CardTitle>
 				<CardDescription className='dark:text-muted-foreground text-muted-foreground text-sm mt-2'>
-					Gain insights into recent revenue sales trends to inform strategic
-					decisions.
+					Analyze recent revenue sales trends for each category to make informed
+					strategic decisions.
 				</CardDescription>
 			</CardHeader>
 
