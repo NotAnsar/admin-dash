@@ -11,7 +11,6 @@ import {
 	CommandList,
 } from '../ui/command';
 import { DashItem, dashConfig } from '@/config/sidenav';
-
 import { useRouter } from 'next/navigation';
 
 export default function SearchDashboard() {

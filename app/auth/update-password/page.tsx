@@ -1,8 +1,12 @@
 import Logo from '@/components/Logo';
-import UpdatePasswordFormSuspense from '@/components/auth/UpdatePasswordForm';
+import UpdatePasswordForm from '@/components/auth/UpdatePasswordForm';
 import Link from 'next/link';
 
-export default function Page() {
+export default function Page({
+	searchParams,
+}: {
+	searchParams: { code?: string };
+}) {
 	return (
 		<>
 			<div className='flex flex-col space-y-2 '>
@@ -22,7 +26,7 @@ export default function Page() {
 				</p>
 			</div>
 
-			<UpdatePasswordFormSuspense />
+			<UpdatePasswordForm code={searchParams.code || ''} />
 			<div className='grid gap-1 text-[13px] text-muted-foreground/80 '>
 				<p>
 					Need to sign in?{' '}

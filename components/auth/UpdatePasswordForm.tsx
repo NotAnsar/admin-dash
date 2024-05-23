@@ -6,22 +6,8 @@ import { Label } from '../ui/label';
 import { updatePassword, UpdatePassState } from '@/actions/reset-password';
 import { cn } from '@/lib/utils';
 import PendingButton from './PendingButton';
-import { redirect, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
-import { Skeleton } from '../ui/skeleton';
 
-export default function UpdatePasswordFormSuspense() {
-	return (
-		<Suspense fallback={<FormSkeleton />}>
-			<UpdatePasswordForm />
-		</Suspense>
-	);
-}
-
-function UpdatePasswordForm() {
-	const params = useSearchParams();
-	const code = params.get('code') || '';
-
+export default function UpdatePasswordForm({ code }: { code: string }) {
 	const initialState: UpdatePassState = { message: null, errors: {} };
 	const updateUserWithCode = updatePassword.bind(null, code);
 
@@ -88,22 +74,6 @@ function UpdatePasswordForm() {
 				<p className='text-sm font-medium text-destructive'>{state.message}</p>
 			)}
 			<PendingButton>Update Password</PendingButton>
-		</form>
-	);
-}
-
-function FormSkeleton() {
-	return (
-		<form className='grid gap-2 mt-6'>
-			<div>
-				<Skeleton className='w-9 h-4 mt-2' />
-				<Skeleton className='h-10 w-full mt-2' />
-			</div>
-			<div>
-				<Skeleton className='w-9 h-4 mt-2' />
-				<Skeleton className='h-10 w-full mt-2' />
-			</div>
-			<Skeleton className='h-10 w-full mt-2' />
 		</form>
 	);
 }

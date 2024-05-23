@@ -1,6 +1,7 @@
 'use server';
 
 import { createClientSSR } from '@/lib/supabase/server';
+import { AuthError } from '@supabase/supabase-js';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -79,7 +80,7 @@ export async function updatePassword(
 	formData: FormData
 ) {
 	if (!code) redirect('/auth/password-recovery');
-	
+
 	const validatedFields = updatePasswordSchema.safeParse({
 		password: formData.get('password'),
 		confirmPassword: formData.get('confirmPassword'),
@@ -106,6 +107,12 @@ export async function updatePassword(
 		if (error) throw error;
 	} catch (error) {
 		console.log(error);
+		if (error instanceof AuthError) {
+			if (error.code === 'same_password') {
+				redirect('/');
+			}
+			return { message: error.message };
+		}
 
 		return { message: 'Unable to reset Password. Try Again' };
 	}

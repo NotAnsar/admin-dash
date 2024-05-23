@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { dashConfig } from '@/config/sidenav';
 import NavGroup from './NavGroup';
 import SignOut from './SignOut';
+import Link from 'next/link';
 
 export default function SideBarNav({
 	className,
@@ -21,12 +22,12 @@ export default function SideBarNav({
 			)}
 			{...props}
 		>
-			<div className='flex gap-[6px] items-center justify-center'>
+			<Link href={'/'} className='flex gap-[6px] items-center justify-center'>
 				<Logo className='text-foreground w-[26px] h-auto -rotate-45' />
 				<h4 className='text-[28px] font-serif font-medium tracking-wide'>
 					Orava
 				</h4>
-			</div>
+			</Link>
 
 			<NavGroup
 				label='Overview'
@@ -34,8 +35,8 @@ export default function SideBarNav({
 				path={path}
 				className='mt-8'
 			/>
-			<NavGroup label='Tools' menuGrp={tools} path={path} />
 			<NavGroup label='Management' menuGrp={management} path={path} />
+			<NavGroup label='Tools' menuGrp={tools} path={path} />
 
 			<SignOut className='w-full mb-3 mt-auto' />
 		</aside>

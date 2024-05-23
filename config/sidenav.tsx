@@ -10,7 +10,11 @@ import {
 	Users,
 } from 'lucide-react';
 
-export type DashItem = { title: string; Icon: LucideIcon; path: string };
+export type DashItem = {
+	title: string;
+	Icon: LucideIcon;
+	path: string;
+};
 
 export const dashConfig = {
 	overview: [

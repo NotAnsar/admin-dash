@@ -48,12 +48,16 @@ function Nav({
 	currPath: string;
 }) {
 	const { Icon, path, title } = menuItem;
+
 	return (
 		<Link
 			{...props}
 			className={cn(
 				buttonVariants({
-					variant: path === currPath ? 'secondary' : 'ghost',
+					variant:
+						currPath.split('/')[1] === path.split('/')[1]
+							? 'secondary'
+							: 'ghost',
 				}),
 				'justify-start font-normal flex gap-4 items-center transition duration-200 rounded-sm py-1'
 			)}

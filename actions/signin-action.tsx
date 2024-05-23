@@ -13,7 +13,6 @@ const signInSchema = z.object({
 		.max(30, { message: 'Password must be no longer than 30 characters.' }),
 });
 
-
 export async function signOut() {
 	try {
 		const supabase = createClientSSR();
@@ -26,13 +25,6 @@ export async function signOut() {
 
 	redirect('/auth/signin');
 }
-
-export type State =
-	| {
-			errors?: { email?: string[]; password?: string[] };
-			message?: string | null;
-	  }
-	| undefined;
 
 export async function signinAction(prevState: State, formData: FormData) {
 	const validatedFields = signInSchema.safeParse({
@@ -56,7 +48,8 @@ export async function signinAction(prevState: State, formData: FormData) {
 			password,
 		});
 
-		if (error) throw error;
+		if (error)
+			return { message: 'Signin failed. Please check your credentials.' };
 	} catch (error) {
 		return { message: 'Database Error: Failed to Sign in User.' };
 	}
@@ -64,3 +57,10 @@ export async function signinAction(prevState: State, formData: FormData) {
 	revalidatePath('/', 'layout');
 	redirect('/');
 }
+
+export type State =
+	| {
+			errors?: { email?: string[]; password?: string[] };
+			message?: string | null;
+	  }
+	| undefined;
