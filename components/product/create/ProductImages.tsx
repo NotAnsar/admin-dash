@@ -22,16 +22,16 @@ export default function ProductImages() {
 			<CardContent>
 				<div className='grid gap-2'>
 					<div className='grid grid-cols-2 gap-2'>
-						<Image
+						<Image 
 							alt='Product image'
-							className='aspect-square w-full rounded-md object-cover'
+							className='aspect-square w-full h-auto rounded-md object-cover'
 							height='300'
 							src='/placeholder.svg'
 							width='300'
 						/>
 						<Image
 							alt='Product image'
-							className='aspect-square w-full rounded-md object-cover'
+							className='aspect-square w-full h-auto rounded-md object-cover'
 							height='300'
 							src='/placeholder.svg'
 							width='300'

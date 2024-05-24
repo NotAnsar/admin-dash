@@ -19,7 +19,7 @@ export default function Products({
 		<div>
 			<div className='flex items-center justify-between'>
 				<h1 className='text-2xl font-bold'>Products</h1>
-				<Link href={'/products/new'} className={cn(buttonVariants())}>
+				<Link href={'/products/create'} className={cn(buttonVariants())}>
 					Add Product
 				</Link>
 			</div>

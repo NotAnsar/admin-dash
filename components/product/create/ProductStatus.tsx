@@ -18,8 +18,10 @@ export default function ProductStatus() {
 			<CardContent>
 				<div className='grid gap-6'>
 					<div className='grid gap-3'>
-						<Label htmlFor='status'>Status</Label>
-						<Select required name='status'>
+						<Label htmlFor='status' className='text-muted-foreground'>
+							Status
+						</Label>
+						<Select required name='status' defaultValue='active'>
 							<SelectTrigger
 								id='status'
 								aria-label='Select status'
