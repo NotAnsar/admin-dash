@@ -2,9 +2,8 @@ import { User } from '@/types/user';
 import { createClientSSR } from './supabase/server';
 import { Category, Color, Size } from '@/types/db';
 
-const supabase = createClientSSR();
-
 export async function getUser() {
+	const supabase = createClientSSR();
 	const { data } = await supabase.auth.getUser();
 
 	const { data: user } = await supabase
@@ -18,6 +17,7 @@ export async function getUser() {
 
 export async function fetchCategories() {
 	try {
+		const supabase = createClientSSR();
 		const { data: category, error } = await supabase
 			.from('category')
 			.select()
@@ -34,6 +34,7 @@ export async function fetchCategories() {
 
 export async function fetchSizes() {
 	try {
+		const supabase = createClientSSR();
 		const { data: sizes, error } = await supabase
 			.from('sizes')
 			.select()
@@ -50,6 +51,7 @@ export async function fetchSizes() {
 
 export async function fetchColors() {
 	try {
+		const supabase = createClientSSR();
 		const { data: colors, error } = await supabase
 			.from('colors')
 			.select()

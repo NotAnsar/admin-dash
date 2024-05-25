@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 	description: 'Sign in to have Access.',
 };
 
-export default async function page() {
+export default function page() {
 	return (
 		<>
 			<div className='flex flex-col space-y-2 '>
