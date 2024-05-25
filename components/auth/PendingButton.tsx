@@ -8,10 +8,8 @@ import { cn } from '@/lib/utils';
 export default function PendingButton({
 	children,
 	className,
-}: {
-	children: React.ReactNode;
-	className?: string;
-}) {
+	...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
 	const { pending } = useFormStatus();
 
 	return (
@@ -21,6 +19,7 @@ export default function PendingButton({
 				type='submit'
 				aria-disabled={pending}
 				disabled={pending}
+				{...props}
 			>
 				{pending && <Loader className='mr-2 h-4 w-4 animate-spin' />}
 				{children}

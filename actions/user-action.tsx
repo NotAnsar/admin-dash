@@ -49,7 +49,6 @@ export async function deleteAccount() {
 	redirect('/auth/signin');
 }
 
-// This is temporary until @types/react-dom is updated
 export type State =
 	| {
 			errors?: { lname?: string[]; fname?: string[] };

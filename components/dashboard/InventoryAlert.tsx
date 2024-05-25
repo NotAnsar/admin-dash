@@ -16,7 +16,6 @@ import {
 	TableRow,
 } from '../ui/table';
 import { cn } from '@/lib/utils';
-import { Badge } from '../ui/badge';
 
 export default function InventoryAlert({ className }: { className?: string }) {
 	return (
@@ -43,7 +42,7 @@ export default function InventoryAlert({ className }: { className?: string }) {
 						<TableRow>
 							<TableHead>Product</TableHead>
 							<TableHead className='hidden sm:table-cell'>Price</TableHead>
-							<TableHead className='hidden sm:table-cell'>Status</TableHead>
+
 							<TableHead className='text-right'>Stock</TableHead>
 						</TableRow>
 					</TableHeader>
@@ -58,21 +57,6 @@ export default function InventoryAlert({ className }: { className?: string }) {
 								</TableCell>
 								<TableCell className='hidden sm:block'>${p.price}</TableCell>
 
-								<TableCell
-									className={cn('font-medium', {
-										'text-red-500': p.stock >= 0 && p.stock <= 5,
-										'text-orange-400': p.stock > 5 && p.stock <= 15,
-										'text-green-500': p.stock > 15,
-									})}
-								>
-									<Badge className='text-xs' variant='destructive'>
-										{p.stock === 0
-											? 'Out of Stock'
-											: p.stock <= 15
-											? 'Low in Stock'
-											: 'Available'}
-									</Badge>
-								</TableCell>
 								<TableCell
 									className={cn('text-right font-medium', {
 										'text-red-500': p.stock >= 0 && p.stock <= 5,
