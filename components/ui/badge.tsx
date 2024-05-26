@@ -8,7 +8,7 @@ const badgeVariants = cva(
 	{
 		variants: {
 			variant: {
-				default:
+				default: 
 					'border-transparent bg-primary text-primary-foreground hover:bg-primary/80',
 				secondary:
 					'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
@@ -29,7 +29,10 @@ export interface BadgeProps
 
 function Badge({ className, variant, ...props }: BadgeProps) {
 	return (
-		<div className={cn(badgeVariants({ variant }), className)} {...props} />
+		<div
+			className={cn(badgeVariants({ variant }), 'text-nowrap', className)}
+			{...props}
+		/>
 	);
 }
 

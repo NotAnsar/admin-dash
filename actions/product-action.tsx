@@ -58,8 +58,6 @@ export async function createProduct(prevState: State, formData: FormData) {
 	});
 
 	if (!validatedFields.success) {
-		console.log(validatedFields.error);
-
 		return {
 			errors: validatedFields.error.flatten().fieldErrors,
 			message: 'Invalid Credentials. Unable to Sign in.',
@@ -68,7 +66,6 @@ export async function createProduct(prevState: State, formData: FormData) {
 
 	try {
 		const supabase = createClientSSR(true);
-		console.log(validatedFields.data);
 
 		const { data, error } = await supabase
 			.from('product')
@@ -87,7 +84,6 @@ export async function createProduct(prevState: State, formData: FormData) {
 		if (error) throw error;
 
 		const product_id = data.id;
-		
 	} catch (error: any) {
 		console.log(error);
 

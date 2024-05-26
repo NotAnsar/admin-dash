@@ -9,8 +9,14 @@ import {
 	SelectValue,
 } from '../ui/select';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Category } from '@/types/db';
+import { Skeleton } from '../ui/skeleton';
 
-export default function SelectProduct() {
+export default function SelectProduct({
+	categories,
+}: {
+	categories: Category[];
+}) {
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
 	const { replace } = useRouter();
@@ -29,7 +35,8 @@ export default function SelectProduct() {
 		replace(`${pathname}?${params.toString()}`);
 	};
 
-	const isValidValue = options.some((opt) => opt.value === defaultValue);
+	const isValidValue = categories.some((c) => c.id === defaultValue);
+
 	return (
 		<>
 			{searchParams.get('select') && (
@@ -48,9 +55,9 @@ export default function SelectProduct() {
 					<SelectValue placeholder='Filter by categories' />
 				</SelectTrigger>
 				<SelectContent>
-					{options.map(({ value, label }) => (
-						<SelectItem key={value} value={value}>
-							{label}
+					{categories.map(({ id, name }) => (
+						<SelectItem key={id} value={id}>
+							{name}
 						</SelectItem>
 					))}
 				</SelectContent>
@@ -59,10 +66,6 @@ export default function SelectProduct() {
 	);
 }
 
-const options = [
-	{ value: 'apple', label: 'Apple' },
-	{ value: 'banana', label: 'Banana' },
-	{ value: 'blueberry', label: 'Blueberry' },
-	{ value: 'grapes', label: 'Grapes' },
-	{ value: 'pineapple', label: 'Pineapple' },
-];
+export function SelectProductSkeleton() {
+	return <Skeleton className='w-full h-10' />;
+}

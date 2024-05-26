@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { Card } from '../ui/card';
+import { ProductALL } from '@/types/db';
 
-export default function ProductCard() {
+export default function ProductCard({ product }: { product: ProductALL }) {
 	return (
 		<Card className='rounded-lg overflow-hidden'>
 			<div className='h-48 bg-foreground flex items-center justify-center'>
@@ -14,12 +15,12 @@ export default function ProductCard() {
 				/>
 			</div>
 			<div className='p-4'>
-				<h3 className='text-lg font-medium'>Product Name</h3>
+				<h3 className='text-lg font-medium'>{product.name}</h3>
 				<p className='text-muted-foreground mb-3 leading-snug text-[15px] truncate '>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
+					{product.description}
 				</p>
 				<div className='flex items-center justify-between'>
-					<span className='font-bold text-foreground'>$19.99</span>
+					<span className='font-bold text-foreground'>${product.price}</span>
 					<div className='flex items-center space-x-2'>
 						<button className='hover:text-muted-foreground text-muted-foreground/80 transition-colors'>
 							<svg

@@ -5,12 +5,15 @@ import Link from 'next/link';
 import SelectProduct from './SelectProduct';
 import { type ProductSeachParams } from '@/app/(protected)/products/page';
 import Search from '../Search';
+import { fetchCategories } from '@/lib/db';
 
-export default function FilterProduct({
+export default async function FilterProduct({
 	searchParams,
 }: {
 	searchParams: ProductSeachParams;
 }) {
+	const categories = await fetchCategories();
+
 	const params = new URLSearchParams(searchParams);
 	if (searchParams.type === 'table') params.delete('type');
 	else params.set('type', 'table');
@@ -22,7 +25,7 @@ export default function FilterProduct({
 				className='flex gap-1 w-full md:w-[270px] '
 			/>
 			<div className='flex gap-1 w-full md:w-[270px] '>
-				<SelectProduct />
+				<SelectProduct categories={categories} />
 
 				<Link
 					href={`/products?${params.toString()}`}

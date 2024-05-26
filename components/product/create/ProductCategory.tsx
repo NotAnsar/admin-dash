@@ -77,7 +77,7 @@ export default function ProductCategory({
 										const category = categories.find((c) => c.id === value);
 
 										return category &&
-											category.name.toLowerCase().includes(search)
+											category.name.toLowerCase().includes(search.toLowerCase())
 											? 1
 											: 0;
 									}}

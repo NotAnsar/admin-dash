@@ -38,11 +38,9 @@ export async function recoverPassword(
 		const origin = headers().get('origin');
 
 		const supabase = createClientSSR();
-		const { error, data } = await supabase.auth.resetPasswordForEmail(email, {
+		const { error } = await supabase.auth.resetPasswordForEmail(email, {
 			redirectTo: `${origin}/auth/update-password`,
 		});
-
-		console.log(error, data);
 
 		if (error) throw error;
 	} catch (error) {

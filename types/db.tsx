@@ -24,8 +24,21 @@ export type Product = {
 	category_id: string;
 	created_at: string;
 	description: string;
-	archived: string;
-	featured: string;
+	archived: boolean;
+	featured: boolean;
 	color_id: string;
 	size_id: string;
+};
+
+export type ProductALL = Product & {
+	colors: Color;
+	sizes: Size;
+	productImages: ProductImages[];
+	category: Category;
+};
+
+export type ProductImages = {
+	id: string;
+	url: string;
+	product_id: string;
 };

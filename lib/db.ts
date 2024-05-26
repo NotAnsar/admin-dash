@@ -1,6 +1,6 @@
 import { User } from '@/types/user';
 import { createClientSSR } from './supabase/server';
-import { Category, Color, Size } from '@/types/db';
+import { Category, Color, ProductALL, Size } from '@/types/db';
 
 export async function getUser() {
 	const supabase = createClientSSR();
@@ -15,6 +15,23 @@ export async function getUser() {
 	return user as User;
 }
 
+export async function fetchProducts() {
+	try {
+		const supabase = createClientSSR();
+		const { data: products, error } = await supabase
+			.from('product')
+			.select('*,category(*),colors(*),sizes(*),product_images(*)')
+			.returns<ProductALL[]>();
+
+		if (error) throw error;
+
+		return products as ProductALL[];
+	} catch (error) {
+		console.error('Database Error:', error);
+		throw new Error('Failed to fetch Products.');
+	}
+}
+
 export async function fetchCategories() {
 	try {
 		const supabase = createClientSSR();
@@ -24,6 +41,8 @@ export async function fetchCategories() {
 			.returns<Category[]>();
 
 		if (error) throw error;
+
+		// await new Promise((resolve) => setTimeout(resolve, 3000));
 
 		return category;
 	} catch (error) {

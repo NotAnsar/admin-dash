@@ -76,12 +76,10 @@ export async function updateUser(prevState: State, formData: FormData) {
 		const {
 			data: { user },
 		} = await supabase.auth.getUser();
-		const { error, data } = await supabase
+		const { error } = await supabase
 			.from('user')
 			.update({ f_name: fname, l_name: lname })
 			.eq('id', user?.id);
-
-		console.log(error, data);
 
 		if (error) throw error;
 	} catch (error: any) {
