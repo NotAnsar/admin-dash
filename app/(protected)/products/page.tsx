@@ -31,12 +31,8 @@ export default async function Products({
 				</Link>
 			</div>
 
-			<FilterProduct searchParams={searchParams} />
-			{/* {searchParams.type ? (
-				<ProductListTable />
-			) : (
-				<ProductListGrid products={products} />
-			)} */}
+			{/* <FilterProduct searchParams={searchParams} /> */}
+
 			<DataTable columns={columns} data={products} />
 		</div>
 	);

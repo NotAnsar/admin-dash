@@ -7,8 +7,18 @@ import {
 	getCoreRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
+	getFilteredRowModel,
 	useReactTable,
+	ColumnFiltersState,
+	VisibilityState,
 } from '@tanstack/react-table';
+
+import {
+	DropdownMenu,
+	DropdownMenuCheckboxItem,
+	DropdownMenuContent,
+	DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 import {
 	Table,
@@ -27,7 +37,9 @@ import {
 	SelectValue,
 } from '../ui/select';
 import { Label } from '../ui/label';
-import React from 'react';
+import { useState } from 'react';
+import { Input } from '../ui/input';
+import { Settings2 } from 'lucide-react';
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -38,20 +50,61 @@ export function DataTable<TData, TValue>({
 	columns,
 	data,
 }: DataTableProps<TData, TValue>) {
-	const [sorting, setSorting] = React.useState<SortingState>([]);
+	const [sorting, setSorting] = useState<SortingState>([]);
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
-		initialState: { pagination: { pageSize: 8 } },
+		onColumnFiltersChange: setColumnFilters,
+		onColumnVisibilityChange: setColumnVisibility,
+		getFilteredRowModel: getFilteredRowModel(),
 		onSortingChange: setSorting,
 		getSortedRowModel: getSortedRowModel(),
-		state: { sorting },
+		state: { sorting, columnFilters, columnVisibility },
 	});
 
 	return (
 		<div>
+			<div className='flex items-center py-4'>
+				<Input
+					placeholder='Filter by name'
+					className='flex gap-1 w-full md:w-[270px] '
+					value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
+					onChange={(event) =>
+						table.getColumn('name')?.setFilterValue(event.target.value)
+					}
+				/>
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild>
+						<Button variant='outline' className='ml-auto'>
+							<Settings2 className='mr-2 h-4 w-4' />
+							View
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align='end'>
+						{table
+							.getAllColumns()
+							.filter((column) => column.getCanHide())
+							.map((column) => {
+								return (
+									<DropdownMenuCheckboxItem
+										key={column.id}
+										className='capitalize'
+										checked={column.getIsVisible()}
+										onCheckedChange={(value) =>
+											column.toggleVisibility(!!value)
+										}
+									>
+										{column.id}
+									</DropdownMenuCheckboxItem>
+								);
+							})}
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</div>
 			<div className='rounded-md border'>
 				<Table>
 					<TableHeader>
@@ -102,7 +155,7 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-			<div className='flex items-center justify-between space-x-2 py-4'>
+			<div className='flex flex-col items-baseline gap-2 sm:flex-row sm:items-center justify-between space-x-2 py-4'>
 				<div className='flex items-center gap-2'>
 					<Label>Show :</Label>
 					<Select
@@ -125,10 +178,10 @@ export function DataTable<TData, TValue>({
 						</SelectContent>
 					</Select>
 				</div>
-				<strong className='font-semibold'>
+				<strong className='font-semibold text-sm'>
 					{table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
 				</strong>
-				<div>
+				<div className='flex gap-2'>
 					<Button
 						variant='outline'
 						size='sm'
