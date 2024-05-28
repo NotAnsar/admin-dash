@@ -10,6 +10,7 @@ import {
 	BadgeInfo,
 	MoreHorizontal,
 	ShieldCheck,
+	ShieldX,
 } from 'lucide-react';
 import {
 	DropdownMenu,
@@ -140,14 +141,17 @@ export const columns: ColumnDef<ProductALL>[] = [
 			const featured = row.getValue('featured');
 
 			return (
-				<Badge variant={featured ? 'archive' : 'success'}>
+				<Badge
+					variant={featured ? 'success' : 'archive'}
+					className='text-nowrap'
+				>
 					{featured ? (
 						<>
-							<Archive className='w-3 h-auto' /> Archived
+							<ShieldCheck className='w-3 h-auto' /> Featured
 						</>
 					) : (
 						<>
-							<ShieldCheck className='w-3 h-auto' /> Active
+							<ShieldX className='w-3 h-auto' /> Not Featured
 						</>
 					)}
 				</Badge>

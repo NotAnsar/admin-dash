@@ -24,8 +24,9 @@ export default function FeaturedProduct() {
 			<CardContent>
 				<input
 					name='featured'
-					defaultValue={featured ? 'on' : 'off'}
+					value={featured ? 'on' : 'off'}
 					className='hidden'
+					readOnly
 				/>
 				<Button
 					size='sm'

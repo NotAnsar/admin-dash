@@ -44,6 +44,7 @@ export type State =
 	  }
 	| undefined;
 
+// export async function deleteProduct() {}
 export async function createProduct(prevState: State, formData: FormData) {
 	const validatedFields = formSchema.safeParse({
 		name: formData.get('name'),
@@ -88,7 +89,7 @@ export async function createProduct(prevState: State, formData: FormData) {
 		const product_id = data.id;
 	} catch (error: any) {
 		console.log(error);
- 
+
 		return {
 			message:
 				(error?.message as string) ||
