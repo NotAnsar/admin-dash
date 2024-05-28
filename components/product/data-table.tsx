@@ -7,18 +7,12 @@ import {
 	getCoreRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
+	getFacetedUniqueValues,
 	getFilteredRowModel,
 	useReactTable,
 	ColumnFiltersState,
 	VisibilityState,
 } from '@tanstack/react-table';
-
-import {
-	DropdownMenu,
-	DropdownMenuCheckboxItem,
-	DropdownMenuContent,
-	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 
 import {
 	Table,
@@ -28,18 +22,10 @@ import {
 	TableHeader,
 	TableRow,
 } from '@/components/ui/table';
-import { Button } from '../ui/button';
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-} from '../ui/select';
-import { Label } from '../ui/label';
+
 import { useState } from 'react';
-import { Input } from '../ui/input';
-import { Settings2 } from 'lucide-react';
+import FilterTable from './FilterTable';
+import PaginationTable from './PaginationTable';
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -56,58 +42,23 @@ export function DataTable<TData, TValue>({
 	const table = useReactTable({
 		data,
 		columns,
-		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
+		state: { sorting, columnFilters, columnVisibility },
 		onColumnFiltersChange: setColumnFilters,
 		onColumnVisibilityChange: setColumnVisibility,
-		getFilteredRowModel: getFilteredRowModel(),
 		onSortingChange: setSorting,
+		getCoreRowModel: getCoreRowModel(),
+		getPaginationRowModel: getPaginationRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
 		getSortedRowModel: getSortedRowModel(),
-		state: { sorting, columnFilters, columnVisibility },
+		getFacetedUniqueValues: getFacetedUniqueValues(),
 	});
 
 	return (
-		<div>
-			<div className='flex items-center py-4'>
-				<Input
-					placeholder='Filter by name'
-					className='flex gap-1 w-full md:w-[270px] '
-					value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-					onChange={(event) =>
-						table.getColumn('name')?.setFilterValue(event.target.value)
-					}
-				/>
-				<DropdownMenu>
-					<DropdownMenuTrigger asChild>
-						<Button variant='outline' className='ml-auto'>
-							<Settings2 className='mr-2 h-4 w-4' />
-							View
-						</Button>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent align='end'>
-						{table
-							.getAllColumns()
-							.filter((column) => column.getCanHide())
-							.map((column) => {
-								return (
-									<DropdownMenuCheckboxItem
-										key={column.id}
-										className='capitalize'
-										checked={column.getIsVisible()}
-										onCheckedChange={(value) =>
-											column.toggleVisibility(!!value)
-										}
-									>
-										{column.id}
-									</DropdownMenuCheckboxItem>
-								);
-							})}
-					</DropdownMenuContent>
-				</DropdownMenu>
-			</div>
+		<>
+			<FilterTable table={table} />
 			<div className='rounded-md border'>
 				<Table>
-					<TableHeader>
+					<TableHeader className='bg-secondary'>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
@@ -155,51 +106,7 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-			<div className='flex flex-col items-baseline gap-2 sm:flex-row sm:items-center justify-between space-x-2 py-4'>
-				<div className='flex items-center gap-2'>
-					<Label>Show :</Label>
-					<Select
-						defaultValue={table.getState().pagination.pageSize.toString()}
-						onValueChange={(e) => {
-							table.setPageSize(Number(e));
-						}}
-					>
-						<SelectTrigger className='w-[72px] h-9'>
-							<SelectValue
-								defaultValue={table.getState().pagination.pageSize.toString()}
-							/>
-						</SelectTrigger>
-						<SelectContent>
-							{[8, 10, 15, 20, 50].map((pageSize) => (
-								<SelectItem key={pageSize} value={pageSize.toString()}>
-									{pageSize}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
-				</div>
-				<strong className='font-semibold text-sm'>
-					{table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-				</strong>
-				<div className='flex gap-2'>
-					<Button
-						variant='outline'
-						size='sm'
-						onClick={() => table.previousPage()}
-						disabled={!table.getCanPreviousPage()}
-					>
-						Previous
-					</Button>
-					<Button
-						variant='outline'
-						size='sm'
-						onClick={() => table.nextPage()}
-						disabled={!table.getCanNextPage()}
-					>
-						Next
-					</Button>
-				</div>
-			</div>
-		</div>
+			<PaginationTable table={table} />
+		</>
 	);
 }

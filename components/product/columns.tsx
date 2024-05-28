@@ -7,6 +7,7 @@ import { Button } from '../ui/button';
 import {
 	Archive,
 	ArrowUpDown,
+	BadgeInfo,
 	MoreHorizontal,
 	ShieldCheck,
 } from 'lucide-react';
@@ -14,7 +15,6 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
@@ -100,22 +100,12 @@ export const columns: ColumnDef<ProductALL>[] = [
 	},
 	{
 		accessorKey: 'archived',
-		header: ({ column }) => {
-			return (
-				<Button
-					variant='ghost'
-					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-				>
-					Status
-					<ArrowUpDown className='ml-2 h-4 w-4' />
-				</Button>
-			);
-		},
+		header: 'Status',
 		cell: ({ row }) => {
 			const archived = row.getValue('archived');
 
 			return (
-				<Badge variant={archived ? 'archive' : 'success'} className='ml-4'>
+				<Badge variant={archived ? 'archive' : 'success'}>
 					{archived ? (
 						<>
 							<Archive className='w-3 h-auto' /> Archived
@@ -131,22 +121,26 @@ export const columns: ColumnDef<ProductALL>[] = [
 	},
 	{
 		accessorKey: 'featured',
-		header: ({ column }) => {
-			return (
-				<Button
-					variant='ghost'
-					onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-				>
-					Featured
-					<ArrowUpDown className='ml-2 h-4 w-4' />
-				</Button>
-			);
-		},
+		header: () => (
+			<div className='flex gap-2 items-center relative'>
+				Featured
+				<DropdownMenu>
+					<DropdownMenuTrigger asChild className='cursor-pointer'>
+						<BadgeInfo className='h-4 w-4' />
+					</DropdownMenuTrigger>
+					<DropdownMenuContent align='end' className='w-[100px]'>
+						<DropdownMenuItem className='text-xs'>
+							Featured Product Appear on the Home Page
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			</div>
+		),
 		cell: ({ row }) => {
 			const featured = row.getValue('featured');
 
 			return (
-				<Badge variant={featured ? 'archive' : 'success'} className='ml-4'>
+				<Badge variant={featured ? 'archive' : 'success'}>
 					{featured ? (
 						<>
 							<Archive className='w-3 h-auto' /> Archived

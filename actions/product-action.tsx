@@ -57,6 +57,8 @@ export async function createProduct(prevState: State, formData: FormData) {
 		archived: formData.get('status') === 'archived',
 	});
 
+	console.log(formData.get('featured'));
+
 	if (!validatedFields.success) {
 		return {
 			errors: validatedFields.error.flatten().fieldErrors,
@@ -86,7 +88,7 @@ export async function createProduct(prevState: State, formData: FormData) {
 		const product_id = data.id;
 	} catch (error: any) {
 		console.log(error);
-
+ 
 		return {
 			message:
 				(error?.message as string) ||

@@ -32,7 +32,6 @@ export default function FeaturedProduct() {
 					variant='secondary'
 					onClick={() => setFeatured((a) => !a)}
 					type='button'
-					name='featured'
 				>
 					{featured ? 'Unfeatured Product' : 'Featured Product'}
 				</Button>
