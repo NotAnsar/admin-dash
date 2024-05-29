@@ -1,3 +1,4 @@
+'use client';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -8,76 +9,81 @@ import {
 
 import { signOut } from '@/actions/signin-action';
 import { Avatar, AvatarFallback } from './ui/avatar';
-import {
-	LogOut,
-	LogOutIcon,
-	UserIcon,
-	UserRoundCog,
-	UserRoundX,
-} from 'lucide-react';
-import { getUser } from '@/lib/db';
-import { EditUserTrigger } from './profile/EditUser';
-import { DeleteUserTrigger } from './profile/deleteUser';
+import { LogOutIcon, UserIcon, UserRoundCog, UserRoundX } from 'lucide-react';
+import { DeleteUserDialog } from './profile/DeleteUserDialog';
+import { Dialog } from './ui/dialog';
+import { User } from '@/types/user';
+import { useState } from 'react';
+import { EditUserDialog } from './profile/EditUserDialog';
 
-export default async function UserNav() {
-	const user = await getUser();
+export default function UserNav({ user }: { user: User }) {
+	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
 	return (
-		<DropdownMenu>
-			<DropdownMenuTrigger>
-				<Avatar className='flex items-center justify-center'>
-					<AvatarFallback className='h-9 w-auto aspect-square'>
-						<span className='sr-only'>{user?.email}</span>
-						<UserIcon className='h-[17px] w-auto' />
-					</AvatarFallback>
-				</Avatar>
-			</DropdownMenuTrigger>
-			<DropdownMenuContent align='end'>
-				<div className='flex items-center justify-start gap-2 p-2'>
-					<div className='flex flex-col space-y-1 leading-none'>
-						{(user?.f_name || user?.l_name) && (
-							<p className='font-medium'>
-								{user.f_name && <span>{user.f_name}</span>}{' '}
-								{user.l_name && <span>{user.l_name}</span>}
-							</p>
-						)}
+		<Dialog>
+			<DropdownMenu>
+				<DropdownMenuTrigger>
+					<Avatar className='flex items-center justify-center'>
+						<AvatarFallback className='h-9 w-auto aspect-square'>
+							<span className='sr-only'>{user?.email}</span>
+							<UserIcon className='h-[17px] w-auto' />
+						</AvatarFallback>
+					</Avatar>
+				</DropdownMenuTrigger>
+				<DropdownMenuContent align='end'>
+					<div className='flex items-center justify-start gap-2 p-2'>
+						<div className='flex flex-col space-y-1 leading-none'>
+							{(user?.f_name || user?.l_name) && (
+								<p className='font-medium'>
+									{user.f_name && <span>{user.f_name}</span>}{' '}
+									{user.l_name && <span>{user.l_name}</span>}
+								</p>
+							)}
 
-						<p className='w-[200px] truncate text-[13px] text-muted-foreground'>
-							{user.email}
-						</p>
+							<p className='w-[200px] truncate text-[13px] text-muted-foreground'>
+								{user.email}
+							</p>
+						</div>
 					</div>
-				</div>
-				<DropdownMenuSeparator />
-				<DropdownMenuItem asChild>
-					<EditUserTrigger user={user}>
-						<button className='p-2 w-full text-left hover:bg-secondary text-sm rounded-sm relative flex items-center cursor-pointer'>
-							<UserRoundCog className='w-4 h-auto mr-2' />
-							Edit Profile
-						</button>
-					</EditUserTrigger>
-				</DropdownMenuItem>
-				<DropdownMenuSeparator />
-				<DropdownMenuItem asChild>
-					<DeleteUserTrigger>
-						<button className='p-2 w-full text-left hover:bg-secondary text-sm rounded-sm relative flex items-center'>
-							<UserRoundX className='w-4 h-auto mr-2' />
-							Delete Account
-							{/* <span className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex'>
-								<span className='text-xs'>⌘</span>D
-							</span> */}
-						</button>
-					</DeleteUserTrigger>
-				</DropdownMenuItem>
-				<DropdownMenuSeparator />
-				<DropdownMenuItem className='cursor-pointer p-0'>
-					<form action={signOut} className='w-full relative'>
-						<button type='submit' className='p-2 w-full text-left flex'>
-							<LogOutIcon className='w-4 h-auto mr-2' />
-							Sign out
-						</button>
-					</form>
-				</DropdownMenuItem>
-			</DropdownMenuContent>
-		</DropdownMenu>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem
+						onClick={() => setIsEditDialogOpen(true)}
+						className='cursor-pointer'
+					>
+						<UserRoundCog className='w-4 h-auto mr-2' />
+						Edit Profile
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem
+						onClick={() => setIsDeleteDialogOpen(true)}
+						className='cursor-pointer'
+					>
+						<UserRoundX className='w-4 h-auto mr-2' />
+						Delete Account
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem className='cursor-pointer p-0'>
+						<form action={signOut} className='w-full relative'>
+							<button type='submit' className='p-2 w-full text-left flex'>
+								<LogOutIcon className='w-4 h-auto mr-2' />
+								Sign out
+							</button>
+						</form>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+
+			<EditUserDialog
+				user={user}
+				open={isEditDialogOpen}
+				setopen={setIsEditDialogOpen}
+				key={isEditDialogOpen.toString()}
+			/>
+			<DeleteUserDialog
+				open={isDeleteDialogOpen}
+				setOpen={setIsDeleteDialogOpen}
+			/>
+		</Dialog>
 	);
 }

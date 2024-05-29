@@ -1,6 +1,7 @@
 'use server';
 
 import { createClientSSR } from '@/lib/supabase/server';
+import { AuthError } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -44,7 +45,25 @@ export type State =
 	  }
 	| undefined;
 
-// export async function deleteProduct() {}
+export type DeleteProductState = { message?: string | null };
+
+export async function deleteProduct(id: string) {
+	try {
+		// const supabase = createClientSSR(true);
+		// const { error } = await supabase.from('product').delete().eq('id', id);
+		// if (error) throw error;
+		await new Promise((resolve) => setTimeout(resolve, 3000));
+	} catch (error) {
+		console.log(error);
+
+		let message = 'Database Error: Failed to Delete Product.';
+		if (error instanceof AuthError) message = error.message;
+
+		return { message };
+	}
+	revalidatePath('/products', 'layout');
+	return { message: 'Product Was Deleted Successfully.' };
+}
 export async function createProduct(prevState: State, formData: FormData) {
 	const validatedFields = formSchema.safeParse({
 		name: formData.get('name'),
@@ -93,7 +112,7 @@ export async function createProduct(prevState: State, formData: FormData) {
 		return {
 			message:
 				(error?.message as string) ||
-				'Database Error: Failed to Update User Data.',
+				'Database Error: Failed to Create Product.',
 		};
 	}
 	revalidatePath('/products', 'layout');

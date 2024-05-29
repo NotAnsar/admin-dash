@@ -5,8 +5,10 @@ import UserNav from '../UserNav';
 import SideBarNavMobile from './SideBarNavMobile';
 import { Sheet, SheetTrigger } from '../ui/sheet';
 import SearchDashboard from './SearchDashboard';
+import { getUser } from '@/lib/db';
 
 export default async function TopNav() {
+	const user = await getUser();
 	return (
 		<Sheet>
 			<header className='sticky top-0 w-full border-b bg-background px-4 border-border h-14 grid items-center z-50'>
@@ -27,7 +29,7 @@ export default async function TopNav() {
 							<ModeToggle />
 						</span>
 
-						<UserNav />
+						<UserNav user={user} />
 					</div>
 				</nav>
 			</header>
