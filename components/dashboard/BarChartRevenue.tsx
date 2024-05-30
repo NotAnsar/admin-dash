@@ -1,7 +1,6 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-
 import { BarChart } from '@tremor/react';
 import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
 

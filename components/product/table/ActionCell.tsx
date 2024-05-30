@@ -39,7 +39,6 @@ export default function ActionCell({
 						Copy product ID
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
-					<DropdownMenuItem>View Product</DropdownMenuItem>
 					<DropdownMenuItem className='p-0'>
 						<Link
 							href={`/products/edit/${product.id}`}

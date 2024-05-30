@@ -13,19 +13,6 @@ const signInSchema = z.object({
 		.max(30, { message: 'Password must be no longer than 30 characters.' }),
 });
 
-export async function signOut() {
-	try {
-		const supabase = createClientSSR();
-		const { error } = await supabase.auth.signOut();
-
-		if (error) throw error;
-	} catch (error) {
-		return { message: 'Cannot Signout ' };
-	}
-
-	redirect('/auth/signin');
-}
-
 export async function signinAction(prevState: AuthState, formData: FormData) {
 	const validatedFields = signInSchema.safeParse({
 		email: formData.get('email'),
@@ -64,3 +51,16 @@ export type AuthState =
 			message?: string | null;
 	  }
 	| undefined;
+
+export async function signOut() {
+	try {
+		const supabase = createClientSSR();
+		const { error } = await supabase.auth.signOut();
+
+		if (error) throw error;
+	} catch (error) {
+		return { message: 'Cannot Signout ' };
+	}
+
+	redirect('/auth/signin');
+}

@@ -10,7 +10,6 @@ import PendingButton from './PendingButton';
 export default function UpdatePasswordForm({ code }: { code: string }) {
 	const initialState: UpdatePassState = { message: null, errors: {} };
 	const updateUserWithCode = updatePassword.bind(null, code);
-
 	const [state, action] = useFormState(updateUserWithCode, initialState);
 
 	return (

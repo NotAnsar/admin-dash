@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function Logo({
 	className,
 	...props
@@ -11,7 +9,6 @@ export default function Logo({
 			viewBox='0 0 20 20'
 			fill='none'
 			xmlns='http://www.w3.org/2000/svg'
-			// className='text-foreground w-[26px] h-auto -rotate-45'
 			className={className}
 			{...props}
 		>

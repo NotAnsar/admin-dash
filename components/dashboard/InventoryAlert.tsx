@@ -16,7 +16,6 @@ import {
 	TableRow,
 } from '../ui/table';
 import { cn } from '@/lib/utils';
-import { Badge } from '../ui/badge';
 
 export default function InventoryAlert({ className }: { className?: string }) {
 	return (

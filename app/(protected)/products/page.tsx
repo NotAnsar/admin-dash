@@ -5,12 +5,6 @@ import { fetchProducts } from '@/lib/db';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
-export type ProductSeachParams = {
-	type?: string;
-	search?: string;
-	select?: string;
-};
-
 export default async function Products() {
 	const products = await fetchProducts();
 

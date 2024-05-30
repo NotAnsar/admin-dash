@@ -1,15 +1,8 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-
+import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { DonutChart } from '@tremor/react';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from '../ui/card';
+import { cn } from '@/lib/utils';
 
 export default function PieChartCategories({
 	className,
@@ -61,15 +54,3 @@ const datahero = [
 		value: 1398,
 	},
 ];
-
-function valueFormatter(number: number) {
-	const formatter = new Intl.NumberFormat('en-US', {
-		maximumFractionDigits: 0,
-		notation: 'compact',
-		compactDisplay: 'short',
-		style: 'currency',
-		currency: 'USD',
-	});
-
-	return formatter.format(number);
-}

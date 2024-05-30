@@ -1,4 +1,4 @@
-import EditProductForm from '@/components/product/edit/EditProductForm';
+import EditProductForm from '@/components/product/EditProductForm';
 import {
 	fetchCategories,
 	fetchColors,

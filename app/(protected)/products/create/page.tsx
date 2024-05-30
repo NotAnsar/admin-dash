@@ -1,4 +1,4 @@
-import CreateProductForm from '@/components/product/create/CreateProductForm';
+import CreateProductForm from '@/components/product/CreateProductForm';
 import { fetchCategories, fetchColors, fetchSizes } from '@/lib/db';
 
 export default async function page() {
