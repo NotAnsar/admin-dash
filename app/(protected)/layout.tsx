@@ -1,4 +1,4 @@
-import { signOut } from '@/actions/signin-action';
+import { signOut } from '@/actions/auth-action';
 import SideBarNav from '@/components/nav/SideBarNav';
 import TopNav from '@/components/nav/TopNav';
 import { getUser } from '@/lib/db';

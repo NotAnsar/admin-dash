@@ -26,7 +26,7 @@ export async function signOut() {
 	redirect('/auth/signin');
 }
 
-export async function signinAction(prevState: State, formData: FormData) {
+export async function signinAction(prevState: AuthState, formData: FormData) {
 	const validatedFields = signInSchema.safeParse({
 		email: formData.get('email'),
 		password: formData.get('password'),
@@ -58,7 +58,7 @@ export async function signinAction(prevState: State, formData: FormData) {
 	redirect('/');
 }
 
-export type State =
+export type AuthState =
 	| {
 			errors?: { email?: string[]; password?: string[] };
 			message?: string | null;

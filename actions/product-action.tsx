@@ -28,7 +28,7 @@ const formSchema = z.object({
 	featured: z.boolean(),
 });
 
-export type State =
+export type ProductState =
 	| {
 			errors?: {
 				name?: string[];
@@ -45,26 +45,10 @@ export type State =
 	  }
 	| undefined;
 
-export type DeleteProductState = { message?: string | null };
-
-export async function deleteProduct(id: string) {
-	try {
-		// const supabase = createClientSSR(true);
-		// const { error } = await supabase.from('product').delete().eq('id', id);
-		// if (error) throw error;
-		await new Promise((resolve) => setTimeout(resolve, 3000));
-	} catch (error) {
-		console.log(error);
-
-		let message = 'Database Error: Failed to Delete Product.';
-		if (error instanceof AuthError) message = error.message;
-
-		return { message };
-	}
-	revalidatePath('/products', 'layout');
-	return { message: 'Product Was Deleted Successfully.' };
-}
-export async function createProduct(prevState: State, formData: FormData) {
+export async function createProduct(
+	prevState: ProductState,
+	formData: FormData
+) {
 	const validatedFields = formSchema.safeParse({
 		name: formData.get('name'),
 		description: formData.get('description'),
@@ -76,8 +60,6 @@ export async function createProduct(prevState: State, formData: FormData) {
 		featured: formData.get('featured') === 'on',
 		archived: formData.get('status') === 'archived',
 	});
-
-	console.log(formData.get('featured'));
 
 	if (!validatedFields.success) {
 		return {
@@ -117,4 +99,26 @@ export async function createProduct(prevState: State, formData: FormData) {
 	}
 	revalidatePath('/products', 'layout');
 	redirect('/products');
+}
+
+export type DeleteProductState = {
+	message?: string | null;
+	type?: string | null;
+};
+
+export async function deleteProduct(id: string, prevState: DeleteProductState) {
+	try {
+		const supabase = createClientSSR(true);
+		const { error } = await supabase.from('product').delete().eq('id', id);
+
+		if (error) throw error;
+	} catch (error) {
+		console.log(error);
+		let message = 'Database Error: Failed to Delete Product.';
+		if (error instanceof AuthError) message = error.message;
+
+		return { message, type: 'error' };
+	}
+	revalidatePath('/products', 'layout');
+	return { message: 'Product Was Deleted Successfully.' };
 }

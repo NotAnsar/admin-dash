@@ -7,7 +7,7 @@ import {
 	DropdownMenuTrigger,
 } from './ui/dropdown-menu';
 
-import { signOut } from '@/actions/signin-action';
+import { signOut } from '@/actions/auth-action';
 import { Avatar, AvatarFallback } from './ui/avatar';
 import { LogOutIcon, UserIcon, UserRoundCog, UserRoundX } from 'lucide-react';
 import { DeleteUserDialog } from './profile/DeleteUserDialog';

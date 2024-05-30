@@ -17,7 +17,7 @@ import { useFormStatus } from 'react-dom';
 import { Label } from '../ui/label';
 import { cn } from '@/lib/utils';
 import { Input } from '../ui/input';
-import { State, updateUser } from '@/actions/user-action';
+import { ProfileState, updateUser } from '@/actions/profile-action';
 import { useFormState } from 'react-dom';
 
 export function EditUserDialog({
@@ -29,7 +29,7 @@ export function EditUserDialog({
 	open: boolean;
 	setopen: Dispatch<SetStateAction<boolean>>;
 }) {
-	const initialState: State = { message: null, errors: {} };
+	const initialState: ProfileState = { message: null, errors: {} };
 	const [state, action] = useFormState(updateUser, initialState);
 
 	useEffect(() => {

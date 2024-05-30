@@ -1,4 +1,4 @@
-import { State } from '@/actions/product-action';
+import { ProductState } from '@/actions/product-action';
 import { Label } from '@/components/ui/label';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
@@ -8,11 +8,15 @@ import { useState } from 'react';
 export default function ProductSize({
 	sizes,
 	state,
+	defaultValue,
 }: {
 	sizes: Size[];
-	state: State;
+	state: ProductState;
+	defaultValue?: string;
 }) {
-	const [size, setsize] = useState(sizes.find((s) => s.name === 'M')?.id || '');
+	const [size, setsize] = useState(
+		defaultValue ? defaultValue : sizes.find((s) => s.name === 'M')?.id || ''
+	);
 
 	return (
 		<div className='grid gap-3 mr-auto'>

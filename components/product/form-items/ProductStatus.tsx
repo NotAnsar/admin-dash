@@ -8,8 +8,9 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { ProductALL } from '@/types/db';
 
-export default function ProductStatus() {
+export default function ProductStatus({ product }: { product?: ProductALL }) {
 	return (
 		<Card x-chunk='dashboard-07-chunk-3'>
 			<CardHeader>
@@ -21,7 +22,11 @@ export default function ProductStatus() {
 						<Label htmlFor='status' className='text-muted-foreground'>
 							Status
 						</Label>
-						<Select required name='status' defaultValue='active'>
+						<Select
+							required
+							name='status'
+							defaultValue={product?.archived ? 'archived' : 'active'}
+						>
 							<SelectTrigger
 								id='status'
 								aria-label='Select status'

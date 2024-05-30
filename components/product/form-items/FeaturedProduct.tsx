@@ -10,8 +10,12 @@ import {
 } from '@/components/ui/card';
 import { useState } from 'react';
 
-export default function FeaturedProduct() {
-	const [featured, setFeatured] = useState(false);
+export default function FeaturedProduct({
+	initialValue = false,
+}: {
+	initialValue?: boolean;
+}) {
+	const [featured, setFeatured] = useState(initialValue);
 
 	return (
 		<Card x-chunk='dashboard-07-chunk-5'>

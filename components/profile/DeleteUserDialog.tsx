@@ -12,7 +12,7 @@ import {
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { Dispatch, SetStateAction } from 'react';
-import { deleteAccount } from '@/actions/user-action';
+import { deleteAccount } from '@/actions/profile-action';
 import { toast } from '../ui/use-toast';
 
 export function DeleteUserDialog({

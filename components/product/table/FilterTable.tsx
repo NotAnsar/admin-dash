@@ -4,9 +4,9 @@ import {
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Input } from '../ui/input';
+import { Input } from '../../ui/input';
 import { Settings2 } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { Table } from '@tanstack/react-table';
 import { DataTableBooleanFilter } from './DataTableBooleanFilter';
 

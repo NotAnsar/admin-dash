@@ -33,7 +33,7 @@ export default function PieChartCategories({
 				className='h-80 lg:h-full p-6'
 				variant='pie'
 				valueFormatter={dataFormatter}
-				// onValueChange={(v) => console.log(v)}
+				onValueChange={(v) => console.log(v)}
 				showAnimation
 			/>
 		</Card>

@@ -31,6 +31,24 @@ export async function fetchProducts() {
 		throw new Error('Failed to fetch Products.');
 	}
 }
+export async function fetchProductById(id: string) {
+	try {
+		const supabase = createClientSSR();
+		const { data: products, error } = await supabase
+			.from('product')
+			.select('*,category(*),colors(*),sizes(*),product_images(*)')
+			.eq('id', id)
+			.returns<ProductALL>()
+			.single();
+
+		if (error) throw error;
+
+		return products as ProductALL;
+	} catch (error) {
+		console.error('Database Error:', error);
+		throw new Error(`Failed to fetch Product with the id ${id}.`);
+	}
+}
 
 export async function fetchCategories() {
 	try {

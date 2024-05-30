@@ -3,7 +3,7 @@
 import { Category, Color, ProductALL, Size } from '@/types/db';
 import { ColumnDef } from '@tanstack/react-table';
 
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import {
 	Archive,
 	ArrowUpDown,
@@ -18,8 +18,8 @@ import {
 	DropdownMenuItem,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-import Badge from '../Badge';
+} from '../../ui/dropdown-menu';
+import Badge from '../../Badge';
 import ActionCell from './ActionCell';
 
 export const columns: ColumnDef<ProductALL>[] = [

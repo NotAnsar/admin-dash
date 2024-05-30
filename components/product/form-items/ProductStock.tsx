@@ -15,18 +15,20 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import ProductSize from './ProductSize';
-import { Color, Size } from '@/types/db';
-import { State } from '@/actions/product-action';
+import { Color, ProductALL, Size } from '@/types/db';
+import { ProductState } from '@/actions/product-action';
 import { cn } from '@/lib/utils';
 
 export default function ProductStock({
 	colors,
 	sizes,
 	state,
+	product,
 }: {
+	product?: ProductALL;
 	colors: Color[];
 	sizes: Size[];
-	state: State;
+	state: ProductState;
 }) {
 	return (
 		<Card x-chunk='dashboard-07-chunk-1'>
@@ -60,6 +62,9 @@ export default function ProductStock({
 										? 'border-destructive focus-visible:ring-destructive '
 										: ''
 								)}
+								defaultValue={
+									product?.stock === undefined ? '' : product?.stock
+								}
 							/>
 							{state?.errors?.stock &&
 								state.errors.stock.map((error: string) => (
@@ -95,6 +100,7 @@ export default function ProductStock({
 										? 'border-destructive focus-visible:ring-destructive '
 										: ''
 								)}
+								defaultValue={product?.price || ''}
 							/>
 							{state?.errors?.price &&
 								state.errors.price.map((error: string) => (
@@ -119,7 +125,11 @@ export default function ProductStock({
 							Color
 						</Label>
 						<div>
-							<Select required name='color'>
+							<Select
+								required
+								name='color'
+								defaultValue={product?.color_id || ''}
+							>
 								<SelectTrigger
 									id='color'
 									aria-label='Select Color'
@@ -151,7 +161,11 @@ export default function ProductStock({
 								))}
 						</div>
 					</div>
-					<ProductSize sizes={sizes} state={state} />
+					<ProductSize
+						sizes={sizes}
+						state={state}
+						defaultValue={product?.size_id}
+					/>
 				</div>
 			</CardContent>
 		</Card>

@@ -10,7 +10,7 @@ export default function BarChartRevenue({ className }: { className?: string }) {
 		<Card className={cn('rounded-lg flex flex-col gap-2', className)}>
 			<CardHeader className='px-4 md:px-6'>
 				<CardTitle className='dark:text-foreground text-foreground text-2xl font-semibold leading-none tracking-tight flex justify-between items-end '>
-					Revenue for Last 3 Month
+					Revenue for Last Months
 				</CardTitle>
 				<CardDescription className='dark:text-muted-foreground text-muted-foreground text-sm mt-2'>
 					Gain insights into recent revenue sales trends to inform strategic

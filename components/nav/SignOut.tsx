@@ -1,5 +1,5 @@
 'use client';
-import { signOut } from '@/actions/signin-action';
+import { signOut } from '@/actions/auth-action';
 import { Button } from '../ui/button';
 import { Loader, LogOut } from 'lucide-react';
 import { useFormStatus } from 'react-dom';

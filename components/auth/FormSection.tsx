@@ -3,13 +3,13 @@
 import { useFormState } from 'react-dom';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { State, signinAction } from '@/actions/signin-action';
+import { AuthState, signinAction } from '@/actions/auth-action';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import PendingButton from './PendingButton';
 
 export default function FormSection() {
-	const initialState: State = { message: null, errors: {} };
+	const initialState: AuthState = { message: null, errors: {} };
 	const [state, action] = useFormState(signinAction, initialState);
 
 	return (

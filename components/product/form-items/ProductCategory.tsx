@@ -1,6 +1,6 @@
 'use client';
 
-import { State } from '@/actions/product-action';
+import { ProductState } from '@/actions/product-action';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -19,19 +19,21 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { Category } from '@/types/db';
+import { Category, ProductALL } from '@/types/db';
 import { Check, ChevronsUpDown } from 'lucide-react';
 import { useState } from 'react';
 
 export default function ProductCategory({
 	categories,
 	state,
+	product,
 }: {
 	categories: Category[];
-	state: State;
+	state: ProductState;
+	product?: ProductALL;
 }) {
 	const [open, setOpen] = useState(false);
-	const [value, setValue] = useState('');
+	const [value, setValue] = useState(product?.category_id || '');
 
 	return (
 		<Card x-chunk='dashboard-07-chunk-2'>
@@ -52,7 +54,7 @@ export default function ProductCategory({
 					<div>
 						<input className='hidden' defaultValue={value} name='category' />
 						<Popover open={open} onOpenChange={setOpen}>
-							<PopoverTrigger asChild>
+							<PopoverTrigger asChild defaultValue={value}>
 								<Button
 									variant='outline'
 									role='combobox'

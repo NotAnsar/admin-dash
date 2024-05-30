@@ -1,5 +1,5 @@
-import { columns } from '@/components/product/columns';
-import { DataTable } from '@/components/product/data-table';
+import { columns } from '@/components/product/table/columns';
+import { DataTable } from '@/components/product/table/data-table';
 import { buttonVariants } from '@/components/ui/button';
 import { fetchProducts } from '@/lib/db';
 import { cn } from '@/lib/utils';

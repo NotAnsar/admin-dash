@@ -1,4 +1,4 @@
-import { State } from '@/actions/product-action';
+import { ProductState } from '@/actions/product-action';
 import {
 	Card,
 	CardContent,
@@ -10,8 +10,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
+import { ProductALL } from '@/types/db';
 
-export default function ProductDetails({ state }: { state: State }) {
+export default function ProductDetails({
+	state,
+	product,
+}: {
+	state: ProductState;
+	product?: ProductALL;
+}) {
 	return (
 		<Card x-chunk='dashboard-07-chunk-0'>
 			<CardHeader>
@@ -41,6 +48,7 @@ export default function ProductDetails({ state }: { state: State }) {
 										: ''
 								)}
 								placeholder='Product Name'
+								defaultValue={product?.name || ''}
 								required
 							/>
 							{state?.errors?.name &&
@@ -68,6 +76,7 @@ export default function ProductDetails({ state }: { state: State }) {
 								id='description'
 								name='description'
 								placeholder='Product Description'
+								defaultValue={product?.description || ''}
 								className={cn(
 									'min-h-32',
 									state?.errors?.description

@@ -49,14 +49,14 @@ export async function deleteAccount() {
 	redirect('/auth/signin');
 }
 
-export type State =
+export type ProfileState =
 	| {
 			errors?: { lname?: string[]; fname?: string[] };
 			message?: string | null;
 	  }
 	| undefined;
 
-export async function updateUser(prevState: State, formData: FormData) {
+export async function updateUser(prevState: ProfileState, formData: FormData) {
 	const validatedFields = formSchema.safeParse({
 		fname: formData.get('fname'),
 		lname: formData.get('lname'),

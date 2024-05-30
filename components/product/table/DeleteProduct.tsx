@@ -9,16 +9,30 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { toast } from '../ui/use-toast';
+import { toast } from '../../ui/use-toast';
 import { DeleteProductState, deleteProduct } from '@/actions/product-action';
-import { forwardRef, useEffect, useState } from 'react';
+import {
+	Dispatch,
+	SetStateAction,
+	forwardRef,
+	useEffect,
+	useState,
+} from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { Loader } from 'lucide-react';
 
-export const DeleteProduct = ({ id, ...props }: { id: string }) => {
-	const [open, setopen] = useState(false);
-	const initialState: DeleteProductState = { message: null };
+export const DeleteProduct = ({
+	id,
+	open,
+	setOpen,
+	...props
+}: {
+	id: string;
+	open: boolean;
+	setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
+	const initialState: DeleteProductState = { message: null, type: null };
 
 	const [state, action] = useFormState(
 		deleteProduct.bind(null, id),
@@ -27,16 +41,16 @@ export const DeleteProduct = ({ id, ...props }: { id: string }) => {
 
 	useEffect(() => {
 		if (state.message) {
-			setopen(false);
-			toast({ description: state.message });
+			setOpen(false);
+			toast({
+				description: state.message,
+				variant: state.type === 'error' ? 'destructive' : 'default',
+			});
 		}
-	}, [state]);
+	}, [state, setOpen]);
 
 	return (
-		<AlertDialog open={open} onOpenChange={setopen}>
-			<AlertDialogTrigger asChild {...props}>
-				Delete Product
-			</AlertDialogTrigger>
+		<AlertDialog open={open} onOpenChange={setOpen}>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -49,7 +63,6 @@ export const DeleteProduct = ({ id, ...props }: { id: string }) => {
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
 					<form action={action}>
 						<PendingButton />
-						Delete
 					</form>
 				</AlertDialogFooter>
 			</AlertDialogContent>
@@ -57,7 +70,7 @@ export const DeleteProduct = ({ id, ...props }: { id: string }) => {
 	);
 };
 
-function PendingButton({ ...props }) {
+function PendingButton() {
 	const { pending } = useFormStatus();
 
 	return (
