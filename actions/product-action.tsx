@@ -73,7 +73,7 @@ export async function createProduct(
 
 		const { data, error } = await supabase
 			.from('product')
-			.upsert([
+			.insert([
 				{
 					...validatedFields.data,
 					description:
@@ -88,6 +88,64 @@ export async function createProduct(
 		if (error) throw error;
 
 		const product_id = data.id;
+	} catch (error: any) {
+		console.log(error);
+
+		return {
+			message:
+				(error?.message as string) ||
+				'Database Error: Failed to Create Product.',
+		};
+	}
+	revalidatePath('/products', 'layout');
+	redirect('/products');
+}
+
+export async function updateProduct(
+	id: string,
+	prevState: ProductState,
+	formData: FormData
+) {
+	const validatedFields = formSchema.safeParse({
+		name: formData.get('name'),
+		description: formData.get('description'),
+		stock: formData.get('stock'),
+		price: formData.get('price'),
+		color_id: formData.get('color'),
+		category_id: formData.get('category'),
+		size_id: formData.get('size'),
+		featured: formData.get('featured') === 'on',
+		archived: formData.get('status') === 'archived',
+	});
+
+	if (!validatedFields.success) {
+		return {
+			errors: validatedFields.error.flatten().fieldErrors,
+			message: 'Invalid Credentials. Unable to Sign in.',
+		};
+	}
+
+	try {
+		const supabase = createClientSSR(true);
+
+		const { data, error } = await supabase
+			.from('product')
+			.update([
+				{
+					...validatedFields.data,
+					description:
+						validatedFields.data.description === ''
+							? null
+							: validatedFields.data.description,
+				},
+			])
+			.eq('id', id)
+			.select('id')
+			.single();
+
+		if (error) throw error;
+
+		// const product_id = data.id;
 	} catch (error: any) {
 		console.log(error);
 

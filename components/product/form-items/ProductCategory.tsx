@@ -34,6 +34,7 @@ export default function ProductCategory({
 }) {
 	const [open, setOpen] = useState(false);
 	const [value, setValue] = useState(product?.category_id || '');
+	console.log(value, product?.category.id, product?.category_id);
 
 	return (
 		<Card x-chunk='dashboard-07-chunk-2'>
@@ -52,7 +53,7 @@ export default function ProductCategory({
 						Category
 					</Label>
 					<div>
-						<input className='hidden' defaultValue={value} name='category' />
+						<input className='hidden' value={value} name='category' readOnly />
 						<Popover open={open} onOpenChange={setOpen}>
 							<PopoverTrigger asChild defaultValue={value}>
 								<Button
