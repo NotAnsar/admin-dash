@@ -68,6 +68,10 @@ export async function createProduct(
 		};
 	}
 
+	if (validatedFields.data.archived && validatedFields.data.featured) {
+		return { message: 'Archived products cannot be featured.' };
+	}
+
 	try {
 		const supabase = createClientSSR(true);
 
@@ -90,12 +94,10 @@ export async function createProduct(
 		const product_id = data.id;
 	} catch (error: any) {
 		console.log(error);
+		let message = 'Database Error: Failed to Create Product.';
+		if (error instanceof AuthError) message = error.message;
 
-		return {
-			message:
-				(error?.message as string) ||
-				'Database Error: Failed to Create Product.',
-		};
+		return { message };
 	}
 	revalidatePath('/products', 'layout');
 	redirect('/products');
@@ -125,6 +127,10 @@ export async function updateProduct(
 		};
 	}
 
+	if (validatedFields.data.archived && validatedFields.data.featured) {
+		return { message: 'Archived products cannot be featured.' };
+	}
+
 	try {
 		const supabase = createClientSSR(true);
 
@@ -146,14 +152,12 @@ export async function updateProduct(
 		if (error) throw error;
 
 		// const product_id = data.id;
-	} catch (error: any) {
+	} catch (error) {
 		console.log(error);
+		let message = 'Database Error: Failed to Update Product.';
+		if (error instanceof AuthError) message = error.message;
 
-		return {
-			message:
-				(error?.message as string) ||
-				'Database Error: Failed to Create Product.',
-		};
+		return { message };
 	}
 	revalidatePath('/products', 'layout');
 	redirect('/products');
@@ -164,7 +168,7 @@ export type DeleteProductState = {
 	type?: string | null;
 };
 
-export async function deleteProduct(id: string, prevState: DeleteProductState) {
+export async function deleteProduct(id: string) {
 	try {
 		const supabase = createClientSSR(true);
 		const { error } = await supabase.from('product').delete().eq('id', id);

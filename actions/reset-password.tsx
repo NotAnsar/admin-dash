@@ -36,15 +36,28 @@ export async function recoverPassword(
 
 	try {
 		const origin = headers().get('origin');
+		const supabase = createClientSSR(true);
 
-		const supabase = createClientSSR();
+		const { error: userNotFoundError } = await supabase
+			.from('user')
+			.select('*')
+			.eq('email', email)
+			.single();
+
+		if (userNotFoundError)
+			return { message: 'User with the provided email is not found.' };
+
 		const { error } = await supabase.auth.resetPasswordForEmail(email, {
 			redirectTo: `${origin}/auth/update-password`,
 		});
 
 		if (error) throw error;
 	} catch (error) {
-		return { message: 'Database Error: Failed to Send Reset Link.' };
+		console.log(error);
+		let message = 'Database Error: Failed to Send Reset Link.';
+		if (error instanceof AuthError) message = error.message;
+
+		return { message };
 	}
 }
 
@@ -105,14 +118,14 @@ export async function updatePassword(
 		if (error) throw error;
 	} catch (error) {
 		console.log(error);
+		let message = 'Unable to reset Password. Try Again';
+
 		if (error instanceof AuthError) {
-			if (error.code === 'same_password') {
-				redirect('/');
-			}
-			return { message: error.message };
+			if (error.code === 'same_password') redirect('/');
+			message = error.message;
 		}
 
-		return { message: 'Unable to reset Password. Try Again' };
+		return { message };
 	}
 	redirect('/');
 }

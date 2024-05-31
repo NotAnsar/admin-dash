@@ -8,12 +8,6 @@ export async function updateSession(request: NextRequest) {
 		},
 	});
 
-	// const publicUrls = ['/auth/update-password'];
-
-	// if (publicUrls.includes(request.nextUrl.pathname)) {
-	// 	return response;
-	// }
-
 	const supabase = createServerClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -64,7 +58,11 @@ export async function updateSession(request: NextRequest) {
 		data: { user },
 	} = await supabase.auth.getUser();
 
-	if (!user && !request.nextUrl.pathname.startsWith('/auth')) {
+	if (
+		!user &&
+		(!request.nextUrl.pathname.startsWith('/auth') ||
+			request.nextUrl.pathname === '/auth')
+	) {
 		return NextResponse.redirect(new URL('/auth/signin', request.url));
 	}
 

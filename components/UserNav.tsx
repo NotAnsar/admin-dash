@@ -42,7 +42,7 @@ export default function UserNav({ user }: { user: User }) {
 							)}
 
 							<p className='w-[200px] truncate text-[13px] text-muted-foreground'>
-								{user.email}
+								{user?.email}
 							</p>
 						</div>
 					</div>

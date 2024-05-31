@@ -34,16 +34,15 @@ export async function fetchProducts() {
 export async function fetchProductById(id: string) {
 	try {
 		const supabase = createClientSSR();
-		const { data: products, error } = await supabase
+		const { data: product, error } = await supabase
 			.from('product')
 			.select('*,category(*),colors(*),sizes(*),product_images(*)')
 			.eq('id', id)
-			.returns<ProductALL>()
-			.single();
+			.returns<ProductALL[]>();
 
 		if (error) throw error;
 
-		return products as ProductALL;
+		return product[0] as ProductALL;
 	} catch (error) {
 		console.error('Database Error:', error);
 		throw new Error(`Failed to fetch Product with the id ${id}.`);
@@ -59,8 +58,6 @@ export async function fetchCategories() {
 			.returns<Category[]>();
 
 		if (error) throw error;
-
-		// await new Promise((resolve) => setTimeout(resolve, 3000));
 
 		return category;
 	} catch (error) {

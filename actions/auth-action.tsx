@@ -1,6 +1,7 @@
 'use server';
 
 import { createClientSSR } from '@/lib/supabase/server';
+import { AuthError } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
@@ -38,7 +39,11 @@ export async function signinAction(prevState: AuthState, formData: FormData) {
 		if (error)
 			return { message: 'Signin failed. Please check your credentials.' };
 	} catch (error) {
-		return { message: 'Database Error: Failed to Sign in User.' };
+		console.log(error);
+		let message = 'Database Error: Failed to Sign in User.';
+		if (error instanceof AuthError) message = error.message;
+
+		return { message };
 	}
 
 	revalidatePath('/', 'layout');
@@ -59,7 +64,10 @@ export async function signOut() {
 
 		if (error) throw error;
 	} catch (error) {
-		return { message: 'Cannot Signout ' };
+		let message = 'Database Error: Failed to Sign Out.';
+		if (error instanceof AuthError) message = error.message;
+
+		return { message };
 	}
 
 	redirect('/auth/signin');
