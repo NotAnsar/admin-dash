@@ -34,7 +34,6 @@ export default function ProductCategory({
 }) {
 	const [open, setOpen] = useState(false);
 	const [value, setValue] = useState(product?.category_id || '');
-	console.log(value, product?.category.id, product?.category_id);
 
 	return (
 		<Card x-chunk='dashboard-07-chunk-2'>
