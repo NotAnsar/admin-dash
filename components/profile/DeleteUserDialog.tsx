@@ -2,7 +2,6 @@
 
 import {
 	AlertDialog,
-	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
@@ -14,6 +13,9 @@ import {
 import { Dispatch, SetStateAction } from 'react';
 import { deleteAccount } from '@/actions/profile-action';
 import { toast } from '../ui/use-toast';
+import { useFormStatus } from 'react-dom';
+import { Button } from '../ui/button';
+import { Loader, Trash2 } from 'lucide-react';
 
 export function DeleteUserDialog({
 	open,
@@ -48,16 +50,32 @@ export function DeleteUserDialog({
 								}
 							}}
 						>
-							<AlertDialogAction
-								className='bg-destructive text-white hover:bg-destructive/90 w-full'
-								type='submit'
-							>
-								Delete
-							</AlertDialogAction>
+							<PendingButton />
 						</form>
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialogPortal>
 		</AlertDialog>
+	);
+}
+
+export function PendingButton() {
+	const { pending } = useFormStatus();
+
+	return (
+		<Button
+			variant={'destructive'}
+			className='flex gap-1 justify-center items-center'
+			type='submit'
+			aria-disabled={pending}
+			disabled={pending}
+		>
+			{pending ? (
+				<Loader className='mr-2 h-4 w-4 animate-spin' />
+			) : (
+				<Trash2 className='w-4 h-auto' />
+			)}
+			Delete Account
+		</Button>
 	);
 }

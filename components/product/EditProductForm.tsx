@@ -6,11 +6,7 @@ import { Edit, Loader } from 'lucide-react';
 
 import BreadCrumb from '@/components/BreadCrumb';
 import { useFormState, useFormStatus } from 'react-dom';
-import {
-	ProductState,
-	createProduct,
-	updateProduct,
-} from '@/actions/product-action';
+import { ProductState, createProduct, updateProduct } from '@/actions/product-action';
 import ProductDetails from './form-items/ProductDetails';
 import ProductStock from './form-items/ProductStock';
 import FeaturedProduct from './form-items/FeaturedProduct';
@@ -30,10 +26,7 @@ export default function EditProductForm({
 	sizes: Category[];
 }) {
 	const initialState: ProductState = { message: null, errors: {} };
-	const [state, action] = useFormState(
-		updateProduct.bind(null, product.id),
-		initialState
-	);
+	const [state, action] = useFormState(updateProduct.bind(null,product.id), initialState);
 
 	return (
 		<form action={action}>

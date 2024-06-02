@@ -40,6 +40,8 @@ export async function fetchProductById(id: string) {
 			.eq('id', id)
 			.returns<ProductALL[]>();
 
+		
+
 		if (error) throw error;
 
 		return product[0] as ProductALL;

@@ -8,7 +8,6 @@ import {
 	Archive,
 	ArrowUpDown,
 	BadgeInfo,
-	MoreHorizontal,
 	ShieldCheck,
 	ShieldX,
 } from 'lucide-react';
@@ -16,7 +15,6 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '../../ui/dropdown-menu';
 import Badge from '../../Badge';
@@ -81,12 +79,19 @@ export const columns: ColumnDef<ProductALL>[] = [
 	},
 	{
 		accessorKey: 'category',
-		header: 'Category',
+		header: 'category',
 		cell: ({ row }) => {
 			const category: Category = row.getValue('category');
+
 			return <div>{category.name}</div>;
 		},
+		filterFn: (row, key, searchValue) => {
+			const category: Category = row.getValue(key);
+
+			return category.id === searchValue;
+		},
 	},
+
 	{
 		accessorKey: 'colors',
 		header: 'Color',

@@ -26,6 +26,7 @@ import {
 import { useState } from 'react';
 import FilterTable from './FilterTable';
 import PaginationTable from './PaginationTable';
+import { Category } from '@/types/db';
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -35,7 +36,8 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
 	columns,
 	data,
-}: DataTableProps<TData, TValue>) {
+	categories,
+}: DataTableProps<TData, TValue> & { categories: Category[] }) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -55,7 +57,7 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<>
-			<FilterTable table={table} />
+			<FilterTable table={table} categories={categories} />
 			<div className='rounded-md border'>
 				<Table>
 					<TableHeader className='bg-secondary'>

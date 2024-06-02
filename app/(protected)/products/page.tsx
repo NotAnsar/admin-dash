@@ -1,12 +1,15 @@
 import { columns } from '@/components/product/table/columns';
 import { DataTable } from '@/components/product/table/data-table';
 import { buttonVariants } from '@/components/ui/button';
-import { fetchProducts } from '@/lib/db';
+import { fetchCategories, fetchProducts } from '@/lib/db';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 export default async function Products() {
-	const products = await fetchProducts();
+	const [products, categories] = await Promise.all([
+		fetchProducts(),
+		fetchCategories(),
+	]);
 
 	return (
 		<>
@@ -17,7 +20,7 @@ export default async function Products() {
 				</Link>
 			</div>
 
-			<DataTable columns={columns} data={products} />
+			<DataTable columns={columns} data={products} categories={categories} />
 		</>
 	);
 }
