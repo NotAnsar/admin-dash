@@ -58,32 +58,6 @@ export default function FilterTable<TData>({
 				/>
 			</div>
 
-			{/* <DropdownMenu>
-				<DropdownMenuTrigger asChild className='w-full lg:w-fit'>
-					<Button variant='outline' className='ml-auto'>
-						<Settings2 className='mr-2 h-4 w-4' />
-						View
-					</Button>
-				</DropdownMenuTrigger>
-				<DropdownMenuContent align='end'>
-					{table
-						.getAllColumns()
-						.filter((column) => column.getCanHide())
-						.map((column) => {
-							return (
-								<DropdownMenuCheckboxItem
-									key={column.id}
-									className='capitalize'
-									checked={column.getIsVisible()}
-									onCheckedChange={(value) => column.toggleVisibility(!!value)}
-								>
-									{column.id}
-								</DropdownMenuCheckboxItem>
-							);
-						})}
-				</DropdownMenuContent>
-			</DropdownMenu> */}
-
 			<div className='flex items-center gap-2 w-full lg:w-[350px] '>
 				<Select
 					onValueChange={(e) => table.getColumn('category')?.setFilterValue(e)}
