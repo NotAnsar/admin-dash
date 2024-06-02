@@ -84,13 +84,15 @@ export default function FilterTable<TData>({
 				</DropdownMenuContent>
 			</DropdownMenu> */}
 
-			{/* SELECT FILTER BY REFERRAL SOURCE */}
-			<div className='flex items-center gap-3  '>
+			<div className='flex items-center gap-2 w-full lg:w-[350px] '>
 				<Select
 					onValueChange={(e) => table.getColumn('category')?.setFilterValue(e)}
+					value={
+						(table.getColumn('category')?.getFilterValue() as string) || ''
+					}
 				>
-					<SelectTrigger className='w-full md:w-[250px] order-none md:order-1'>
-						<SelectValue placeholder={'Filter by referral source'} />
+					<SelectTrigger className='order-none md:order-1'>
+						<SelectValue placeholder='Filter by Categories' />
 					</SelectTrigger>
 					<SelectContent className='w-full'>
 						{categories.map((c) => (
