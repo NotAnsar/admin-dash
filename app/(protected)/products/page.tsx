@@ -1,7 +1,7 @@
 import { columns } from '@/components/product/table/columns';
 import { DataTable } from '@/components/product/table/data-table';
 import { buttonVariants } from '@/components/ui/button';
-import { fetchCategories, fetchProducts } from '@/lib/db';
+import { fetchCategories, fetchProducts } from '@/lib/product';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 

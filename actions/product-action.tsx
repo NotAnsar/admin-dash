@@ -92,7 +92,7 @@ export async function createProduct(
 		if (error) throw error;
 
 		const product_id = data.id;
-	} catch (error: any) {
+	} catch (error) {
 		console.log(error);
 		let message = 'Database Error: Failed to Create Product.';
 		if (error instanceof AuthError) message = error.message;

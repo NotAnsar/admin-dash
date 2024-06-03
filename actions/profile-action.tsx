@@ -1,10 +1,11 @@
 'use server';
 
-import { getUser } from '@/lib/db';
+import { getCurrentUser } from '@/lib/user';
 import { createClientSSR } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import { AuthError } from '@supabase/supabase-js';
 
 const formSchema = z.object({
 	fname: z
@@ -30,7 +31,7 @@ export async function deleteAccount() {
 			throw new Error('This user is the only admin and cannot be deleted.');
 		}
 
-		const user = await getUser();
+		const user = await getCurrentUser();
 		await supabase.auth.signOut();
 
 		const { error } = await supabase.auth.admin.deleteUser(user?.id);
@@ -82,15 +83,14 @@ export async function updateUser(prevState: ProfileState, formData: FormData) {
 			.eq('id', user?.id);
 
 		if (error) throw error;
-	} catch (error: any) {
-		console.log(error.message);
+	} catch (error) {
+		console.log(error);
+		let message = 'Database Error: Failed to Update User Data.';
+		if (error instanceof AuthError) message = error.message;
 
-		return {
-			message:
-				(error?.message as string) ||
-				'Database Error: Failed to Update User Data.',
-		};
+		return { message };
 	}
+
 	revalidatePath('/', 'layout');
 	redirect('/');
 }

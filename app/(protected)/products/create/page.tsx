@@ -1,5 +1,5 @@
 import CreateProductForm from '@/components/product/CreateProductForm';
-import { fetchCategories, fetchColors, fetchSizes } from '@/lib/db';
+import { fetchCategories, fetchColors, fetchSizes } from '@/lib/product';
 
 export default async function page() {
 	const [colors, sizes, categories] = await Promise.all([

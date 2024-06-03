@@ -1,7 +1,7 @@
 import { signOut } from '@/actions/auth-action';
 import SideBarNav from '@/components/nav/SideBarNav';
 import TopNav from '@/components/nav/TopNav';
-import { getUser } from '@/lib/db';
+import { getCurrentUser } from '@/lib/user';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default async function AuthenticatedLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const user = await getUser();
+	const user = await getCurrentUser();
 	if (user && user?.role === 'user') await signOut();
 
 	return (

@@ -1,12 +1,11 @@
 import { cn } from '@/lib/utils';
-import React from 'react';
 
 export default function Badge({
 	children,
 	variant = 'success',
 	className,
 }: React.HTMLAttributes<HTMLDivElement> & {
-	variant?: 'success' | 'error' | 'archive';
+	variant?: 'success' | 'error' | 'archive' | 'admin';
 }) {
 	return (
 		<div
@@ -19,6 +18,8 @@ export default function Badge({
 						variant === 'success',
 					'border-red-600 text-red-600 bg-red-400/40 dark:bg-red-600/40':
 						variant === 'error',
+					'border-yellow-600 text-yellow-600 bg-yellow-400/40 dark:bg-yellow-600/40':
+						variant === 'admin',
 				},
 				className
 			)}

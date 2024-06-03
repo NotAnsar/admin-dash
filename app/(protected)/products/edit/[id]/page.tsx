@@ -4,7 +4,7 @@ import {
 	fetchColors,
 	fetchProductById,
 	fetchSizes,
-} from '@/lib/db';
+} from '@/lib/product';
 import { notFound } from 'next/navigation';
 
 export default async function page({
