@@ -2,10 +2,12 @@ import {
 	BarChart3,
 	BookCheck,
 	Box,
+	Boxes,
 	Calendar,
 	FileText,
 	LayoutDashboard,
 	LucideIcon,
+	Ruler,
 	SquareKanbanIcon,
 	Users,
 } from 'lucide-react';
@@ -24,6 +26,8 @@ export const dashConfig = {
 	],
 	management: [
 		{ title: 'Products', Icon: Box, path: '/products' },
+		{ title: 'Categories', Icon: Boxes, path: '/categories' },
+		{ title: 'Sizes', Icon: Ruler, path: '/sizes' },
 		{ title: 'Users', Icon: Users, path: '/users' },
 		{ title: 'Orders', Icon: BookCheck, path: '/orders' },
 		// { title: 'Biling', Icon: ListOrdered, path: '/orders' },

@@ -1,12 +1,16 @@
 import { buttonVariants } from '@/components/ui/button';
 import { columns } from '@/components/user/table/columns';
 import { DataTable } from '@/components/user/table/data-table';
-import { fetchUsers } from '@/lib/user';
+import { fetchUsers, getCurrentUser } from '@/lib/user';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 export default async function Products() {
-	const users = await fetchUsers();
+	const currentUser = await getCurrentUser();
+
+	const filteredUsers = (await fetchUsers()).filter(
+		(user) => user.id !== currentUser.id
+	);
 
 	return (
 		<>
@@ -17,7 +21,7 @@ export default async function Products() {
 				</Link>
 			</div>
 
-			<DataTable columns={columns} data={users} />
+			<DataTable columns={columns} data={filteredUsers} />
 		</>
 	);
 }

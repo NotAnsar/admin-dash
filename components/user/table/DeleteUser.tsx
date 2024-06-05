@@ -1,43 +1,31 @@
 import {
 	AlertDialog,
-	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from '../../ui/use-toast';
-import { DeleteProductState, deleteProduct } from '@/actions/product-action';
-import {
-	Dispatch,
-	SetStateAction,
-	forwardRef,
-	useEffect,
-	useState,
-} from 'react';
+
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { Button } from '../../ui/button';
 import { Loader } from 'lucide-react';
+import { DeleteUserState, deleteUser } from '@/actions/user-action';
 
-export const DeleteProduct = ({
+export const DeleteUser = ({
 	id,
 	open,
 	setOpen,
-	...props
 }: {
 	id: string;
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-	const initialState: DeleteProductState = { message: null, type: null };
-
-	const [state, action] = useFormState(
-		deleteProduct.bind(null, id),
-		initialState
-	);
+	const initialState: DeleteUserState = { message: null, type: null };
+	const [state, action] = useFormState(deleteUser.bind(null, id), initialState);
 
 	useEffect(() => {
 		if (state.message) {
@@ -55,8 +43,8 @@ export const DeleteProduct = ({
 				<AlertDialogHeader>
 					<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 					<AlertDialogDescription>
-						This action cannot be undone. This will permanently delete your
-						Product and remove your data from our servers.
+						This action cannot be undone. This will permanently delete your User
+						and remove your data from our servers.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

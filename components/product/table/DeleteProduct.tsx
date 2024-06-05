@@ -1,23 +1,15 @@
 import {
 	AlertDialog,
-	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
 	AlertDialogFooter,
 	AlertDialogHeader,
 	AlertDialogTitle,
-	AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { toast } from '../../ui/use-toast';
 import { DeleteProductState, deleteProduct } from '@/actions/product-action';
-import {
-	Dispatch,
-	SetStateAction,
-	forwardRef,
-	useEffect,
-	useState,
-} from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { Button } from '../../ui/button';
 import { Loader } from 'lucide-react';
@@ -26,7 +18,6 @@ export const DeleteProduct = ({
 	id,
 	open,
 	setOpen,
-	...props
 }: {
 	id: string;
 	open: boolean;

@@ -40,14 +40,14 @@ export const columns: ColumnDef<User>[] = [
 			const role = row.getValue('role');
 
 			return (
-				<Badge variant={role === 'user' ? 'archive' : 'admin'}>
-					{role === 'user' ? (
+				<Badge variant={role === 'admin' ? 'admin' : 'archive'}>
+					{role === 'admin' ? (
 						<>
-							<Shield className='w-3 h-auto' /> User
+							<ShieldCheck className='w-3 h-auto' /> Admin
 						</>
 					) : (
 						<>
-							<ShieldCheck className='w-3 h-auto' /> Admin
+							<Shield className='w-3 h-auto' /> User
 						</>
 					)}
 				</Badge>
@@ -59,7 +59,7 @@ export const columns: ColumnDef<User>[] = [
 		header: 'Date Joined',
 		cell: ({ row }) => {
 			return (
-				<div className='text-sm'>
+				<div className='text-sm text-nowrap'>
 					{formatTimestamp(row.getValue('created_at'))}
 				</div>
 			);

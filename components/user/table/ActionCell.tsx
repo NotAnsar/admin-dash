@@ -1,5 +1,5 @@
 'use client';
-import { ProductALL } from '@/types/db';
+
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -13,10 +13,10 @@ import { MoreHorizontalIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Dialog } from '@radix-ui/react-dialog';
 import Link from 'next/link';
-import { DeleteProduct } from './DeleteProduct';
+import { DeleteUser } from './DeleteUser';
 import { User } from '@/types/user';
 
-export default function ActionCell({ user, ...props }: { user: User }) {
+export default function ActionCell({ user }: { user: User }) {
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
 	return (
@@ -40,18 +40,18 @@ export default function ActionCell({ user, ...props }: { user: User }) {
 							href={`/users/edit/${user.id}`}
 							className='px-2 py-1.5 w-full'
 						>
-							Edit Product
+							Edit User
 						</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem
 						onClick={() => setIsDeleteDialogOpen(true)}
 						className='cursor-pointer'
 					>
-						Delete Product
+						Delete User
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
-			<DeleteProduct
+			<DeleteUser
 				id={user.id}
 				open={isDeleteDialogOpen}
 				setOpen={setIsDeleteDialogOpen}
