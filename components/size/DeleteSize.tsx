@@ -7,10 +7,10 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { toast } from '../../ui/use-toast';
+import { toast } from '../ui/use-toast';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
-import { Button } from '../../ui/button';
+import { Button } from '../ui/button';
 import { Loader } from 'lucide-react';
 import { DeleteSizeState, deleteSize } from '@/actions/size-action';
 

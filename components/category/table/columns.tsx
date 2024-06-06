@@ -7,6 +7,7 @@ import { Settings2, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DeleteCategory } from '../DeleteCategory';
 import { useState } from 'react';
+import { EditCategory } from '../EditCategory';
 
 export const columns: ColumnDef<Category>[] = [
 	{
@@ -64,7 +65,11 @@ function EditButton({ category }: { category: Category }) {
 			<Button variant={'ghost'} onClick={() => setIsEditDialogOpen(true)}>
 				<Settings2 className='w-4 h-auto' />
 			</Button>
-			{/* <EditCategory open={isEditDialogOpen} setopen={setIsEditDialogOpen} /> */}
+			<EditCategory
+				open={isEditDialogOpen}
+				setopen={setIsEditDialogOpen}
+				category={category}
+			/>
 		</>
 	);
 }

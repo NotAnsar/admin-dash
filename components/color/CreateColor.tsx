@@ -1,4 +1,5 @@
 'use client';
+
 import {
 	Dialog,
 	DialogContent,
@@ -7,35 +8,32 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from '@/components/ui/dialog';
-import { User } from '@/types/user';
-
-import { Dispatch, SetStateAction, useEffect } from 'react';
-import { toast } from '../ui/use-toast';
-import { Button } from '../ui/button';
-import { Loader } from 'lucide-react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Loader, Plus } from 'lucide-react';
 import { useFormStatus } from 'react-dom';
-import { Label } from '../ui/label';
 import { cn } from '@/lib/utils';
-import { Input } from '../ui/input';
-import { ProfileState, updateUser } from '@/actions/profile-action';
 import { useFormState } from 'react-dom';
+import { toast } from '@/components/ui/use-toast';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
-export function EditUserDialog({
-	user,
+import { ColorState, createColor } from '@/actions/color-action';
+
+export function CreateColor({
 	open,
 	setopen,
 }: {
-	user: User;
 	open: boolean;
 	setopen: Dispatch<SetStateAction<boolean>>;
 }) {
-	const initialState: ProfileState = { message: null, errors: {} };
-	const [state, action] = useFormState(updateUser, initialState);
+	const initialState: ColorState = { message: null, errors: {} };
+	const [state, action] = useFormState(createColor, initialState);
 
 	useEffect(() => {
 		if (state === undefined) {
 			setopen(false);
-			toast({ description: 'User data updated successfully.' });
+			toast({ description: 'Color data created successfully.' });
 		}
 	}, [state, setopen]);
 
@@ -43,9 +41,11 @@ export function EditUserDialog({
 		<Dialog open={open} onOpenChange={setopen}>
 			<DialogContent className='sm:max-w-[425px]'>
 				<DialogHeader>
-					<DialogTitle>Edit profile</DialogTitle>
+					<DialogTitle>Create Color</DialogTitle>
 					<DialogDescription>
-						{"Make changes to your profile here. Click save when you're done."}
+						{
+							"Create a new color. Enter the color details and click save when you're done."
+						}
 					</DialogDescription>
 				</DialogHeader>
 
@@ -56,25 +56,24 @@ export function EditUserDialog({
 								htmlFor='fname'
 								className={cn(
 									'text-nowrap',
-									state?.errors?.fname ? 'text-destructive' : ''
+									state?.errors?.name ? 'text-destructive' : ''
 								)}
 							>
-								First Name
+								Color Name
 							</Label>
 							<Input
-								id='fname'
-								defaultValue={user.f_name}
-								name='fname'
+								id='name'
+								name='name'
 								className={cn(
 									'bg-transparent col-span-3',
-									state?.errors?.fname
+									state?.errors?.name
 										? 'border-destructive focus-visible:ring-destructive '
 										: ''
 								)}
 							/>
 						</div>
-						{state?.errors?.fname &&
-							state.errors.fname.map((error: string) => (
+						{state?.errors?.name &&
+							state.errors.name.map((error: string) => (
 								<p
 									className='text-sm font-medium text-destructive col-span-full mt-2'
 									key={error}
@@ -83,33 +82,30 @@ export function EditUserDialog({
 								</p>
 							))}
 					</div>
-
 					<div>
 						<div className='flex items-center gap-4'>
 							<Label
-								htmlFor='lname'
+								htmlFor='value'
 								className={cn(
 									'text-nowrap',
-									state?.errors?.lname ? 'text-destructive' : ''
+									state?.errors?.value ? 'text-destructive' : ''
 								)}
 							>
-								Last Name
+								Color Value
 							</Label>
 							<Input
-								name='lname'
-								id='lname'
-								defaultValue={user.l_name}
+								id='value'
+								name='value'
 								className={cn(
 									'bg-transparent col-span-3',
-									state?.errors?.lname
+									state?.errors?.value
 										? 'border-destructive focus-visible:ring-destructive '
 										: ''
 								)}
 							/>
 						</div>
-
-						{state?.errors?.lname &&
-							state.errors.lname.map((error: string) => (
+						{state?.errors?.value &&
+							state.errors.value.map((error: string) => (
 								<p
 									className='text-sm font-medium text-destructive col-span-full mt-2'
 									key={error}
@@ -138,8 +134,23 @@ function PendingButton() {
 
 	return (
 		<Button type='submit' aria-disabled={pending} disabled={pending}>
-			{pending && <Loader className='mr-2 h-4 w-4 animate-spin' />}
-			Save changes
+			{pending ? (
+				<Loader className='mr-2 h-4 w-4 animate-spin' />
+			) : (
+				<Plus className='mr-2 h-4 w-4' />
+			)}
+			Create Color
 		</Button>
+	);
+}
+
+export function CreateColorButton() {
+	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+
+	return (
+		<>
+			<Button onClick={() => setIsCreateDialogOpen(true)}>Add Color</Button>
+			<CreateColor open={isCreateDialogOpen} setopen={setIsCreateDialogOpen} />
+		</>
 	);
 }

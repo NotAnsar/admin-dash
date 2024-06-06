@@ -9,7 +9,7 @@ import {
 	DialogTitle,
 } from '@/components/ui/dialog';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Loader, Plus } from 'lucide-react';
+import { Edit, Loader, Plus } from 'lucide-react';
 import { useFormStatus } from 'react-dom';
 import { cn } from '@/lib/utils';
 import { useFormState } from 'react-dom';
@@ -18,17 +18,23 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-import { CategoryState, createCategory } from '@/actions/category-action';
+import { CategoryState, updateCategory } from '@/actions/category-action';
+import { Category } from '@/types/db';
 
-export function CreateCategory({
+export function EditCategory({
 	open,
 	setopen,
+	category,
 }: {
+	category: Category;
 	open: boolean;
 	setopen: Dispatch<SetStateAction<boolean>>;
 }) {
 	const initialState: CategoryState = { message: null, errors: {} };
-	const [state, action] = useFormState(createCategory, initialState);
+	const [state, action] = useFormState(
+		updateCategory.bind(null, category.id),
+		initialState
+	);
 
 	useEffect(() => {
 		if (state === undefined) {
@@ -64,6 +70,7 @@ export function CreateCategory({
 							<Input
 								id='name'
 								name='name'
+								defaultValue={category.name}
 								className={cn(
 									'bg-transparent col-span-3',
 									state?.errors?.name
@@ -105,23 +112,9 @@ function PendingButton() {
 			{pending ? (
 				<Loader className='mr-2 h-4 w-4 animate-spin' />
 			) : (
-				<Plus className='mr-2 h-4 w-4' />
+				<Edit className='mr-2 h-4 w-4' />
 			)}
-			Create Category
+			Edit Category
 		</Button>
-	);
-}
-
-export function CreateCategoryButton() {
-	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-
-	return (
-		<>
-			<Button onClick={() => setIsCreateDialogOpen(true)}>Add Category</Button>
-			<CreateCategory
-				open={isCreateDialogOpen}
-				setopen={setIsCreateDialogOpen}
-			/>
-		</>
 	);
 }

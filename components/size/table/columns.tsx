@@ -6,7 +6,7 @@ import { formatTimestamp } from '@/lib/utils';
 import { Settings2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { DeleteSize } from './DeleteSize';
+import { DeleteSize } from '../DeleteSize';
 import { useState } from 'react';
 
 export const columns: ColumnDef<Size>[] = [

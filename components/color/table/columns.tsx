@@ -6,8 +6,9 @@ import { formatTimestamp } from '@/lib/utils';
 import { Delete, Settings2, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { DeleteColor } from './DeleteColor';
+import { DeleteColor } from '../DeleteColor';
 import { useState } from 'react';
+import { EditColor } from '../EditColor';
 
 export const columns: ColumnDef<Color>[] = [
 	{
@@ -44,14 +45,7 @@ export const columns: ColumnDef<Color>[] = [
 		id: 'edit',
 		header: 'Edit',
 
-		cell: ({ row }) => (
-			<Link
-				href={`/colors/edit/${row.original.id}`}
-				className={buttonVariants({ variant: 'ghost' })}
-			>
-				<Settings2 className='w-4 h-auto' />
-			</Link>
-		),
+		cell: ({ row }) => <EditButton color={row.original} />,
 	},
 	{
 		id: 'delete',
@@ -60,7 +54,7 @@ export const columns: ColumnDef<Color>[] = [
 	},
 ];
 
-export default function DeleteButton({ color }: { color: Color }) {
+function DeleteButton({ color }: { color: Color }) {
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
 	return (
@@ -72,6 +66,23 @@ export default function DeleteButton({ color }: { color: Color }) {
 				id={color.id}
 				open={isDeleteDialogOpen}
 				setOpen={setIsDeleteDialogOpen}
+			/>
+		</>
+	);
+}
+
+function EditButton({ color }: { color: Color }) {
+	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+	return (
+		<>
+			<Button variant={'ghost'} onClick={() => setIsEditDialogOpen(true)}>
+				<Settings2 className='w-4 h-auto' />
+			</Button>
+			<EditColor
+				open={isEditDialogOpen}
+				setopen={setIsEditDialogOpen}
+				color={color}
 			/>
 		</>
 	);

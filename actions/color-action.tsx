@@ -15,21 +15,24 @@ const formSchema = z.object({
 		.regex(
 			/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
 			'Color Value must be a valid hexadecimal color code (e.g., #ffffff or #fff)'
-		)
-		.min(7, 'Color Value must be 7 characters long (including the # symbol)'),
+		),
 });
 
 export type ColorState =
 	| {
 			errors?: {
 				name?: string[];
+				value?: string[];
 			};
 			message?: string | null;
 	  }
 	| undefined;
 
 export async function createColor(prevState: ColorState, formData: FormData) {
-	const validatedFields = formSchema.safeParse({ name: formData.get('name') });
+	const validatedFields = formSchema.safeParse({
+		name: formData.get('name'),
+		value: formData.get('value'),
+	});
 
 	if (!validatedFields.success) {
 		return {
@@ -38,13 +41,13 @@ export async function createColor(prevState: ColorState, formData: FormData) {
 		};
 	}
 
-	const { name } = validatedFields.data;
+	const { name, value } = validatedFields.data;
 	try {
 		const supabase = createClientSSR(true);
 
 		const { data, error } = await supabase
 			.from('colors')
-			.insert([{ name }])
+			.insert([{ name, value }])
 			.single();
 
 		console.log(data, error);
@@ -67,6 +70,7 @@ export async function updateColor(
 ) {
 	const validatedFields = formSchema.safeParse({
 		name: formData.get('name'),
+		value: formData.get('value'),
 	});
 
 	if (!validatedFields.success) {
@@ -76,13 +80,13 @@ export async function updateColor(
 		};
 	}
 
-	const { name } = validatedFields.data;
+	const { name, value } = validatedFields.data;
 	try {
 		const supabase = createClientSSR(true);
 
 		const { data, error } = await supabase
 			.from('colors')
-			.update([{ name }])
+			.update([{ name, value }])
 			.eq('id', id)
 			.select('id')
 			.single();

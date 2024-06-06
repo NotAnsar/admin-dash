@@ -6,11 +6,7 @@ import { Edit, Loader } from 'lucide-react';
 
 import BreadCrumb from '@/components/BreadCrumb';
 import { useFormState, useFormStatus } from 'react-dom';
-import {
-	ProductState,
-	createProduct,
-	updateProduct,
-} from '@/actions/product-action';
+import { ProductState, updateProduct } from '@/actions/product-action';
 import ProductDetails from './form-items/ProductDetails';
 import ProductStock from './form-items/ProductStock';
 import FeaturedProduct from './form-items/FeaturedProduct';
