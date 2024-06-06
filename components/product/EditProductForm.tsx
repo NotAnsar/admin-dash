@@ -25,9 +25,9 @@ export default function EditProductForm({
 	product,
 }: {
 	product: ProductALL;
-	categories: Color[];
-	colors: Size[];
-	sizes: Category[];
+	categories: Category[];
+	colors: Color[];
+	sizes: Size[];
 }) {
 	const initialState: ProductState = { message: null, errors: {} };
 	const [state, action] = useFormState(

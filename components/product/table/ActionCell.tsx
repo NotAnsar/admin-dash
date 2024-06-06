@@ -55,6 +55,7 @@ export default function ActionCell({
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
+
 			<DeleteProduct
 				id={product.id}
 				open={isDeleteDialogOpen}

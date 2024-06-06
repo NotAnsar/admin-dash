@@ -19,9 +19,9 @@ export default function CreateProductForm({
 	colors,
 	sizes,
 }: {
-	categories: Color[];
-	colors: Size[];
-	sizes: Category[];
+	categories: Category[];
+	colors: Color[];
+	sizes: Size[];
 }) {
 	const initialState: ProductState = { message: null, errors: {} };
 	const [state, action] = useFormState(createProduct, initialState);

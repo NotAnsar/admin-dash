@@ -7,6 +7,7 @@ import {
 	FileText,
 	LayoutDashboard,
 	LucideIcon,
+	Palette,
 	Ruler,
 	SquareKanbanIcon,
 	Users,
@@ -27,6 +28,7 @@ export const dashConfig = {
 	management: [
 		{ title: 'Products', Icon: Box, path: '/products' },
 		{ title: 'Categories', Icon: Boxes, path: '/categories' },
+		{ title: 'Color', Icon: Palette, path: '/colors' },
 		{ title: 'Sizes', Icon: Ruler, path: '/sizes' },
 		{ title: 'Users', Icon: Users, path: '/users' },
 		{ title: 'Orders', Icon: BookCheck, path: '/orders' },

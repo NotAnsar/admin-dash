@@ -1,6 +1,7 @@
 export type Color = {
 	id: string;
 	name: string;
+	value: string;
 	created_at: string;
 };
 
@@ -13,6 +14,7 @@ export type Category = {
 export type Size = {
 	id: string;
 	name: string;
+	fullname: string;
 	created_at: string;
 };
 
