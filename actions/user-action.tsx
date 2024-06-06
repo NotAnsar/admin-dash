@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-const signInSchema = z.object({
+const userSchema = z.object({
 	f_name: z
 		.string()
 		.min(3, { message: 'First Name must be at least 3 characters long.' })
@@ -27,7 +27,7 @@ const signInSchema = z.object({
 });
 
 export async function createUser(prevState: UserState, formData: FormData) {
-	const validatedFields = signInSchema.safeParse({
+	const validatedFields = userSchema.safeParse({
 		email: formData.get('email'),
 		password: formData.get('password'),
 		f_name: formData.get('f_name'),
@@ -38,12 +38,13 @@ export async function createUser(prevState: UserState, formData: FormData) {
 	if (!validatedFields.success) {
 		return {
 			errors: validatedFields.error.flatten().fieldErrors,
-			message: 'Invalid Credentials. Unable to Sign in.',
+			message: 'Invalid Credentials. Unable to Create User.',
 		};
 	}
 
 	try {
 		const { email, f_name, password, l_name, role } = validatedFields.data;
+
 		const supabase = createClientSSR(true);
 		const { data, error } = await supabase.auth.admin.createUser({
 			email,
@@ -51,10 +52,50 @@ export async function createUser(prevState: UserState, formData: FormData) {
 			email_confirm: true,
 			user_metadata: { f_name, l_name, role },
 		});
+		if (error) throw error;
+	} catch (error) {
+		let message = 'Database Error: Failed to Create User Data.';
+		if (error instanceof AuthError) message = error.message;
+
+		return { message };
+	}
+
+	revalidatePath('/users', 'layout');
+	redirect('/users');
+}
+
+export async function updateUser(
+	id: string,
+	prevState: UserStateUpdate,
+	formData: FormData
+) {
+	const validatedFields = userSchema.omit({ password: true }).safeParse({
+		email: formData.get('email'),
+		f_name: formData.get('f_name'),
+		l_name: formData.get('l_name'),
+		role: formData.get('role'),
+	});
+
+	if (!validatedFields.success) {
+		return {
+			errors: validatedFields.error.flatten().fieldErrors,
+			message: 'Invalid Credentials. Unable to Update User.',
+		};
+	}
+
+	try {
+		const { email, f_name, l_name, role } = validatedFields.data;
+
+		const supabase = createClientSSR(true);
+		const { error } = await supabase.auth.admin.updateUserById(id, {
+			email,
+			email_confirm: true,
+			user_metadata: { f_name, l_name, role },
+		});
 
 		if (error) throw error;
 	} catch (error) {
-		let message = 'Database Error: Failed to Sign in User.';
+		let message = 'Database Error: Failed to Update User.';
 		if (error instanceof AuthError) message = error.message;
 
 		return { message };
@@ -98,6 +139,18 @@ export type UserState =
 			errors?: {
 				email?: string[];
 				password?: string[];
+				f_name?: string[];
+				l_name?: string[];
+				role?: string[];
+			};
+			message?: string | null;
+	  }
+	| undefined;
+
+export type UserStateUpdate =
+	| {
+			errors?: {
+				email?: string[];
 				f_name?: string[];
 				l_name?: string[];
 				role?: string[];

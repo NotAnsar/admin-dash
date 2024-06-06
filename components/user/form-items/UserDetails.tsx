@@ -86,7 +86,7 @@ export default function UserDetails({
 						))}
 				</div>
 			</div>
-			<div className='grid gap-3 sm:col-span-2'>
+			<div className={cn('grid gap-3 sm:col-span-2', user && 'sm:col-span-1')}>
 				<Label
 					htmlFor='email'
 					className={cn(state?.errors?.email ? 'text-destructive' : '')}
@@ -119,38 +119,40 @@ export default function UserDetails({
 						))}
 				</div>
 			</div>
-			<div className='grid gap-3 '>
-				<Label
-					htmlFor='password'
-					className={cn(state?.errors?.password ? 'text-destructive' : '')}
-				>
-					Password
-				</Label>
-				<div>
-					<Input
-						id='password'
-						type='password'
-						name='password'
-						className={cn(
-							'w-full',
-							state?.errors?.password
-								? 'border-destructive focus-visible:ring-destructive '
-								: ''
-						)}
-						placeholder='********'
-						required
-					/>
-					{state?.errors?.password &&
-						state.errors.password.map((error: string) => (
-							<p
-								className='text-sm font-medium text-destructive mt-1'
-								key={error}
-							>
-								{error}
-							</p>
-						))}
+			{!user && (
+				<div className='grid gap-3 '>
+					<Label
+						htmlFor='password'
+						className={cn(state?.errors?.password ? 'text-destructive' : '')}
+					>
+						Password
+					</Label>
+					<div>
+						<Input
+							id='password'
+							type='password'
+							name='password'
+							className={cn(
+								'w-full',
+								state?.errors?.password
+									? 'border-destructive focus-visible:ring-destructive '
+									: ''
+							)}
+							placeholder='********'
+							required
+						/>
+						{state?.errors?.password &&
+							state.errors.password.map((error: string) => (
+								<p
+									className='text-sm font-medium text-destructive mt-1'
+									key={error}
+								>
+									{error}
+								</p>
+							))}
+					</div>
 				</div>
-			</div>
+			)}
 			<div className='grid gap-3 '>
 				<Label
 					htmlFor='role'
@@ -158,7 +160,7 @@ export default function UserDetails({
 				>
 					Role
 				</Label>
-				<Select required name='role'>
+				<Select required name='role' defaultValue={user ? user.role : ''}>
 					<SelectTrigger id='role' aria-label='Select role' name='role'>
 						<SelectValue placeholder='Select role' />
 					</SelectTrigger>
