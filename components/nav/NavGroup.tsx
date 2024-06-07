@@ -118,22 +118,23 @@ function SliderNav({
 
 			<CollapsibleContent>
 				{subnav?.map((item) => (
-					<Link
-						key={item.title}
-						className={cn(
-							buttonVariants({
-								variant:
-									currPath.split('/')[1] === item.path.split('/')[1]
-										? 'secondary'
-										: 'ghost',
-							}),
-							'justify-normal gap-3 h-9 w-full rounded-none border-x-0 font-normal text-[13px]'
-						)}
-						href={item.path}
-					>
-						<item.Icon className='h-[16px] w-auto' strokeWidth='1.6' />{' '}
-						{item.title}
-					</Link>
+					<SheetClose asChild key={item.title}>
+						<Link
+							className={cn(
+								buttonVariants({
+									variant:
+										currPath.split('/')[1] === item.path.split('/')[1]
+											? 'secondary'
+											: 'ghost',
+								}),
+								'justify-normal gap-3 h-9 w-full rounded-none border-x-0 font-normal text-[13px]'
+							)}
+							href={item.path}
+						>
+							<item.Icon className='h-[16px] w-auto' strokeWidth='1.6' />{' '}
+							{item.title}
+						</Link>
+					</SheetClose>
 				))}
 			</CollapsibleContent>
 		</Collapsible>
