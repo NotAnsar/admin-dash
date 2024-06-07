@@ -1,10 +1,10 @@
 import { DashItem } from '@/config/sidenav';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { Button, buttonVariants } from '../ui/button';
+import { buttonVariants } from '../ui/button';
 import { SheetClose } from '../ui/sheet';
-import { useState } from 'react';
-import { Box, ChevronDown, ChevronRightIcon } from 'lucide-react';
+
+import { ChevronDown } from 'lucide-react';
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -31,16 +31,15 @@ export default function NavGroup({
 				{label}
 			</h2>
 			<nav className='flex flex-col gap-1 font-normal'>
-				{menuGrp.map((item, i) => {
-					if (sheet) {
-						return (
-							<SheetClose asChild key={i}>
-								<Nav menuItem={item} currPath={path} {...props} />
-							</SheetClose>
-						);
-					}
-					return <Nav menuItem={item} currPath={path} key={i} />;
-				})}
+				{menuGrp.map((item, i) => (
+					<Nav
+						menuItem={item}
+						currPath={path}
+						{...props}
+						sheet={sheet}
+						key={i}
+					/>
+				))}
 			</nav>
 		</div>
 	);
@@ -49,17 +48,15 @@ export default function NavGroup({
 function Nav({
 	menuItem,
 	currPath,
+	sheet,
 	...props
 }: {
 	menuItem: DashItem;
 	currPath: string;
+	sheet?: boolean;
 }) {
 	const { Icon, path, title, subnav } = menuItem;
-
-	if (subnav)
-		return <SliderNav item={menuItem} subnav={subnav} currPath={currPath} />;
-
-	return (
+	const CommonLink = (
 		<Link
 			{...props}
 			className={cn(
@@ -77,16 +74,31 @@ function Nav({
 			<p className='text-sm'>{title}</p>
 		</Link>
 	);
+	if (subnav)
+		return (
+			<SliderNav
+				item={menuItem}
+				subnav={subnav}
+				currPath={currPath}
+				sheet={sheet}
+			/>
+		);
+
+	if (sheet) return <SheetClose asChild>{CommonLink}</SheetClose>;
+
+	return CommonLink;
 }
 
 function SliderNav({
 	item,
 	currPath,
 	subnav,
+	sheet,
 }: {
 	item: DashItem;
 	currPath: string;
 	subnav: Omit<DashItem, 'subnav'>[];
+	sheet?: boolean;
 }) {
 	const isSubPath = subnav
 		.map((s) => s.path.split('/')[1])
@@ -117,8 +129,8 @@ function SliderNav({
 			</CollapsibleTrigger>
 
 			<CollapsibleContent>
-				{subnav?.map((item) => (
-					<SheetClose asChild key={item.title}>
+				{subnav?.map((item) => {
+					const CommonLink = (
 						<Link
 							className={cn(
 								buttonVariants({
@@ -134,8 +146,31 @@ function SliderNav({
 							<item.Icon className='h-[16px] w-auto' strokeWidth='1.6' />{' '}
 							{item.title}
 						</Link>
-					</SheetClose>
-				))}
+					);
+
+					return sheet ? (
+						<SheetClose asChild key={item.title}>
+							{CommonLink}
+						</SheetClose>
+					) : (
+						<Link
+							key={item.title}
+							className={cn(
+								buttonVariants({
+									variant:
+										currPath.split('/')[1] === item.path.split('/')[1]
+											? 'secondary'
+											: 'ghost',
+								}),
+								'justify-normal gap-3 h-9 w-full rounded-none border-x-0 font-normal text-[13px]'
+							)}
+							href={item.path}
+						>
+							<item.Icon className='h-[16px] w-auto' strokeWidth='1.6' />{' '}
+							{item.title}
+						</Link>
+					);
+				})}
 			</CollapsibleContent>
 		</Collapsible>
 	);
