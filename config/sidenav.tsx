@@ -7,6 +7,7 @@ import {
 	FileText,
 	LayoutDashboard,
 	LucideIcon,
+	PackageSearch,
 	Palette,
 	Ruler,
 	SquareKanbanIcon,
@@ -17,6 +18,7 @@ export type DashItem = {
 	title: string;
 	Icon: LucideIcon;
 	path: string;
+	subnav?: Omit<DashItem, 'subnav'>[];
 };
 
 export const dashConfig = {
@@ -26,13 +28,19 @@ export const dashConfig = {
 		{ title: 'Reports', Icon: FileText, path: '/reports' },
 	],
 	management: [
-		{ title: 'Products', Icon: Box, path: '/products' },
-		{ title: 'Categories', Icon: Boxes, path: '/categories' },
-		{ title: 'Color', Icon: Palette, path: '/colors' },
-		{ title: 'Sizes', Icon: Ruler, path: '/sizes' },
 		{ title: 'Users', Icon: Users, path: '/users' },
+		{
+			title: 'Products',
+			Icon: PackageSearch,
+			path: '/products',
+			subnav: [
+				{ title: 'All Products', Icon: Box, path: '/products' },
+				{ title: 'Categories', Icon: Boxes, path: '/categories' },
+				{ title: 'Colors', Icon: Palette, path: '/colors' },
+				{ title: 'Sizes', Icon: Ruler, path: '/sizes' },
+			],
+		},
 		{ title: 'Orders', Icon: BookCheck, path: '/orders' },
-		// { title: 'Biling', Icon: ListOrdered, path: '/orders' },
 	],
 	tools: [
 		{ title: 'Kanban', Icon: SquareKanbanIcon, path: '/kanban' },

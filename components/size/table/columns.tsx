@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { DeleteSize } from '../DeleteSize';
 import { useState } from 'react';
+import { EditSize } from '../EditSize';
 
 export const columns: ColumnDef<Size>[] = [
 	{
@@ -32,14 +33,7 @@ export const columns: ColumnDef<Size>[] = [
 	{
 		id: 'edit',
 		header: 'Edit',
-		cell: ({ row }) => (
-			<Link
-				href={`/colors/edit/${row.original.id}`}
-				className={buttonVariants({ variant: 'ghost' })}
-			>
-				<Settings2 className='w-4 h-auto' />
-			</Link>
-		),
+		cell: ({ row }) => <EditButton size={row.original} />,
 	},
 	{
 		id: 'delete',
@@ -48,7 +42,7 @@ export const columns: ColumnDef<Size>[] = [
 	},
 ];
 
-export default function DeleteButton({ size }: { size: Size }) {
+function DeleteButton({ size }: { size: Size }) {
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
 	return (
@@ -60,6 +54,23 @@ export default function DeleteButton({ size }: { size: Size }) {
 				id={size.id}
 				open={isDeleteDialogOpen}
 				setOpen={setIsDeleteDialogOpen}
+			/>
+		</>
+	);
+}
+
+function EditButton({ size }: { size: Size }) {
+	const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
+	return (
+		<>
+			<Button variant={'ghost'} onClick={() => setIsEditDialogOpen(true)}>
+				<Settings2 className='w-4 h-auto' />
+			</Button>
+			<EditSize
+				open={isEditDialogOpen}
+				setopen={setIsEditDialogOpen}
+				size={size}
 			/>
 		</>
 	);

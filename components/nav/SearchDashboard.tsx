@@ -12,6 +12,7 @@ import {
 } from '../ui/command';
 import { DashItem, dashConfig } from '@/config/sidenav';
 import { useRouter } from 'next/navigation';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 
 export default function SearchDashboard() {
 	const [open, setOpen] = useState(false);
@@ -74,18 +75,38 @@ function CommandGrp({
 
 	return (
 		<CommandGroup heading={heading}>
-			{menuGrp.map((item) => (
-				<CommandItem
-					key={item.title}
-					onSelect={() => {
-						close(() => router.push(item.path));
-					}}
-					className='font-normal flex gap-4 items-center transition duration-200 rounded-sm w-full cursor-pointer'
-				>
-					<item.Icon className='h-[18px] w-auto' strokeWidth='1.6' />
-					<span className='font-normal'>{item.title}</span>
-				</CommandItem>
-			))}
+			{menuGrp.map((item) =>
+				item.subnav ? (
+					item.subnav.map((i) => (
+						<Item
+							close={() => close(() => router.push(i.path))}
+							item={i}
+							key={i.title}
+						/>
+					))
+				) : (
+					<Item
+						close={() => close(() => router.push(item.path))}
+						item={item}
+						key={item.title}
+					/>
+				)
+			)}
 		</CommandGroup>
+	);
+}
+
+function Item({ item, close }: { item: DashItem; close: () => void }) {
+	return (
+		<CommandItem
+			key={item.title}
+			onSelect={() => {
+				close();
+			}}
+			className='font-normal flex gap-4 items-center transition duration-200 rounded-sm w-full cursor-pointer'
+		>
+			<item.Icon className='h-[18px] w-auto' strokeWidth='1.6' />
+			<span className='font-normal'>{item.title}</span>
+		</CommandItem>
 	);
 }

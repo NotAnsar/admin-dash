@@ -9,7 +9,7 @@ import {
 	DialogTitle,
 } from '@/components/ui/dialog';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { Edit, Loader, Plus } from 'lucide-react';
+import { Loader, Plus } from 'lucide-react';
 import { useFormStatus } from 'react-dom';
 import { cn } from '@/lib/utils';
 import { useFormState } from 'react-dom';
@@ -18,28 +18,22 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
-import { ColorState, updateColor } from '@/actions/color-action';
-import { Color } from '@/types/db';
+import { SizeState, createSize } from '@/actions/size-action';
 
-export function EditColor({
+export function CreateSize({
 	open,
 	setopen,
-	color,
 }: {
-	color: Color;
 	open: boolean;
 	setopen: Dispatch<SetStateAction<boolean>>;
 }) {
-	const initialState: ColorState = { message: null, errors: {} };
-	const [state, action] = useFormState(
-		updateColor.bind(null, color.id),
-		initialState
-	);
+	const initialState: SizeState = { message: null, errors: {} };
+	const [state, action] = useFormState(createSize, initialState);
 
 	useEffect(() => {
 		if (state === undefined) {
 			setopen(false);
-			toast({ description: 'Color data updated successfully.' });
+			toast({ description: 'Size data created successfully.' });
 		}
 	}, [state, setopen]);
 
@@ -47,10 +41,10 @@ export function EditColor({
 		<Dialog open={open} onOpenChange={setopen}>
 			<DialogContent className='sm:max-w-[425px]'>
 				<DialogHeader>
-					<DialogTitle>Edit Color</DialogTitle>
+					<DialogTitle>Create Size</DialogTitle>
 					<DialogDescription>
 						{
-							"Update a Color Enter the color details below and click 'Save' when you're done."
+							"Create a new size. Enter the size details and click save when you're done."
 						}
 					</DialogDescription>
 				</DialogHeader>
@@ -65,12 +59,11 @@ export function EditColor({
 									state?.errors?.name ? 'text-destructive' : ''
 								)}
 							>
-								Color Name
+								Size Name
 							</Label>
 							<Input
 								id='name'
 								name='name'
-								defaultValue={color.name}
 								className={cn(
 									'bg-transparent col-span-3',
 									state?.errors?.name
@@ -92,28 +85,27 @@ export function EditColor({
 					<div>
 						<div className='flex items-center gap-4'>
 							<Label
-								htmlFor='value'
+								htmlFor='fullname'
 								className={cn(
 									'text-nowrap',
-									state?.errors?.value ? 'text-destructive' : ''
+									state?.errors?.fullname ? 'text-destructive' : ''
 								)}
 							>
-								Color Value
+								Size Fullname
 							</Label>
 							<Input
-								id='value'
-								name='value'
-								defaultValue={color.value}
+								id='fullname'
+								name='fullname'
 								className={cn(
 									'bg-transparent col-span-3',
-									state?.errors?.value
+									state?.errors?.fullname
 										? 'border-destructive focus-visible:ring-destructive '
 										: ''
 								)}
 							/>
 						</div>
-						{state?.errors?.value &&
-							state.errors.value.map((error: string) => (
+						{state?.errors?.fullname &&
+							state.errors.fullname.map((error: string) => (
 								<p
 									className='text-sm font-medium text-destructive col-span-full mt-2'
 									key={error}
@@ -145,9 +137,20 @@ function PendingButton() {
 			{pending ? (
 				<Loader className='mr-2 h-4 w-4 animate-spin' />
 			) : (
-				<Edit className='mr-2 h-4 w-4' />
+				<Plus className='mr-2 h-4 w-4' />
 			)}
-			Edit Color
+			Create Size
 		</Button>
+	);
+}
+
+export function CreateSizeButton() {
+	const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+
+	return (
+		<>
+			<Button onClick={() => setIsCreateDialogOpen(true)}>Add Size</Button>
+			<CreateSize open={isCreateDialogOpen} setopen={setIsCreateDialogOpen} />
+		</>
 	);
 }
