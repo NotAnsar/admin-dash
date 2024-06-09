@@ -42,8 +42,6 @@ export async function createCategory(
 			.insert([{ name }])
 			.single();
 
-		console.log(data, error);
-
 		if (error) throw error;
 	} catch (error) {
 		console.log(error);
@@ -81,7 +79,6 @@ export async function updateCategory(
 			.eq('id', id)
 			.select('id')
 			.single();
-		console.log(data, error);
 
 		if (error) throw error;
 	} catch (error) {
@@ -116,4 +113,3 @@ export async function deleteCategory(id: string) {
 	revalidatePath('/categories', 'layout');
 	return { message: 'Product Category Was Deleted Successfully.' };
 }
-  

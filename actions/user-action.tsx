@@ -87,11 +87,18 @@ export async function updateUser(
 		const { email, f_name, l_name, role } = validatedFields.data;
 
 		const supabase = createClientSSR(true);
-		const { error } = await supabase.auth.admin.updateUserById(id, {
+		const { error: emailError } = await supabase.auth.admin.updateUserById(id, {
 			email,
 			email_confirm: true,
 			user_metadata: { f_name, l_name, role },
 		});
+
+		if (emailError) throw emailError;
+
+		const { error } = await supabase
+			.from('user')
+			.update({ f_name, l_name, role, email: email.toLowerCase() })
+			.eq('id', id);
 
 		if (error) throw error;
 	} catch (error) {

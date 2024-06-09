@@ -45,12 +45,10 @@ export async function createColor(prevState: ColorState, formData: FormData) {
 	try {
 		const supabase = createClientSSR(true);
 
-		const { data, error } = await supabase
+		const { error } = await supabase
 			.from('colors')
 			.insert([{ name, value }])
 			.single();
-
-		console.log(data, error);
 
 		if (error) throw error;
 	} catch (error) {
@@ -84,13 +82,12 @@ export async function updateColor(
 	try {
 		const supabase = createClientSSR(true);
 
-		const { data, error } = await supabase
+		const { error } = await supabase
 			.from('colors')
 			.update([{ name, value }])
 			.eq('id', id)
 			.select('id')
 			.single();
-		console.log(data, error);
 
 		if (error) throw error;
 	} catch (error) {
