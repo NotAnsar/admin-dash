@@ -139,7 +139,7 @@ function SliderNav({
 											? 'secondary'
 											: 'ghost',
 								}),
-								'justify-normal gap-3 h-9 w-full rounded-none border-x-0 font-normal text-[13px]'
+								'justify-normal gap-3 h-9 w-full rounded-none border-x-0  font-normal text-[13px]'
 							)}
 							href={item.path}
 						>

@@ -16,8 +16,16 @@ import {
 	TableRow,
 } from '../ui/table';
 import { cn } from '@/lib/utils';
+import { fetchLowestInStock } from '@/lib/dashboard';
+import Badge from '../Badge';
+import { Archive, ShieldCheck } from 'lucide-react';
 
-export default function InventoryAlert({ className }: { className?: string }) {
+export default async function InventoryAlert({
+	className,
+}: {
+	className?: string;
+}) {
+	const products = await fetchLowestInStock();
 	return (
 		<Card x-chunk='dashboard-01-chunk-5' className={className}>
 			<CardHeader>
@@ -42,7 +50,7 @@ export default function InventoryAlert({ className }: { className?: string }) {
 						<TableRow>
 							<TableHead>Product</TableHead>
 							<TableHead className='hidden sm:table-cell'>Price</TableHead>
-
+							<TableHead className='hidden sm:table-cell'>Status</TableHead>
 							<TableHead className='text-right'>Stock</TableHead>
 						</TableRow>
 					</TableHeader>
@@ -50,20 +58,30 @@ export default function InventoryAlert({ className }: { className?: string }) {
 						{products.map((p) => (
 							<TableRow key={p.id}>
 								<TableCell>
-									<div className='font-medium'>{p.product_name}</div>
+									<div className='font-medium'>{p.name}</div>
 									<div className='hidden text-sm text-muted-foreground md:inline'>
-										{p.category}
+										{p.category.name}
 									</div>
 								</TableCell>
-								<TableCell className='hidden sm:block'>${p.price}</TableCell>
+								<TableCell className='hidden sm:block'>
+									${p.price.toFixed(2)}
+								</TableCell>
 
-								<TableCell
-									className={cn('text-right font-medium', {
-										'text-red-500': p.stock >= 0 && p.stock <= 5,
-										'text-orange-400': p.stock > 5 && p.stock <= 15,
-										'text-green-500': p.stock > 15,
-									})}
-								>
+								<TableCell className='hidden sm:table-cell'>
+									<Badge variant={p.archived ? 'archive' : 'success'}>
+										{p.archived ? (
+											<>
+												<Archive className='w-3 h-auto' /> Archived
+											</>
+										) : (
+											<>
+												<ShieldCheck className='w-3 h-auto' /> Active
+											</>
+										)}
+									</Badge>
+								</TableCell>
+
+								<TableCell className={'text-right font-medium'}>
 									{p.stock}
 								</TableCell>
 							</TableRow>
@@ -74,41 +92,3 @@ export default function InventoryAlert({ className }: { className?: string }) {
 		</Card>
 	);
 }
-const products = [
-	{
-		id: 1,
-		product_name: 'T-shirt',
-		price: 19.99,
-		stock: 12,
-		category: "Men's Clothing",
-	},
-
-	{
-		id: 3,
-		product_name: 'Sneakers',
-		price: 49.99,
-		stock: 3,
-		category: "Men's Shoes",
-	},
-	{
-		id: 2,
-		product_name: 'Jeans',
-		price: 39.99,
-		stock: 7,
-		category: "Women's Clothing",
-	},
-	{
-		id: 4,
-		product_name: 'Dress',
-		price: 59.99,
-		stock: 0,
-		category: "Women's Clothing",
-	},
-	{
-		id: 5,
-		product_name: 'Sandals',
-		price: 29.99,
-		stock: 20,
-		category: "Women's Shoes",
-	},
-];
