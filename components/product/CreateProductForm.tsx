@@ -13,6 +13,7 @@ import { Loader, Plus } from 'lucide-react';
 import BreadCrumb from '@/components/BreadCrumb';
 import { useFormState, useFormStatus } from 'react-dom';
 import { ProductState, createProduct } from '@/actions/product-action';
+import { useState } from 'react';
 
 export default function CreateProductForm({
 	categories,
@@ -24,10 +25,11 @@ export default function CreateProductForm({
 	sizes: Size[];
 }) {
 	const initialState: ProductState = { message: null, errors: {} };
-	const [state, action] = useFormState(createProduct, initialState);
+	const [selectedImages, setSelectedImages] = useState<File[]>([]);
+	const [state, action] = useFormState(createProduct.bind(null,selectedImages), initialState);
 
 	return (
-		<form action={action}>
+		<form action={action} encType='multipart/form-data'>
 			<div className='flex gap-4 flex-col sm:flex-row justify-between'>
 				<BreadCrumb
 					items={[
@@ -53,7 +55,10 @@ export default function CreateProductForm({
 				</div>
 				<div className='grid auto-rows-max items-start gap-4 lg:gap-8'>
 					<ProductCategory categories={categories} state={state} />
-					<ProductImages />
+					<ProductImages
+						selectedImages={selectedImages}
+						setSelectedImages={setSelectedImages}
+					/>
 					<ProductStatus />
 				</div>
 			</div>

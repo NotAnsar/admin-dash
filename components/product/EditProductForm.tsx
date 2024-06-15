@@ -32,7 +32,7 @@ export default function EditProductForm({
 	);
 
 	return (
-		<form action={action}>
+		<form action={action} encType='multipart/form-data'>
 			<div className='flex gap-4 flex-col sm:flex-row justify-between'>
 				<BreadCrumb
 					items={[
