@@ -28,27 +28,27 @@ const formSchema = z.object({
 	size_id: z.string({ message: 'Please provide a valid size identifier.' }),
 	archived: z.boolean(),
 	featured: z.boolean(),
-	product_images: z
-		.array(
-			z.object({
-				file: z
-					.object({
-						file: z
-							.instanceof(File)
-							.refine((file) => file.size <= MAX_FILE_SIZE, {
-								message: `The product image must be a maximum of ${
-									MAX_FILE_SIZE / (1024 * 1024)
-								}MB.`,
-							})
-							.refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
-								message: `Only PNG, JPEG, JPG, and WEBP formats are supported.`,
-							}),
-					})
-					.required(),
-			})
-		)
-		.min(1, 'At least one product image is required')
-		.max(4, 'A maximum of 4 product images are allowed'),
+	// product_images: z
+	// 	.array(
+	// 		z.object({
+	// 			file: z
+	// 				.object({
+	// 					file: z
+	// 						.instanceof(File)
+	// 						.refine((file) => file.size <= MAX_FILE_SIZE, {
+	// 							message: `The product image must be a maximum of ${
+	// 								MAX_FILE_SIZE / (1024 * 1024)
+	// 							}MB.`,
+	// 						})
+	// 						.refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+	// 							message: `Only PNG, JPEG, JPG, and WEBP formats are supported.`,
+	// 						}),
+	// 				})
+	// 				.required(),
+	// 		})
+	// 	)
+	// 	.min(1, 'At least one product image is required')
+	// 	.max(4, 'A maximum of 4 product images are allowed'),
 });
 
 export type ProductState =
@@ -69,7 +69,6 @@ export type ProductState =
 	| undefined;
 
 export async function createProduct(
-	selectedImages: File[],
 	prevState: ProductState,
 	formData: FormData
 ) {
@@ -84,7 +83,6 @@ export async function createProduct(
 		featured: formData.get('featured') === 'on',
 		archived: formData.get('status') === 'archived',
 	});
-	console.log(selectedImages);
 
 	if (!validatedFields.success) {
 		return {
@@ -94,7 +92,6 @@ export async function createProduct(
 	}
 	console.log(formData);
 
-	return;
 	if (validatedFields.data.archived && validatedFields.data.featured) {
 		return { message: 'Archived products cannot be featured.' };
 	}

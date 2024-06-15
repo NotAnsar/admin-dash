@@ -25,8 +25,8 @@ export default function CreateProductForm({
 	sizes: Size[];
 }) {
 	const initialState: ProductState = { message: null, errors: {} };
-	const [selectedImages, setSelectedImages] = useState<File[]>([]);
-	const [state, action] = useFormState(createProduct.bind(null,selectedImages), initialState);
+
+	const [state, action] = useFormState(createProduct, initialState);
 
 	return (
 		<form action={action} encType='multipart/form-data'>
@@ -55,10 +55,7 @@ export default function CreateProductForm({
 				</div>
 				<div className='grid auto-rows-max items-start gap-4 lg:gap-8'>
 					<ProductCategory categories={categories} state={state} />
-					<ProductImages
-						selectedImages={selectedImages}
-						setSelectedImages={setSelectedImages}
-					/>
+					<ProductImages />
 					<ProductStatus />
 				</div>
 			</div>

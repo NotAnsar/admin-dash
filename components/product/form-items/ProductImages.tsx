@@ -14,30 +14,20 @@ import { ProductALL } from '@/types/db';
 import { Trash2, Upload } from 'lucide-react';
 import Image from 'next/image';
 
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 
-export default function ProductImages({
-	product,
-	selectedImages,
-	setSelectedImages,
-}: {
-	product?: ProductALL;
-	selectedImages: File[];
-	setSelectedImages: Dispatch<SetStateAction<File[]>>;
-}) {
-	// const [selectedImages, setSelectedImages] = useState<File[]>([]);
-	// const [images, setImages] = useState<string[]>([
-	// 	// 'https://oekyfpijfizbaexjkhbg.supabase.co/storage/v1/object/public/product_images/User_Dashboard.png',
-	// 	// 'https://oekyfpijfizbaexjkhbg.supabase.co/storage/v1/object/public/product_images/addUser.png',
-	// 	// 'https://oekyfpijfizbaexjkhbg.supabase.co/storage/v1/object/public/product_images/develop-a-responsive-react-js-firebase-web-app.png',
-	// 	// 'https://oekyfpijfizbaexjkhbg.supabase.co/storage/v1/object/public/product_images/Saly-13.png',
-	// ]);
+export default function ProductImages({ product }: { product?: ProductALL }) {
+	const [selectedImages, setSelectedImages] = useState<File[]>([]);
+	const [images, setImages] = useState<string[]>([
+		'https://oekyfpijfizbaexjkhbg.supabase.co/storage/v1/object/public/product_images/User_Dashboard.png',
+		'https://oekyfpijfizbaexjkhbg.supabase.co/storage/v1/object/public/product_images/addUser.png',
+		'https://oekyfpijfizbaexjkhbg.supabase.co/storage/v1/object/public/product_images/develop-a-responsive-react-js-firebase-web-app.png',
+		'https://oekyfpijfizbaexjkhbg.supabase.co/storage/v1/object/public/product_images/Saly-13.png',
+	]);
 
 	const removeImage = (imageToRemove: File) => {
-		setSelectedImages((prev) => prev.filter((file) => file !== imageToRemove));
+		// setSelectedImages((prev) => prev.filter((file) => file !== imageToRemove));
 	};
-
-	console.log(selectedImages);
 
 	return (
 		<Card className='overflow-hidden' x-chunk='dashboard-07-chunk-4'>
