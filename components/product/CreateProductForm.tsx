@@ -13,7 +13,6 @@ import { Loader, Plus } from 'lucide-react';
 import BreadCrumb from '@/components/BreadCrumb';
 import { useFormState, useFormStatus } from 'react-dom';
 import { ProductState, createProduct } from '@/actions/product-action';
-import { useState } from 'react';
 
 export default function CreateProductForm({
 	categories,

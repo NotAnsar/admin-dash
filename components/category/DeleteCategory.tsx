@@ -31,7 +31,7 @@ export const DeleteCategory = ({
 	);
 
 	useEffect(() => {
-		if (state.message) {
+		if (state.message) { 
 			setOpen(false);
 			toast({
 				description: state.message,

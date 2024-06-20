@@ -1,4 +1,4 @@
-import CreateProductForm from '@/components/product/CreateProductForm';
+import ProductFormClient from '@/components/product/ProductFormClient';
 import { fetchCategories, fetchColors, fetchSizes } from '@/lib/product';
 
 export default async function page() {
@@ -9,6 +9,8 @@ export default async function page() {
 	]);
 
 	return (
-		<CreateProductForm categories={categories} colors={colors} sizes={sizes} />
+		<ProductFormClient categories={categories} colors={colors} sizes={sizes} />
 	);
 }
+
+// <CreateProductForm categories={categories} colors={colors} sizes={sizes} />

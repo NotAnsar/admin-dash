@@ -1,4 +1,5 @@
 import EditProductForm from '@/components/product/EditProductForm';
+import ProductFormClient from '@/components/product/ProductFormClient';
 import {
 	fetchCategories,
 	fetchColors,
@@ -22,11 +23,17 @@ export default async function page({
 	if (!product) notFound();
 
 	return (
-		<EditProductForm
+		<ProductFormClient
 			categories={categories}
 			colors={colors}
 			product={product}
 			sizes={sizes}
 		/>
+		// <EditProductForm
+		// 	categories={categories}
+		// 	colors={colors}
+		// 	product={product}
+		// 	sizes={sizes}
+		// />
 	);
 }
