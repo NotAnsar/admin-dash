@@ -1,4 +1,3 @@
-import EditProductForm from '@/components/product/EditProductForm';
 import ProductFormClient from '@/components/product/ProductFormClient';
 import {
 	fetchCategories,
@@ -16,13 +15,11 @@ export default async function page({
 }: {
 	params: { id: string };
 }) {
-	const [colors, sizes, categories, product /* images */] = await Promise.all([
+	const [colors, sizes, categories, product] = await Promise.all([
 		fetchColors(),
 		fetchSizes(),
 		fetchCategories(),
 		fetchProductWithImages(id),
-		// fetchProductById(id),
-		// fetchProductImagesById(id),
 	]);
 
 	if (!product) notFound();
