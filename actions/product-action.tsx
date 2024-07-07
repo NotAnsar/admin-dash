@@ -195,16 +195,37 @@ export type DeleteProductState = {
 export async function deleteProduct(id: string) {
 	try {
 		const supabase = createClientSSR(true);
-		const { error } = await supabase.from('product').delete().eq('id', id);
 
-		if (error) throw error;
+		// Delete the product from the database
+		const { error: dbError } = await supabase
+			.from('product')
+			.delete()
+			.eq('id', id);
+		if (dbError) throw dbError;
+
+		const { data: list, error: listError } = await supabase.storage
+			.from('product_images')
+			.list(`${id}/`);
+
+		if (listError) throw listError;
+
+		if (list && list.length > 0) {
+			const filesToRemove = list?.map((file) => `${id}/${file.name}`);
+			const { error: removeError } = await supabase.storage
+				.from('product_images')
+				.remove(filesToRemove);
+
+			if (removeError) throw removeError;
+		}
 	} catch (error) {
-		console.log(error);
-		let message = 'Database Error: Failed to Delete Product.';
+		console.log('error: ', error);
+		let message = 'Error: Failed to Delete Product and/or Images.';
 		if (error instanceof AuthError) message = error.message;
-
 		return { message, type: 'error' };
 	}
+
 	revalidatePath('/products', 'layout');
-	return { message: 'Product Was Deleted Successfully.' };
+	return {
+		message: 'Product and Associated Images Were Deleted Successfully.',
+	};
 }

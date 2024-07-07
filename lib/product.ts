@@ -1,14 +1,18 @@
-
 import { createClientSSR } from './supabase/server';
-import { Category, Color, ProductALL, Size } from '@/types/db';
-
+import {
+	Category,
+	Color,
+	ProductALL,
+	ProductWithImages,
+	Size,
+} from '@/types/db';
 
 export async function fetchProducts() {
 	try {
 		const supabase = createClientSSR();
 		const { data: products, error } = await supabase
 			.from('product')
-			.select('*,category(*),colors(*),sizes(*),product_images(*)')
+			.select('*,category(*),colors(*),sizes(*)')
 			.returns<ProductALL[]>();
 
 		if (error) throw error;
@@ -24,11 +28,9 @@ export async function fetchProductById(id: string) {
 		const supabase = createClientSSR();
 		const { data: product, error } = await supabase
 			.from('product')
-			.select('*,category(*),colors(*),sizes(*),product_images(*)')
+			.select('*,category(*),colors(*),sizes(*)')
 			.eq('id', id)
 			.returns<ProductALL[]>();
-
-		
 
 		if (error) throw error;
 
@@ -36,6 +38,50 @@ export async function fetchProductById(id: string) {
 	} catch (error) {
 		console.error('Database Error:', error);
 		throw new Error(`Failed to fetch Product with the id ${id}.`);
+	}
+}
+export async function fetchProductImagesById(id: string) {
+	try {
+		const supabase = createClientSSR();
+		const { data, error } = await supabase.storage
+			.from('product_images')
+			.list(`${id}/`);
+
+		console.log(data, error);
+
+		if (error) throw error;
+
+		return data;
+	} catch (error) {
+		console.error('Database Error:', error);
+		throw new Error(`Failed to fetch Images of the product id ${id}.`);
+	}
+}
+
+export async function fetchProductWithImages(id: string) {
+	try {
+		const supabase = createClientSSR();
+
+		// Fetch product details
+		const { data: product, error: productError } = await supabase
+			.from('product')
+			.select('*,category(*),colors(*),sizes(*)')
+			.eq('id', id)
+			.returns<ProductALL[]>();
+
+		if (productError) throw productError;
+
+		// Fetch product images
+		const { data: images, error: imagesError } = await supabase.storage
+			.from('product_images')
+			.list(`${id}/`);
+
+		if (imagesError) throw imagesError;
+
+		return { ...product[0], images: images } as ProductWithImages;
+	} catch (error) {
+		console.error('Database Error:', error);
+		throw new Error(`Failed to fetch Product and Images with the id ${id}.`);
 	}
 }
 

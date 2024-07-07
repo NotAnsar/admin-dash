@@ -1,6 +1,6 @@
 'use client';
 
-import { Category, Color, ProductALL, Size } from '@/types/db';
+import { Category, Color, ProductWithImages, Size } from '@/types/db';
 import BreadCrumb from '@/components/BreadCrumb';
 import { Button } from '@/components/ui/button';
 import { Loader, Plus } from 'lucide-react';
@@ -9,52 +9,18 @@ import { UseFormReturn, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form } from '../ui/form';
 import { useState } from 'react';
-import { ProductDetailsClient } from './form-items/ProductDetails';
-import { ProductStockClient } from './form-items/ProductStock';
-import { FeaturedProductClient } from './form-items/FeaturedProduct';
-import { ProductCategoryClient } from './form-items/ProductCategory';
-import { ProductStatusClient } from './form-items/ProductStatus';
+import ProductDetails from './form-items/ProductDetails';
+import ProductStock from './form-items/ProductStock';
+import FeaturedProduct from './form-items/FeaturedProduct';
+import ProductCategory from './form-items/ProductCategory';
+import ProductStatus from './form-items/ProductStatus';
+import ProductImages from './form-items/ProductImages';
 import { toast } from '../ui/use-toast';
-import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { AuthError } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
+import { ProductSchemaType, productSchema } from '@/lib/productSchema';
 
-const formSchema = z.object({
-	name: z
-		.string()
-		.min(3, { message: 'Product Name must be at least 3 characters long.' }),
-	description: z.string(),
-	price: z.coerce
-		.number()
-		.positive({ message: 'Price must be a positive number' }),
-	stock: z.coerce
-		.number()
-		.int()
-		.min(0, { message: 'Stock must be a non-negative integer' }),
-	color_id: z.string({ message: 'Please provide a valid color identifier.' }),
-	size_id: z.string({ message: 'Please provide a valid size identifier.' }),
-	featured: z.boolean(),
-	category_id: z.string({
-		message: 'Please provide a valid category identifier.',
-	}),
-	archived: z.boolean(),
-});
-
-export type ProductForm = UseFormReturn<
-	{
-		featured: boolean;
-		name: string;
-		description: string;
-		price: number;
-		stock: number;
-		color_id: string;
-		size_id: string;
-		archived: boolean;
-		category_id: string;
-	},
-	any,
-	undefined
->;
+export type ProductForm = UseFormReturn<ProductSchemaType, any, undefined>;
 
 export default function ProductFormClient({
 	categories,
@@ -62,90 +28,91 @@ export default function ProductFormClient({
 	sizes,
 	product,
 }: {
-	product?: ProductALL;
+	product?: ProductWithImages;
 	categories: Category[];
 	colors: Color[];
 	sizes: Size[];
 }) {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const form = useForm<z.infer<typeof productSchema>>({
+		resolver: zodResolver(productSchema),
 		defaultValues: {
-			name: product ? product.name : '',
-			description: product ? product.description || '' : '',
-			size_id: product
-				? product.size_id
-				: sizes.find((s) => s.name === 'M')?.id || '',
-			featured: product ? product.featured : false,
-			archived: product ? product.archived : false,
-			category_id: product ? product.category_id : '',
-			color_id: product ? product.color_id : '',
-			price: product ? product.price : undefined,
-			stock: product ? product.stock : undefined,
+			name: product?.name ?? '',
+			description: product?.description ?? '',
+			size_id: product?.size_id ?? sizes.find((s) => s.name === 'M')?.id ?? '',
+			featured: product?.featured ?? false,
+			archived: product?.archived ?? false,
+			category_id: product?.category_id ?? '',
+			color_id: product?.color_id ?? '',
+			price: product?.price,
+			stock: product?.stock,
+			images: [],
 		},
 	});
 
-	async function onSubmit(values: z.infer<typeof formSchema>) {
+	async function onSubmit(values: z.infer<typeof productSchema>) {
 		setIsLoading(true);
-
-		if (values.featured && values.archived) {
-			setIsLoading(false);
-			toast({
-				description: 'Archived products cannot be featured.',
-				variant: 'destructive',
-			});
-			return;
-		}
+		const supabase = createClient();
 
 		try {
-			const supabase = createClient();
-			if (product) {
-				// update
-				const { data, error } = await supabase
-					.from('product')
-					.update([
-						{
-							...values,
-							description:
-								values.description === '' ? null : values.description,
-						},
-					])
-					.eq('id', product.id)
-					.select('id')
-					.single();
-				console.log(data, error);
-
-				if (error) throw error;
-			} else {
-				// create
-				const { data, error } = await supabase
-					.from('product')
-					.insert([
-						{
-							...values,
-							description: values.description || null,
-						},
-					])
-					.select('id')
-					.single();
-
-				if (error) throw error;
+			if (values.featured && values.archived) {
+				throw new Error('Archived products cannot be featured.');
 			}
+
+			const { images, ...rest } = values;
+			const productData = { ...rest, description: rest.description || null };
+
+			const { data, error } = await (product
+				? supabase
+						.from('product')
+						.update(productData)
+						.eq('id', product.id)
+						.select('id')
+						.single()
+				: supabase.from('product').insert([productData]).select('id').single());
+
+			if (error) throw error;
+
+			const productId = data.id as string;
+			const uploadPromises = images.map((img, i) =>
+				supabase.storage
+					.from('product_images')
+					.upload(`${productId}/${img.name}_${i}`, img)
+			);
+			const results = await Promise.all(uploadPromises);
+
+			// Check for errors in the upload results
+			const uploadErrors = results.filter((result) => result.error);
+			if (uploadErrors.length > 0) {
+				throw new Error('Some images failed to upload');
+			}
+
+			toast({
+				title: `Product ${product ? 'updated' : 'created'} successfully`,
+			});
+
+			router.push('/products');
+			router.refresh();
 		} catch (error) {
+			console.error(error);
+			let message = `Failed to ${product ? 'update' : 'create'} product.`;
+
+			if (typeof error === 'object' && error !== null) {
+				if ('message' in error && typeof error.message === 'string') {
+					message = error.message;
+				}
+			}
+
+			toast({
+				title: 'Error',
+				description: message,
+				variant: 'destructive',
+				duration: 5000,
+			});
+		} finally {
 			setIsLoading(false);
-			console.log(error);
-			let message = `Database Error: Failed to ${
-				product ? 'Update' : 'Create'
-			} Product.`;
-			if (error instanceof AuthError) message = error.message;
-
-			toast({ description: message, variant: 'destructive' });
-			return;
 		}
-
-		router.push('/products');
-		router.refresh();
 	}
 
 	return (
@@ -185,27 +152,23 @@ export default function ProductFormClient({
 
 				<div className='grid gap-4 lg:gap-y-8 lg:gap-x-0 lg:grid-cols-1 xl:grid-cols-3 xl:gap-8 my-4'>
 					<div className='grid auto-rows-max items-start gap-4 lg:col-span-2 lg:gap-8'>
-						<ProductDetailsClient form={form} isLoading={isLoading} />
-
-						<ProductStockClient
+						<ProductDetails form={form} isLoading={isLoading} />
+						<ProductStock
 							colors={colors}
 							sizes={sizes}
 							form={form}
 							isLoading={isLoading}
 						/>
-
-						<FeaturedProductClient form={form} isLoading={isLoading} />
+						<FeaturedProduct form={form} isLoading={isLoading} />
 					</div>
 					<div className='grid auto-rows-max items-start gap-4 lg:gap-8'>
-						<ProductCategoryClient
+						<ProductCategory
 							categories={categories}
 							form={form}
 							isLoading={isLoading}
 						/>
-
-						{/* <ProductImages /> */}
-
-						<ProductStatusClient form={form} isLoading={isLoading} />
+						<ProductImages form={form} isLoading={isLoading} />
+						<ProductStatus form={form} isLoading={isLoading} />
 					</div>
 				</div>
 			</form>

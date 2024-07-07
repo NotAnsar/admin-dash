@@ -23,7 +23,7 @@ export default function PieChartCategories({
 
 			<DonutChart
 				data={datahero}
-				className='h-80 lg:h-full p-6'
+				className='min-h-80 h-80 lg:min-h-96 lg:h-full p-6'
 				variant='pie'
 				valueFormatter={dataFormatter}
 				onValueChange={(v) => console.log(v)}

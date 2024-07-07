@@ -24,7 +24,6 @@ export const DeleteProduct = ({
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
 	const initialState: DeleteProductState = { message: null, type: null };
-
 	const [state, action] = useFormState(
 		deleteProduct.bind(null, id),
 		initialState

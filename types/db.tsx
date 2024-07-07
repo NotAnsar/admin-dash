@@ -1,3 +1,5 @@
+import { FileObject } from '@supabase/storage-js';
+
 export type Color = {
 	id: string;
 	name: string;
@@ -35,12 +37,20 @@ export type Product = {
 export type ProductALL = Product & {
 	colors: Color;
 	sizes: Size;
-	productImages: ProductImages[];
 	category: Category;
 };
 
-export type ProductImages = {
+export type ProductWithImages = {
 	id: string;
-	url: string;
-	product_id: string;
+	name: string;
+	price: number;
+	stock: number;
+	category_id: string;
+	created_at: string;
+	description: string;
+	archived: boolean;
+	featured: boolean;
+	color_id: string;
+	size_id: string;
+	images: FileObject[];
 };
