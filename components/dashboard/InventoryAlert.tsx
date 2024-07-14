@@ -15,7 +15,6 @@ import {
 	TableHeader,
 	TableRow,
 } from '../ui/table';
-import { cn } from '@/lib/utils';
 import { fetchLowestInStock } from '@/lib/dashboard';
 import Badge from '../Badge';
 import { Archive, ShieldCheck } from 'lucide-react';
@@ -63,7 +62,7 @@ export default async function InventoryAlert({
 										{p.category.name}
 									</div>
 								</TableCell>
-								<TableCell className='hidden sm:block'>
+								<TableCell className='hidden sm:table-cell'>
 									${p.price.toFixed(2)}
 								</TableCell>
 
