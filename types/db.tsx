@@ -52,5 +52,5 @@ export type ProductWithImages = {
 	featured: boolean;
 	color_id: string;
 	size_id: string;
-	images: FileObject[];
+	images: string[];
 };

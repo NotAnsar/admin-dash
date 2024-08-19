@@ -2,12 +2,9 @@ import ProductFormClient from '@/components/product/ProductFormClient';
 import {
 	fetchCategories,
 	fetchColors,
-	fetchProductById,
-	fetchProductImagesById,
 	fetchProductWithImages,
 	fetchSizes,
 } from '@/lib/product';
-import { createClientSSR } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 
 export default async function page({

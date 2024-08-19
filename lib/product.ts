@@ -77,8 +77,17 @@ export async function fetchProductWithImages(id: string) {
 			.list(`${id}/`);
 
 		if (imagesError) throw imagesError;
+		// Get public URLs for each image
+		const imageUrls = await Promise.all(
+			images.map(async (image) => {
+				const { data } = supabase.storage
+					.from('product_images')
+					.getPublicUrl(`${id}/${image.name}`);
+				return data.publicUrl;
+			})
+		);
 
-		return { ...product[0], images: images } as ProductWithImages;
+		return { ...product[0], images: imageUrls } as ProductWithImages;
 	} catch (error) {
 		console.error('Database Error:', error);
 		throw new Error(`Failed to fetch Product and Images with the id ${id}.`);
