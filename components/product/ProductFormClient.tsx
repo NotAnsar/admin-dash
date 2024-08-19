@@ -60,7 +60,6 @@ export default function ProductFormClient({
 			if (values.featured && values.archived) {
 				throw new Error('Archived products cannot be featured.');
 			}
-
 			const { images, ...rest } = values;
 			const productData = { ...rest, description: rest.description || null };
 
@@ -77,76 +76,52 @@ export default function ProductFormClient({
 
 			const productId = data.id as string;
 
-			// ----------------- New code -----------------
-			// Delete removed images
 			if (product) {
-				// Delete removed images
-				const removedImages = product.images.filter((img) => {
-					return !images.includes(img);
-				});
+				// Get the list of current image filenames in storage
+				const { data: storedImages, error: listError } = await supabase.storage
+					.from('product_images')
+					.list(productId);
 
-				if (removedImages.length > 0) {
-					await Promise.all(
-						removedImages.map((img) =>
-							supabase.storage
-								.from('product_images')
-								.remove([`${productId}/${img.split('/').pop()}`])
-						)
-					);
+				if (listError) {
+					console.error('Error listing stored images:', listError);
+					throw listError;
+				}
+
+				// Create a set of current image filenames (decoded)
+				const currentImageSet = new Set(
+					images.map((i) =>
+						typeof i === 'string'
+							? decodeURIComponent(i.split('/').pop() || '')
+							: i.name
+					)
+				);
+
+				// Find images to remove
+				const imagesToRemove = storedImages.filter(
+					(file) => !currentImageSet.has(file.name)
+				);
+				if (imagesToRemove.length > 0) {
+					const { error: deleteError } = await supabase.storage
+						.from('product_images')
+						.remove(imagesToRemove.map((file) => `${productId}/${file.name}`));
+
+					if (deleteError) {
+						console.error('Error deleting images:', deleteError);
+						throw deleteError;
+					}
 				}
 			}
-			// if (product) {
-			// 	// Get the list of current image filenames in storage
-			// 	const { data: storedImages, error: listError } = await supabase.storage
-			// 		.from('product_images')
-			// 		.list(productId);
 
-			// 	if (listError) {
-			// 		console.error('Error listing stored images:', listError);
-			// 		throw listError;
-			// 	}
-
-			// 	// Create a set of current image filenames (decoded)
-			// 	const currentImageSet = new Set(
-			// 		images.map((img) => decodeURIComponent(img.split('/').pop() || ''))
-			// 	);
-
-			// 	// Find images to remove
-			// 	const imagesToRemove = storedImages.filter(
-			// 		(file) => !currentImageSet.has(file.name)
-			// 	);
-
-			// 	if (imagesToRemove.length > 0) {
-			// 		const { error: deleteError } = await supabase.storage
-			// 			.from('product_images')
-			// 			.remove(imagesToRemove.map((file) => `${productId}/${file.name}`));
-
-			// 		if (deleteError) {
-			// 			console.error('Error deleting images:', deleteError);
-			// 			throw deleteError;
-			// 		}
-			// 	}
-			// }
-			// ----------------- End of new code -----------------
-			const newImages = images.filter(
-				(img): img is File => img instanceof File
+			const newImages = images.filter((i): i is File => i instanceof File);
+			const uploadResults = await Promise.all(
+				newImages.map((i) => {
+					const randomString = Math.random().toString(36).substring(2, 7);
+					const fName = `${productId}/${i.name.split('.')[0]}_${randomString}`;
+					return supabase.storage.from('product_images').upload(fName, i);
+				})
 			);
-			const uploadPromises = newImages.map((img) => {
-				const randomString = Math.random().toString(36).substring(2, 7);
-				return supabase.storage
-					.from('product_images')
-					.upload(
-						`${productId}/${img.name.split('.')[0]}_${randomString}`,
-						img
-					);
-			});
-			const results = await Promise.all(uploadPromises);
 
-			// Check for errors in the upload results
-			const uploadErrors = results.filter((result) => {
-				// console.log(result.error);
-				return result.error;
-			});
+			const uploadErrors = uploadResults.filter((result) => result.error);
 			if (uploadErrors.length > 0) {
 				throw new Error('Some images failed to upload');
 			}
@@ -171,7 +146,7 @@ export default function ProductFormClient({
 				title: 'Error',
 				description: message,
 				variant: 'destructive',
-				duration: 5000,
+				duration: 3000,
 			});
 		} finally {
 			setIsLoading(false);

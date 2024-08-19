@@ -14,7 +14,6 @@ import { toast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import { Trash2, Upload } from 'lucide-react';
 import Image from 'next/image';
-import { FieldError } from 'react-hook-form';
 import { ProductForm } from '../ProductFormClient';
 import { useMemo } from 'react';
 
@@ -224,7 +223,8 @@ export default function ProductImages({
 
 								{fieldState.error && (
 									<p className='text-sm text-destructive'>
-										1-4 images required. Each must be PNG/JPEG/JPG, max 4 MB.
+										1-4 images required. Each must be PNG/JPEG/JPG, max 1 MB per
+										Image.
 									</p>
 								)}
 							</FormItem>

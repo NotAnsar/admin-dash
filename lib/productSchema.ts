@@ -71,7 +71,7 @@ export const productSchema = z.object({
 				files.every((file) =>
 					typeof file === 'string'
 						? true // Assume existing URLs are valid
-						: file.size <= 4 * 1024 * 1024 &&
+						: file.size <= 1 * 1024 * 1024 &&
 						  ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)
 				),
 			{
