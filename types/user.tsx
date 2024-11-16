@@ -1,18 +1,3 @@
-export type User = {
-	id: string;
-	created_at: string;
-	f_name: string;
-	l_name: string;
-	role: 'admin' | 'user';
-	email: string;
-};
+import { Tables } from '@/database.types';
 
-export type Address = {
-	id: string;
-	user_id: string;
-	country: string;
-	city: string;
-	address: string;
-	postal_code: string;
-	mobile: string;
-};
+export type User = Tables<'user'>;

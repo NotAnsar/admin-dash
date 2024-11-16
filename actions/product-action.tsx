@@ -160,15 +160,13 @@ export async function updateProduct(
 
 		const { data, error } = await supabase
 			.from('product')
-			.update([
-				{
-					...validatedFields.data,
-					description:
-						validatedFields.data.description === ''
-							? null
-							: validatedFields.data.description,
-				},
-			])
+			.update({
+				...validatedFields.data,
+				description:
+					validatedFields.data.description === ''
+						? null
+						: validatedFields.data.description,
+			})
 			.eq('id', id)
 			.select('id')
 			.single();

@@ -103,7 +103,7 @@ export function EditColor({
 							<Input
 								id='value'
 								name='value'
-								defaultValue={color.value}
+								defaultValue={color.value || undefined}
 								className={cn(
 									'bg-transparent col-span-3',
 									state?.errors?.value

@@ -5,10 +5,11 @@ import Logo from '../Logo';
 import { usePathname } from 'next/navigation';
 import { dashConfig } from '@/config/sidenav';
 import NavGroup from './NavGroup';
-import { SheetContent } from '../ui/sheet';
+import { SheetClose, SheetContent } from '../ui/sheet';
 import { ModeToggleTrigger } from '../ModeToggle';
 import { Moon, Sun } from 'lucide-react';
 import { Button } from '../ui/button';
+import Link from 'next/link';
 
 export default function SideBarNavMobile({
 	className,
@@ -22,12 +23,17 @@ export default function SideBarNavMobile({
 			className={cn('flex flex-col p-5 gap-0 w-4/6', className)}
 			{...props}
 		>
-			<div className='flex gap-[6px] items-center pl-4'>
-				<Logo className='text-foreground w-[26px] h-auto -rotate-45' />
-				<h4 className='text-[28px] font-serif font-medium tracking-wide'>
-					Orava
-				</h4>
-			</div>
+			<SheetClose asChild>
+				<Link
+					className='flex gap-[6px] items-center pl-4 cursor-pointer'
+					href={'/'}
+				>
+					<Logo className='text-foreground w-[26px] h-auto -rotate-45' />
+					<h4 className='text-[28px] font-serif font-medium tracking-wide'>
+						Orava
+					</h4>
+				</Link>
+			</SheetClose>
 
 			<NavGroup
 				label='Overview'
@@ -43,7 +49,6 @@ export default function SideBarNavMobile({
 				path={path}
 			/>
 			<NavGroup sheet={true} label='Tools' menuGrp={tools} path={path} />
-			
 
 			<ModeToggleTrigger>
 				<Button variant={'secondary'} className='mt-auto'>

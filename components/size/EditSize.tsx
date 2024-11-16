@@ -103,7 +103,7 @@ export function EditSize({
 							<Input
 								id='fullname'
 								name='fullname'
-								defaultValue={size.fullname}
+								defaultValue={size?.fullname || undefined}
 								className={cn(
 									'bg-transparent col-span-3',
 									state?.errors?.fullname

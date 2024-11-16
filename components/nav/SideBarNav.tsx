@@ -7,17 +7,6 @@ import { dashConfig } from '@/config/sidenav';
 import NavGroup from './NavGroup';
 import SignOut from './SignOut';
 import Link from 'next/link';
-import {
-	Box,
-	BoxIcon,
-	Boxes,
-	ChevronDown,
-	ChevronRight,
-	Palette,
-	Ruler,
-} from 'lucide-react';
-import { Button, buttonVariants } from '../ui/button';
-import { useState } from 'react';
 
 export default function SideBarNav({
 	className,

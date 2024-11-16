@@ -107,7 +107,7 @@ function SliderNav({
 	return (
 		<Collapsible
 			className={cn(
-				'data-[state=open]:bg-foreground/5 rounded-md transition-colors duration-300 ease-out grid gap-0.5 ',
+				'data-[state=open]:bg-foreground/5 rounded-md transition-colors duration-300 ease-out grid gap-0.5',
 				isSubPath ? 'bg-foreground/5 border border-foreground/15' : null
 			)}
 		>
@@ -123,7 +123,7 @@ function SliderNav({
 				</div>
 
 				<ChevronDown
-					className={cn('h-[18px] w-auto transition duration-200 ease-out')}
+					className={cn('h-[18px] w-auto transition duwration-200 ease-out')}
 					strokeWidth='1.6'
 				/>
 			</CollapsibleTrigger>

@@ -12,5 +12,3 @@ export default async function page() {
 		<ProductFormClient categories={categories} colors={colors} sizes={sizes} />
 	);
 }
-
-// <CreateProductForm categories={categories} colors={colors} sizes={sizes} />

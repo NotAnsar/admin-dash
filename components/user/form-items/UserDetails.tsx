@@ -160,7 +160,7 @@ export default function UserDetails({
 				>
 					Role
 				</Label>
-				<Select required name='role' defaultValue={user ? user.role : ''}>
+				<Select required name='role' defaultValue={user?.role ? user.role : ''}>
 					<SelectTrigger id='role' aria-label='Select role' name='role'>
 						<SelectValue placeholder='Select role' />
 					</SelectTrigger>

@@ -35,7 +35,7 @@ export default async function AuthenticatedLayout({
 				<ModeToggle className='bg-transparent backdrop-blur-md' />
 			</div>
 			<Link
-				href={'https://cadency-sage.vercel.app/'}
+				href={'https://cadency-music.vercel.app/'}
 				target='_blank'
 				className='absolute right-4 top-4 md:right-8 md:top-8 flex items-center gap-1 text-[13px] bg-foreground rounded-full text-background px-6 cursor-pointer hover:gap-2 transition-all duration-300 group h-7'
 			>

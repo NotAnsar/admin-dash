@@ -5,10 +5,12 @@ export async function getCurrentUser() {
 	const supabase = createClientSSR();
 	const { data } = await supabase.auth.getUser();
 
+	if (!data) await supabase.auth.signOut();
+	
 	const { data: user } = await supabase
 		.from('user')
 		.select('*')
-		.eq('id', data.user?.id)
+		.eq('id', data.user?.id ?? '')
 		.single();
 
 	return user as User;

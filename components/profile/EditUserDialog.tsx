@@ -63,7 +63,7 @@ export function EditUserDialog({
 							</Label>
 							<Input
 								id='fname'
-								defaultValue={user.f_name}
+								defaultValue={user?.f_name || undefined}
 								name='fname'
 								className={cn(
 									'bg-transparent col-span-3',
@@ -98,7 +98,7 @@ export function EditUserDialog({
 							<Input
 								name='lname'
 								id='lname'
-								defaultValue={user.l_name}
+								defaultValue={user?.l_name || undefined}
 								className={cn(
 									'bg-transparent col-span-3',
 									state?.errors?.lname

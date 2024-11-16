@@ -20,7 +20,7 @@ export const columns: ColumnDef<Color>[] = [
 					<p>{row.original.name}</p>
 					<div
 						className='w-4 h-4 rounded-full border-border border'
-						style={{ background: row.original.value }}
+						style={{ background: row.original.value || undefined }}
 					/>
 				</div>
 			);

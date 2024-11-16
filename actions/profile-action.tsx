@@ -77,13 +77,11 @@ export async function updateUser(prevState: ProfileState, formData: FormData) {
 		const {
 			data: { user },
 		} = await supabase.auth.getUser();
+
 		const { error } = await supabase
 			.from('user')
 			.update({ f_name: fname, l_name: lname })
-			.eq('id', user?.id);
-		// const { error } = await supabase.auth.admin.updateUserById(user?.id || '', {
-		// 	user_metadata: { f_name: fname, l_name: lname },
-		// });
+			.eq('id', user?.id ?? '');
 
 		if (error) throw error;
 	} catch (error) {

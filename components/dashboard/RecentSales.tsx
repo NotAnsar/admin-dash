@@ -2,6 +2,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { generateAvatarFallback, recentSales } from '@/config/dashboard';
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '../ui/button';
 
 export default function RecentSales({ className }: { className?: string }) {
 	return (
@@ -12,9 +15,10 @@ export default function RecentSales({ className }: { className?: string }) {
 
 					<Link
 						href='/orders'
-						className='text-sm text-muted-foreground font-normal tracking-wide hover:text-foreground duration-200 transition ease-out  rounded-sm'
+						className={cn(buttonVariants({ size: 'sm' }), 'ml-auto gap-1')}
 					>
-						see all
+					 	View All
+						<ArrowUpRight className='h-4 w-4' />
 					</Link>
 				</CardTitle>
 			</CardHeader>

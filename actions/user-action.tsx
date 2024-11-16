@@ -1,5 +1,6 @@
 'use server';
 
+import { Enums } from '@/database.types';
 import { createClientSSR } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/user';
 import { AuthError } from '@supabase/supabase-js';
@@ -50,8 +51,9 @@ export async function createUser(prevState: UserState, formData: FormData) {
 			email,
 			password,
 			email_confirm: true,
-			user_metadata: { f_name, l_name, role },
+			user_metadata: { f_name, l_name, role: role as Enums<'role'> },
 		});
+ 
 		if (error) throw error;
 	} catch (error) {
 		let message = 'Database Error: Failed to Create User Data.';
@@ -97,7 +99,12 @@ export async function updateUser(
 
 		const { error } = await supabase
 			.from('user')
-			.update({ f_name, l_name, role, email: email.toLowerCase() })
+			.update({
+				f_name,
+				l_name,
+				role,
+				email: email.toLowerCase(),
+			})
 			.eq('id', id);
 
 		if (error) throw error;

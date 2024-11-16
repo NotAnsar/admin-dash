@@ -7,14 +7,14 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { toast } from '../ui/use-toast';
+import { toast } from '../../ui/use-toast';
+import { DeleteProductState, deleteProduct } from '@/actions/product-action';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 import { Loader } from 'lucide-react';
-import { DeleteColorState, deleteColor } from '@/actions/color-action';
 
-export const DeleteColor = ({
+export const DeleteProduct = ({
 	id,
 	open,
 	setOpen,
@@ -23,10 +23,9 @@ export const DeleteColor = ({
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-	const initialState: DeleteColorState = { message: null, type: null };
-
+	const initialState: DeleteProductState = { message: null, type: null };
 	const [state, action] = useFormState(
-		deleteColor.bind(null, id),
+		deleteProduct.bind(null, id),
 		initialState
 	);
 
@@ -46,9 +45,8 @@ export const DeleteColor = ({
 				<AlertDialogHeader>
 					<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 					<AlertDialogDescription>
-						Deleting this color will also delete all products associated with
-						it. This action cannot be undone. Do you want to proceed with the
-						deletion?
+						This action cannot be undone. This will permanently delete your
+						Product and remove your data from our servers.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

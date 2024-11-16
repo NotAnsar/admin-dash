@@ -75,7 +75,7 @@ export async function updateCategory(
 
 		const { data, error } = await supabase
 			.from('category')
-			.update([{ name }])
+			.update({ name })
 			.eq('id', id)
 			.select('id')
 			.single();

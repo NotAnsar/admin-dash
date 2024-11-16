@@ -84,7 +84,7 @@ export async function updateColor(
 
 		const { error } = await supabase
 			.from('colors')
-			.update([{ name, value }])
+			.update({ name, value })
 			.eq('id', id)
 			.select('id')
 			.single();

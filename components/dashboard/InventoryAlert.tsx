@@ -17,7 +17,9 @@ import {
 } from '../ui/table';
 import { fetchLowestInStock } from '@/lib/dashboard';
 import Badge from '../Badge';
-import { Archive, ShieldCheck } from 'lucide-react';
+import { Archive, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '../ui/button';
 
 export default async function InventoryAlert({
 	className,
@@ -33,9 +35,10 @@ export default async function InventoryAlert({
 
 					<Link
 						href='/products'
-						className='text-sm text-muted-foreground font-normal tracking-wide hover:text-foreground duration-200 transition ease-out  rounded-sm'
+						className={cn(buttonVariants({ size: 'sm' }), 'ml-auto gap-1')}
 					>
-						View all
+						View All
+						<ArrowUpRight className='h-4 w-4' />
 					</Link>
 				</CardTitle>
 

@@ -2,11 +2,15 @@
 
 import {
 	ColumnDef,
+	SortingState,
 	flexRender,
 	getCoreRowModel,
 	getPaginationRowModel,
+	getSortedRowModel,
+	getFacetedUniqueValues,
 	getFilteredRowModel,
 	useReactTable,
+	ColumnFiltersState,
 } from '@tanstack/react-table';
 
 import {
@@ -18,8 +22,10 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 
-import { Input } from '@/components/ui/input';
-import PaginationTable from '@/components/product/table/PaginationTable';
+import { useState } from 'react';
+import FilterTable from './FilterTable';
+import PaginationTable from './PaginationTable';
+import { Category } from '@/types/db';
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -29,27 +35,26 @@ interface DataTableProps<TData, TValue> {
 export function DataTable<TData, TValue>({
 	columns,
 	data,
-}: DataTableProps<TData, TValue>) {
+	categories,
+}: DataTableProps<TData, TValue> & { categories: Category[] }) {
+	const [sorting, setSorting] = useState<SortingState>([]);
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const table = useReactTable({
 		data,
 		columns,
+		state: { sorting, columnFilters },
+		onColumnFiltersChange: setColumnFilters,
+		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		getFacetedUniqueValues: getFacetedUniqueValues(),
 	});
 
 	return (
 		<>
-			<div className='flex flex-col lg:flex-row items-center py-4 gap-2'>
-				<Input
-					placeholder='Filter by name'
-					className='flex gap-1 w-full lg:w-[270px] '
-					value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-					onChange={(event) =>
-						table.getColumn('name')?.setFilterValue(event.target.value)
-					}
-				/>
-			</div>
+			<FilterTable table={table} categories={categories} />
 			<div className='rounded-md border'>
 				<Table>
 					<TableHeader className='bg-secondary'>

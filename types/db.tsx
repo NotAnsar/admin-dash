@@ -1,38 +1,12 @@
-import { FileObject } from '@supabase/storage-js';
+import { Tables } from '@/database.types';
 
-export type Color = {
-	id: string;
-	name: string;
-	value: string;
-	created_at: string;
-};
+export type Color = Tables<'colors'>;
 
-export type Category = {
-	id: string;
-	name: string;
-	created_at: string;
-};
+export type Category = Tables<'category'>;
 
-export type Size = {
-	id: string;
-	name: string;
-	fullname: string;
-	created_at: string;
-};
+export type Size = Tables<'sizes'>;
 
-export type Product = {
-	id: string;
-	name: string;
-	price: number;
-	stock: number;
-	category_id: string;
-	created_at: string;
-	description: string;
-	archived: boolean;
-	featured: boolean;
-	color_id: string;
-	size_id: string;
-};
+export type Product = Tables<'product'>;
 
 export type ProductALL = Product & {
 	colors: Color;
@@ -40,17 +14,4 @@ export type ProductALL = Product & {
 	category: Category;
 };
 
-export type ProductWithImages = {
-	id: string;
-	name: string;
-	price: number;
-	stock: number;
-	category_id: string;
-	created_at: string;
-	description: string;
-	archived: boolean;
-	featured: boolean;
-	color_id: string;
-	size_id: string;
-	images: string[];
-};
+export type ProductWithImages = Product & { images: string[] };

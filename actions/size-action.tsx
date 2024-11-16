@@ -80,7 +80,7 @@ export async function updateSize(
 
 		const { data, error } = await supabase
 			.from('sizes')
-			.update([{ fullname, name }])
+			.update({ fullname, name })
 			.eq('id', id)
 			.select('id')
 			.single();
