@@ -28,7 +28,7 @@ export default async function AuthenticatedLayout({
 			<div
 				className='relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r'
 				style={{
-					background: 'url("/login.webp") center center / cover no-repeat',
+					background: 'url("/login2.webp") center center / cover no-repeat',
 				}}
 			/>
 			<div className='absolute right-4 bottom-4 md:right-8 md:bottom-8 flex items-center gap-2'>
