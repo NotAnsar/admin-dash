@@ -1,7 +1,12 @@
+import { columns } from '@/components/order/table/columns';
+import { DataTable } from '@/components/order/table/data-table';
 import { buttonVariants } from '@/components/ui/button';
+import { fetchOrders } from '@/lib/order';
 import Link from 'next/link';
 
-export default function Orders() {
+export default async function Orders() {
+	const orders = await fetchOrders();
+
 	return (
 		<>
 			<div className='flex items-center justify-between'>
@@ -11,7 +16,7 @@ export default function Orders() {
 				</Link>
 			</div>
 
-			{/* <DataTable columns={columns} data={sizes} /> */}
+			<DataTable columns={columns} data={orders} />
 		</>
 	);
 }

@@ -53,7 +53,7 @@ export async function recoverPassword(
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Send Reset Link.';
 		if (error instanceof AuthError) message = error.message;
 
@@ -117,7 +117,7 @@ export async function updatePassword(
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Unable to reset Password. Try Again';
 
 		if (error instanceof AuthError) {

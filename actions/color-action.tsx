@@ -52,7 +52,7 @@ export async function createColor(prevState: ColorState, formData: FormData) {
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Create Product Color.';
 		if (error instanceof AuthError) message = error.message;
 
@@ -91,7 +91,7 @@ export async function updateColor(
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Update Product Color.';
 		if (error instanceof AuthError) message = error.message;
 
@@ -112,7 +112,7 @@ export async function deleteColor(id: string) {
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Delete Product Color.';
 		if (error instanceof AuthError) message = error.message;
 

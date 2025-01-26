@@ -85,7 +85,7 @@ export async function updateUser(prevState: ProfileState, formData: FormData) {
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Update User Data.';
 		if (error instanceof AuthError) message = error.message;
 

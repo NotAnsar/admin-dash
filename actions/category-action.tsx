@@ -44,7 +44,8 @@ export async function createCategory(
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
+
 		let message = 'Database Error: Failed to Create Product Category.';
 		if (error instanceof AuthError) message = error.message;
 
@@ -82,7 +83,7 @@ export async function updateCategory(
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Update Product Category.';
 		if (error instanceof AuthError) message = error.message;
 
@@ -103,7 +104,7 @@ export async function deleteCategory(id: string) {
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Delete Product Category.';
 		if (error instanceof AuthError) message = error.message;
 

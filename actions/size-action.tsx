@@ -48,7 +48,7 @@ export async function createSize(prevState: SizeState, formData: FormData) {
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Create Product Size.';
 		if (error instanceof AuthError) message = error.message;
 
@@ -87,7 +87,7 @@ export async function updateSize(
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Update Product Size.';
 		if (error instanceof AuthError) message = error.message;
 
@@ -109,7 +109,7 @@ export async function deleteSize(id: string) {
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Delete Product Size.';
 		if (error instanceof AuthError) message = error.message;
 

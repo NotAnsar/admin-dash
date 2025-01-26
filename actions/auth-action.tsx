@@ -39,7 +39,7 @@ export async function signinAction(prevState: AuthState, formData: FormData) {
 		if (error)
 			return { message: 'Signin failed. Please check your credentials.' };
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Sign in User.';
 		if (error instanceof AuthError) message = error.message;
 

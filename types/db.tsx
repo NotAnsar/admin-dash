@@ -1,4 +1,4 @@
-import { Tables } from '@/database.types';
+import { Database, Tables } from '@/database.types';
 
 export type Color = Tables<'colors'>;
 
@@ -15,3 +15,17 @@ export type ProductALL = Product & {
 };
 
 export type ProductWithImages = Product & { images: string[] };
+
+export type OrderWithItems = Tables<'orders'> & {
+	order_Items: (Tables<'order_Items'> & { product: Tables<'product'> })[];
+	user: Tables<'user'>;
+};
+
+type StatusEnum = Database['public']['Enums']['status'];
+
+export const statusEnumValues: StatusEnum[] = [
+	'pending',
+	'shipped',
+	'delivered',
+	'canceled',
+];

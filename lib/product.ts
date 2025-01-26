@@ -47,7 +47,7 @@ export async function fetchProductImagesById(id: string) {
 			.from('product_images')
 			.list(`${id}/`);
 
-		console.log(data, error);
+		
 
 		if (error) throw error;
 

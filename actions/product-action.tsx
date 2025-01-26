@@ -90,7 +90,6 @@ export async function createProduct(
 			message: 'Invalid Credentials. Unable to Sign in.',
 		};
 	}
-	console.log(formData);
 
 	if (validatedFields.data.archived && validatedFields.data.featured) {
 		return { message: 'Archived products cannot be featured.' };
@@ -117,7 +116,7 @@ export async function createProduct(
 
 		const product_id = data.id;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Create Product.';
 		if (error instanceof AuthError) message = error.message;
 
@@ -175,7 +174,7 @@ export async function updateProduct(
 
 		// const product_id = data.id;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Update Product.';
 		if (error instanceof AuthError) message = error.message;
 

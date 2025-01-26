@@ -53,7 +53,7 @@ export async function createUser(prevState: UserState, formData: FormData) {
 			email_confirm: true,
 			user_metadata: { f_name, l_name, role: role as Enums<'role'> },
 		});
- 
+
 		if (error) throw error;
 	} catch (error) {
 		let message = 'Database Error: Failed to Create User Data.';
@@ -138,7 +138,7 @@ export async function deleteUser(id: string) {
 
 		if (error) throw error;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		let message = 'Database Error: Failed to Delete User.';
 		if (error instanceof AuthError) message = error.message;
 

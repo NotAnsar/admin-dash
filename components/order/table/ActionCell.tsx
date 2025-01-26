@@ -1,5 +1,5 @@
 'use client';
-import { ProductALL } from '@/types/db';
+import { OrderWithItems, ProductALL } from '@/types/db';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -13,15 +13,17 @@ import { MoreHorizontalIcon } from 'lucide-react';
 import { useState } from 'react';
 import { Dialog } from '@radix-ui/react-dialog';
 import Link from 'next/link';
-import { DeleteProduct } from './DeleteProduct';
+import { DeleteOrder } from './DeleteOrder';
 
 export default function ActionCell({
-	product,
+	order,
 	...props
 }: {
-	product: ProductALL;
+	order: OrderWithItems;
 }) {
 	const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+	const { id, user_id } = order;
 
 	return (
 		<Dialog>
@@ -33,31 +35,31 @@ export default function ActionCell({
 					</Button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent align='end'>
+					<DropdownMenuItem onClick={() => navigator.clipboard.writeText(id)}>
+						Copy Order ID
+					</DropdownMenuItem>
 					<DropdownMenuItem
-						onClick={() => navigator.clipboard.writeText(product.id)}
+						onClick={() => navigator.clipboard.writeText(user_id)}
 					>
-						Copy product ID
+						Copy User ID
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem className='p-0'>
-						<Link
-							href={`/products/edit/${product.id}`}
-							className='px-2 py-1.5 w-full'
-						>
-							Edit Product
+						<Link href={`/order/edit/${id}`} className='px-2 py-1.5 w-full'>
+							Edit Order
 						</Link>
 					</DropdownMenuItem>
 					<DropdownMenuItem
 						onClick={() => setIsDeleteDialogOpen(true)}
 						className='cursor-pointer'
 					>
-						Delete Product
+						Delete Order
 					</DropdownMenuItem>
 				</DropdownMenuContent>
 			</DropdownMenu>
 
-			<DeleteProduct
-				id={product.id}
+			<DeleteOrder
+				id={id}
 				open={isDeleteDialogOpen}
 				setOpen={setIsDeleteDialogOpen}
 			/>

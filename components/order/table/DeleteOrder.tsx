@@ -8,13 +8,14 @@ import {
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { toast } from '../../ui/use-toast';
-import { DeleteProductState, deleteProduct } from '@/actions/product-action';
+import { deleteOrder } from '@/actions/order-action';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { Button } from '../../ui/button';
 import { Loader } from 'lucide-react';
+import { DeleteOrderState } from '@/actions/order-action';
 
-export const DeleteProduct = ({
+export const DeleteOrder = ({
 	id,
 	open,
 	setOpen,
@@ -23,9 +24,9 @@ export const DeleteProduct = ({
 	open: boolean;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-	const initialState: DeleteProductState = { message: null, type: null };
+	const initialState: DeleteOrderState = { message: null, type: null };
 	const [state, action] = useFormState(
-		deleteProduct.bind(null, id),
+		deleteOrder.bind(null, id),
 		initialState
 	);
 
@@ -46,7 +47,7 @@ export const DeleteProduct = ({
 					<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 					<AlertDialogDescription>
 						This action cannot be undone. This will permanently delete your
-						Product and remove your data from our servers.
+						order and remove your data from our servers.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
