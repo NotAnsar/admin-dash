@@ -30,7 +30,8 @@ export default function ProductDetails({
 			<CardHeader>
 				<CardTitle>Product Details</CardTitle>
 				<CardDescription>
-					Lipsum dolor sit amet, consectetur adipiscing elit
+					Your new text here
+				This section allows you to provide detailed information about the product. You can add the product name and a description to give more context.
 				</CardDescription>
 			</CardHeader>
 			<CardContent className='grid gap-6'>

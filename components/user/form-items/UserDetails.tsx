@@ -169,6 +169,15 @@ export default function UserDetails({
 						<SelectItem value='admin'>Admin</SelectItem>
 					</SelectContent>
 				</Select>
+				{state?.errors?.role &&
+					state.errors.role.map((error: string) => (
+						<p
+							className='text-sm font-medium text-destructive mt-1'
+							key={error}
+						>
+							{error}
+						</p>
+					))}
 			</div>
 		</div>
 	);

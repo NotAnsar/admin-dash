@@ -45,7 +45,7 @@ export default function ActionCell({
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem className='p-0'>
-						<Link href={`/order/edit/${id}`} className='px-2 py-1.5 w-full'>
+						<Link href={`/orders/edit/${id}`} className='px-2 py-1.5 w-full'>
 							Edit Order
 						</Link>
 					</DropdownMenuItem>
