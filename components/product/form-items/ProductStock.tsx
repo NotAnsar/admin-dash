@@ -6,7 +6,6 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
 	Select,
 	SelectContent,
@@ -14,10 +13,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import ProductSize from './ProductSize';
-import { Color, ProductALL, Size } from '@/types/db';
-import { ProductState } from '@/actions/product-action';
-import { cn } from '@/lib/utils';
+import { Color, Size } from '@/types/db';
 import { ProductForm } from '../ProductFormClient';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import {

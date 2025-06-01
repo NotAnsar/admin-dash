@@ -19,23 +19,7 @@ import { OrderWithItems, statusEnumValues } from '@/types/db';
 import { OrderFormState } from '@/actions/order-action';
 import { User } from '@/types/user';
 
-export default function OrderFormDetails({
-	state,
-	initialData,
-	users,
-}: {
-	state: OrderFormState;
-	initialData?: OrderWithItems;
-	users: User[];
-}) {
-	return (
-		<div className='mt-5'>
-			<OrderDetails state={state} initialData={initialData} users={users} />
-		</div>
-	);
-}
-
-export function OrderDetails({
+export default function OrderDetails({
 	state,
 	initialData,
 	users,

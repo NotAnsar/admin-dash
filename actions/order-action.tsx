@@ -5,8 +5,6 @@ import { AuthError } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
-import { State } from './utils';
-import { statusEnumValues } from '@/types/db';
 
 const orderSchema = z.object({
 	user_id: z.string({ message: 'Please provide a valid User.' }),
@@ -17,31 +15,56 @@ const orderSchema = z.object({
 	total: z.coerce
 		.number()
 		.positive({ message: 'Price must be a positive number' }),
+	order_Items: z.array(
+		z.object({
+			product_id: z.string({ message: 'Please provide a valid Product ID.' }),
+			quantity: z.coerce
+				.number()
+				.positive({ message: 'Quantity must be a positive number' }),
+			unit_price: z.coerce
+				.number()
+				.positive({ message: 'Unit price must be a positive number' }),
+		})
+	),
 });
 
-type OrderData = z.infer<typeof orderSchema>;
-
-export type OrderFormState = State<OrderData>;
+export type OrderFormState = {
+	errors?: {
+		user_id?: string[];
+		status?: string[];
+		total?: string[];
+		order_Items?: Array<{
+			product_id?: string[];
+			quantity?: string[];
+			unit_price?: string[];
+		}>;
+	};
+	message?: string | null;
+};
 
 export async function createOrder(
 	prevState: OrderFormState,
 	formData: FormData
-) {
+): Promise<OrderFormState> {
 	const validatedFields = orderSchema.safeParse({
 		user_id: formData.get('user_id'),
 		status: formData.get('status'),
 		total: formData.get('total'),
+		order_Items: JSON.parse(formData.get('order_Items') as string),
 	});
 
 	if (!validatedFields.success) {
+		const fieldErrors = formatOrderItemErrors(
+			validatedFields.error.flatten().fieldErrors
+		);
 		return {
-			errors: validatedFields.error.flatten().fieldErrors,
-			message: 'Invalid Credentials. Unable to Create Order.',
+			errors: fieldErrors,
+			message: 'Validation failed. Please check your order items.',
 		};
 	}
 
 	try {
-		const { status, total, user_id } = validatedFields.data;
+		const { status, total, user_id, order_Items } = validatedFields.data;
 
 		const supabase = createClientSSR(true);
 		const { data, error } = await supabase
@@ -65,22 +88,26 @@ export async function updateOrder(
 	id: string,
 	prevState: OrderFormState,
 	formData: FormData
-) {
+): Promise<OrderFormState> {
 	const validatedFields = orderSchema.safeParse({
 		user_id: formData.get('user_id'),
 		status: formData.get('status'),
 		total: formData.get('total'),
+		order_Items: JSON.parse(formData.get('order_Items') as string),
 	});
 
 	if (!validatedFields.success) {
+		const fieldErrors = formatOrderItemErrors(
+			validatedFields.error.flatten().fieldErrors
+		);
 		return {
-			errors: validatedFields.error.flatten().fieldErrors,
-			message: 'Invalid Credentials. Unable to Update User.',
+			errors: fieldErrors,
+			message: 'Validation failed. Please check your order items.',
 		};
 	}
 
 	try {
-		const { status, total, user_id } = validatedFields.data;
+		const { status, total, user_id, order_Items } = validatedFields.data;
 
 		const supabase = createClientSSR(true);
 
@@ -122,4 +149,21 @@ export async function deleteOrder(id: string) {
 
 	revalidatePath('/orders', 'layout');
 	return { message: 'Order Was Deleted Successfully.' };
+}
+
+function formatOrderItemErrors(fieldErrors: any) {
+	if (fieldErrors?.order_Items) {
+		fieldErrors.order_Items = fieldErrors.order_Items.map(
+			(item: any, index: number) => {
+				const messages: Record<string, string[]> = {};
+				for (const [field, errors] of Object.entries(item)) {
+					messages[field] = (errors as string[]).map(
+						(msg) => `Item ${index + 1}: ${msg}`
+					);
+				}
+				return messages;
+			}
+		);
+	}
+	return fieldErrors;
 }

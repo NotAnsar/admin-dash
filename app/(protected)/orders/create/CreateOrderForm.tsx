@@ -4,11 +4,20 @@ import { Button } from '@/components/ui/button';
 import { Loader, Plus } from 'lucide-react';
 import BreadCrumb from '@/components/BreadCrumb';
 import { useFormState, useFormStatus } from 'react-dom';
-import OrderFormDetails from '../../../../components/order/OrderDetails';
+import OrderForm from '../../../../components/order/OrderItems';
 import { createOrder, OrderFormState } from '@/actions/order-action';
 import { User } from '@/types/user';
+import OrderDetails from '@/components/order/OrderDetails';
+import OrderItems from '../../../../components/order/OrderItems';
+import { ProductALL } from '@/types/db';
 
-export default function CreateOrderForm({ users }: { users: User[] }) {
+export default function CreateOrderForm({
+	users,
+	products,
+}: {
+	users: User[];
+	products: ProductALL[];
+}) {
 	const initialState: OrderFormState = { message: null, errors: {} };
 	const [state, action] = useFormState(createOrder, initialState);
 
@@ -31,7 +40,10 @@ export default function CreateOrderForm({ users }: { users: User[] }) {
 			{(state?.message || state?.errors) && (
 				<p className='text-sm font-medium text-destructive'>{state.message}</p>
 			)}
-			<OrderFormDetails state={state} users={users} />
+			<div className='mt-5 grid gap-6'>
+				<OrderDetails state={state} users={users} />
+				<OrderItems state={state} products={products} />
+			</div>
 		</form>
 	);
 }
